@@ -31,7 +31,7 @@ public class LibraryWindow {
         JButton addBorrowerBtn = new JButton("Add Borrower");
         addBorrowerBtn.setPreferredSize(new Dimension(130, 30));
         panel1.add(addBorrowerBtn);
-        JButton checkOutBtn = new JButton("Check Out Items");
+        JButton checkOutBtn = new JButton("Generate a report");
         checkOutBtn.setPreferredSize(new Dimension(130, 30));
         panel1.add(checkOutBtn);
         JButton returnItemsBtn = new JButton("Return Items");
@@ -62,12 +62,26 @@ public class LibraryWindow {
         // Librarian panel
         JPanel panel3 = new JPanel();
         panel3.setBackground(Color.LIGHT_GRAY);
-        panel3.setPreferredSize(new Dimension(200, 300));
+        panel3.setPreferredSize(new Dimension(200,300));
+        
+        JLabel librarian = new JLabel("Librarian", SwingConstants.CENTER);
+        librarian.setPreferredSize(new Dimension(130, 30));
+        panel3.add(librarian);
+        JButton librarianbutton1 = new JButton("Create Book");
+        librarianbutton1.setPreferredSize(new Dimension(130, 30));
+        panel3.add (librarianbutton1);
+        JButton librarianbutton2 = new JButton("Add Book");
+        librarianbutton2.setPreferredSize(new Dimension(130, 30));
+        panel3.add (librarianbutton2);
+        JButton librarianbutton3 = new JButton("Generate Report");
+        librarianbutton3.setPreferredSize(new Dimension(130, 30));
+        panel3.add (librarianbutton3);
+
+        //Display the window.
+        
         frame.add(panel1, BorderLayout.LINE_START);
         frame.add(panel2, BorderLayout.CENTER);
         frame.add(panel3, BorderLayout.LINE_END);
-
-        //Display the window.
         frame.pack();
         frame.setVisible(true);
     }
