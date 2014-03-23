@@ -1,12 +1,10 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.*;        
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
+import javax.swing.*;
 
 public class LibraryWindow {
 	
@@ -30,8 +28,20 @@ public class LibraryWindow {
         panel1.add(clerklabel);
         JButton addBorrowerBtn = new JButton("Add Borrower");
         addBorrowerBtn.setPreferredSize(new Dimension(130, 30));
+        addBorrowerBtn.addActionListener(new ActionListener() {
+        	
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		JFrame frame = new JFrame ("MyPanel");
+                frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+                frame.getContentPane().add (new AddBorrowerWindow());
+                frame.pack();
+                frame.setVisible (true);
+        	}
+        });
+       
         panel1.add(addBorrowerBtn);
-        JButton checkOutBtn = new JButton("Generate a report");
+        JButton checkOutBtn = new JButton("Check Out Items");
         checkOutBtn.setPreferredSize(new Dimension(130, 30));
         panel1.add(checkOutBtn);
         JButton returnItemsBtn = new JButton("Return Items");
