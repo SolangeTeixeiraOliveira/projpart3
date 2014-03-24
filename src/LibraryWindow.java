@@ -32,7 +32,8 @@ public class LibraryWindow {
         	
         	@Override
         	public void actionPerformed(ActionEvent e) {
-        		JFrame frame = new JFrame ("MyPanel");
+        		JFrame frame = new JFrame ("Add Borrower");
+        		frame.setResizable(false);
                 frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
                 frame.getContentPane().add (new AddBorrower());
                 frame.pack();
