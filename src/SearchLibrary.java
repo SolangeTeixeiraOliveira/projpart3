@@ -3,11 +3,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 // Pop up for Searching a Book from the Library
 public class SearchLibrary extends JPanel{
@@ -20,6 +18,7 @@ public class SearchLibrary extends JPanel{
 	private JButton searchBtn;
 	
 	public SearchLibrary() {
+		
 		// Making the label of the pop up
 		this.setPreferredSize(new Dimension(400, 150));
 		
@@ -47,18 +46,18 @@ public class SearchLibrary extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				searchbook();
+				//searchbook();
 			}
 		
 		});	
 	}
 	
-	private void searchbook() {
-
-		String book = SQLFunctions.searchbook(bookTitle.getText(), bookAuthor
-				.getText(), bookSubject.getText());
-		System.out.println("Title: " + bookTitle + " Author: " + bookAuthor + " Subject: " + bookSubject);
-	}
-
-	
+//	private void searchbook() {
+//
+//		String book = SQLFunctions.searchbook(bookTitle.getText(), bookAuthor
+//				.getText(), bookSubject.getText());
+//		System.out.println("Title: " + bookTitle + " Author: " + bookAuthor + " Subject: " + bookSubject);
+//	}
+//
+//	
 }
