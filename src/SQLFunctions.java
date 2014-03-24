@@ -74,4 +74,29 @@ public class SQLFunctions {
 		java.sql.Date sqlDate = new java.sql.Date(today.getTime());
 		return sqlDate;
 	}
+	
+	// Search a book in the Book Table
+//	public static String searchbook(String title, String author, String subject){
+//		
+//		System.out.println("Searching for book with " + title + ", " + author + ", " + subject);
+//		String book = null;
+//		try {
+//			// Create the statement
+//			//PreparedStatement ps = con.prepareStatement("SELECT CallNumber, Title, MainAuthor"
+//			//		+ "FROM Book, BookCopy, HasAuthor, HasSubject" + 
+//			//		"WHERE ");
+//		
+//			// Set all the input values
+//			ps.setString(1, title);
+////			ps.setString(2, author);
+////			ps.setString(3, subject);
+//				
+//		} catch (SQLException e) {
+//			System.out.println("Failed to search for book");
+//			e.printStackTrace();
+//		}
+//		
+//		return book;
+//	}
+
 }

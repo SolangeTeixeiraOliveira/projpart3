@@ -9,7 +9,7 @@ public class Book {
 	public String title;
 	public String mainAuthor;
 	public String publisher; 
-	public String publicationYear;
+	public String year;
 	
 	public String status;
 	public String borrower;
@@ -26,7 +26,7 @@ public class Book {
 		String InfoBook = "\nTitle                   "+ title+
 						   "\nAuthor                 "+ mainAuthor+
 						   "\nPublisher              "+ publisher+
-						   "\nPublicationYear        "+ publicationYear+
+						   "\nPublicationYear        "+ year+
 						   "\nStatus                 "+ status+
 						   "\borrower                "+ borrower+
 						   "\borrowDate              "+ borrowDate+

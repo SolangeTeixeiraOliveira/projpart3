@@ -57,18 +57,34 @@ public class LibraryWindow {
         JLabel borrower = new JLabel("Borrower", SwingConstants.CENTER);
         borrower.setPreferredSize(new Dimension(130, 30));
         panel2.add(borrower);
-        JButton borrowerbutton1 = new JButton("Search Library");
-        borrowerbutton1.setPreferredSize(new Dimension(130, 30));
-        panel2.add (borrowerbutton1);
-        JButton borrowerbutton2 = new JButton("Check Account");
-        borrowerbutton2.setPreferredSize(new Dimension(130, 30));
-        panel2.add (borrowerbutton2);
-        JButton borrowerbutton3 = new JButton("Hold Request");
-        borrowerbutton3.setPreferredSize(new Dimension(130, 30));
-        panel2.add (borrowerbutton3);
-        JButton borrowerbutton4 = new JButton("Pay Fine");
-        borrowerbutton4.setPreferredSize(new Dimension(130, 30));
-        panel2.add (borrowerbutton4);
+        
+        JButton searchLibBtn = new JButton("Search Library");
+        searchLibBtn.setPreferredSize(new Dimension(130, 30));
+        searchLibBtn.addActionListener(new ActionListener() {
+        	
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		JFrame frame = new JFrame ("Search Library");
+        		frame.setResizable(false);
+                frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+                frame.getContentPane().add (new SearchLibrary());
+                frame.pack();
+                frame.setVisible (true);
+        	}
+        });
+        panel2.add (searchLibBtn);
+        
+        JButton checkAcctBtn = new JButton("Check Account");
+        checkAcctBtn.setPreferredSize(new Dimension(130, 30));
+        panel2.add (checkAcctBtn);
+        
+        JButton holdRequestBtn = new JButton("Hold Request");
+        holdRequestBtn.setPreferredSize(new Dimension(130, 30));
+        panel2.add (holdRequestBtn);
+        
+        JButton payFineBtn = new JButton("Pay Fine");
+        payFineBtn.setPreferredSize(new Dimension(130, 30));
+        panel2.add (payFineBtn);
         
         // Librarian panel
         JPanel panel3 = new JPanel();
