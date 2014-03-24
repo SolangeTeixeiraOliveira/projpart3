@@ -4,7 +4,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-public class AddBorrowerWindow extends JPanel {
+public class AddBorrower extends JPanel {
 
 	/**
 	 * 
@@ -20,7 +20,7 @@ public class AddBorrowerWindow extends JPanel {
 	private JComboBox borType;
 	private JButton addBtn;
 
-	public AddBorrowerWindow() {
+	public AddBorrower() {
 		this.setPreferredSize(new Dimension(300, 200));
 		JLabel nameLabel = new JLabel("Name:");
 		this.add(nameLabel);

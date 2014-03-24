@@ -34,7 +34,7 @@ public class LibraryWindow {
         	public void actionPerformed(ActionEvent e) {
         		JFrame frame = new JFrame ("MyPanel");
                 frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-                frame.getContentPane().add (new AddBorrowerWindow());
+                frame.getContentPane().add (new AddBorrower());
                 frame.pack();
                 frame.setVisible (true);
         	}
