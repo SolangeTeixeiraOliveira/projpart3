@@ -1,0 +1,122 @@
+drop table Borrower;
+drop table BorrowerType;
+drop table Book;
+drop table HasAuthor;
+drop table HasSubject;
+drop table BookCopy;
+drop table HoldRequest;
+drop table Borrowing;
+drop table Fine;
+
+create table Borrower (
+Bid integer not null PRIMARY KEY,
+Password char(20),
+Name char(20),
+Address char(20),
+Phone integer,
+EmailAddress char(20),
+SinOrStNo integer,
+ExpiryDate date,
+Type char(20), 
+FOREIGN KEY (Type) REFERENCES BookType);
+
+create table BorrowerType (
+Type char(20) not null PRIMARY KEY,
+BookTimeLimit integer);
+
+create table Book (
+CallNumber char(20) not null PRIMARY KEY,
+ISBN integer,
+Title char(20),
+MainAuthor char(20),
+Publisher char(20),
+Year integer);
+
+create table HasAuthor (
+CallNumber char(20) not null,
+Name char(20) not null,
+PRIMARY KEY(CallNumber, Name),
+FOREIGN KEY (CallNumber) REFERENCES Book);
+
+create table HasSubject (
+CallNumber char(20) not null,
+Subject char(20) not null,
+PRIMARY KEY (CallNumber, Subject),
+FOREIGN KEY (CallNumber) REFERENCES Book);
+
+create table BookCopy (
+CallNumber char(20) not null,
+CopyNo integer not null,
+Status char(20),
+PRIMARY KEY (CallNumber, CopyNo),
+FOREIGN KEY (CallNumber) REFERENCES Book);
+
+create table HoldRequest (
+Hid integer not null PRIMARY KEY,
+Bid integer,
+CallNumber char(20),
+IssuedDate date,
+FOREIGN KEY (Bid) REFERENCES Borrower,
+FOREIGN KEY (CallNumber) REFERENCES Book);
+
+create table Borrowing (
+Borid integer not null PRIMARY KEY,
+Bid integer,
+CallNumber char(20),
+CopyNo integer,
+OutDate date,
+InDate date,
+FOREIGN KEY (Bid) REFERENCES Borrower,
+FOREIGN KEY (CallNumber) REFERENCES Book);
+
+create table Fine (
+Fid integer not null PRIMARY KEY,
+Amount integer,
+IssuedDate date,
+PaidDate date,
+Borid integer,
+FOREIGN KEY (Borid) REFERENCES Borrowing);
+
+Alter table Borrower add (
+constraint bid_random PRIMARY KEY (Bid));
+
+Create SEQUENCE bor_seq;
+
+Create or Replace TRIGGER bor_trig
+Before insert on Borrower
+for each row
+
+begin
+select bor_seq.NEXTVAL
+into :new.Bid
+from dual;
+END;
+/
+
+insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values (‘ewer’, ‘May Smith’, ‘123 Up St.’, 111-1111, ‘may.smith@gee.com’, 12345678, ’01/01/2015’, ‘Student’);
+
+insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values (‘asdf’, ‘John Doe’, ‘456 Down St.’, 222-2222, ‘john.doe@gee.com’, 21345678, ’01/31/2015’, ‘Staff’);
+
+insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values (‘xxcv’, ‘Charles Dew’, ‘789 Right St.’, 333-3333, ‘charles.dew@gee.com’, 87654321, ’05/05/2015’, ‘Faculty’);
+
+insert into BorrowerType values
+(‘Student’, 2);
+
+insert into BorrowerType values (‘Faculty’, 12);
+
+insert into BorrowerType values (‘Staff’, 6);
+
+insert into Book values
+(‘reed1234copyno1’, 12-34-56, ‘Blinded Cat’, ‘Mike Reed’, ‘BookPublisher’, 2010);
+
+insert into Book values
+(‘dwight345copyno2’, 34-21-65, ‘Cute Cuddle Bat’, ‘Leet Dwight’, ‘DreamBook’, 2011);
+
+insert into HasAuthor (‘reed1234copyno1’, ‘Paul Tate’);
+
+insert into HasAuthor (‘dwight345copyno2’, ‘Amy Pitt’);
+
+insert into HasSubject (‘reed1234copyno1’, ‘Fantasy’);
+
+insert into HasSubject (‘dwight345copyno2’, ‘Adventure’);
+
