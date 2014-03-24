@@ -9,7 +9,7 @@ public class SQLFunctions {
 	private static Connection con;
 
 	public SQLFunctions() {
-		try {
+		/*try {
 			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 			con = DriverManager.getConnection(
 					"jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug",
@@ -17,7 +17,7 @@ public class SQLFunctions {
 		} catch (SQLException e) {
 			System.out.println("Problem registering driver or connecting to oracle");
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 	// Add a borrower, automatically generating a new id for them
@@ -62,6 +62,34 @@ public class SQLFunctions {
 		 
 		java.util.Date today = new java.util.Date();
 		return (java.sql.Date) today;
+	}
+	
+	// Search a book in the Book Table
+	public static String searchbook(String title, String author, String subject){
+		
+		System.out.println("Searching for book with " + title + ", " + author + ", " + subject);
+		String book = null;
+		try {
+			// Create the statement
+			PreparedStatement ps = con.prepareStatement("SELECT CallNumber, Title, MainAuthor"
+					+ "FROM Book, BookCopy, HasAuthor, HasSubject" + 
+					"WHERE ");
+		
+			// Set all the input values
+			ps.setString(1, title);
+			ps.setString(2, author);
+			ps.setString(3, subject);
+			
+			} else {
+			      throw new SQLException("Searching for Book failed, no book obtained.");
+			}
+						
+		} catch (SQLException e) {
+			System.out.println("Failed to search for book");
+			e.printStackTrace();
+		}
+		
+		return book;
 	}
 
 }

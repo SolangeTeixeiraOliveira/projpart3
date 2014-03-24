@@ -17,7 +17,7 @@ public class Librarian extends Book {
 		publisher = adminInput.nextLine();
 
 		System.out.println("Publication of the book: ");
-		publicationYear = adminInput.nextLine();
+		year = adminInput.nextLine();
 
 		status = "Available";
 		borrower = "empty";

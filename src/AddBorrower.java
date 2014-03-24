@@ -65,6 +65,7 @@ public class AddBorrower extends JPanel {
 		borType.setPreferredSize(new Dimension(225, 20));
 		borType.addItem("Student");
 		borType.addItem("Faculty");
+		borType.addItem("Staff");
 		this.add(borType);
 		
 		addBtn = new JButton("Add");
