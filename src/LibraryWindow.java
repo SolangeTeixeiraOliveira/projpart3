@@ -58,8 +58,10 @@ public class LibraryWindow {
         borrower.setPreferredSize(new Dimension(130, 30));
         panel2.add(borrower);
         
+        // Search Library button
         JButton searchLibBtn = new JButton("Search Library");
         searchLibBtn.setPreferredSize(new Dimension(130, 30));
+        // Search Library pop up Frame to start the search
         searchLibBtn.addActionListener(new ActionListener() {
         	
         	@Override
@@ -74,16 +76,58 @@ public class LibraryWindow {
         });
         panel2.add (searchLibBtn);
         
+        // Check User Account Button
         JButton checkAcctBtn = new JButton("Check Account");
         checkAcctBtn.setPreferredSize(new Dimension(130, 30));
+        // Check User Account pop up Frame to get user's information
+        checkAcctBtn.addActionListener(new ActionListener() {
+        	
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		JFrame frame = new JFrame ("Check Your Account");
+        		frame.setResizable(false);
+                frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+                frame.getContentPane().add (new CheckAccount());
+                frame.pack();
+                frame.setVisible (true);
+        	}
+        });
         panel2.add (checkAcctBtn);
         
+        // Hold Request Button
         JButton holdRequestBtn = new JButton("Hold Request");
         holdRequestBtn.setPreferredSize(new Dimension(130, 30));
+        // Hold Request pop up Frame to place the hold request for a book that is out
+        holdRequestBtn.addActionListener(new ActionListener() {
+        	
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		JFrame frame = new JFrame ("Make a Hold Request");
+        		frame.setResizable(false);
+                frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+                frame.getContentPane().add (new HoldRequest());
+                frame.pack();
+                frame.setVisible (true);
+        	}
+        });
         panel2.add (holdRequestBtn);
         
+        // Pay Fine Button
         JButton payFineBtn = new JButton("Pay Fine");
         payFineBtn.setPreferredSize(new Dimension(130, 30));
+        // Pay Fine pop up Frame to pay the fine
+        payFineBtn.addActionListener(new ActionListener() {
+        	
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		JFrame frame = new JFrame ("Payment");
+        		frame.setResizable(false);
+                frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+                frame.getContentPane().add (new PayFine());
+                frame.pack();
+                frame.setVisible (true);
+        	}
+        });
         panel2.add (payFineBtn);
         
         // Librarian panel
@@ -100,7 +144,7 @@ public class LibraryWindow {
         	
         	@Override
         	public void actionPerformed(ActionEvent e) {
-        		JFrame frame = new JFrame ("MyPanel");
+        		JFrame frame = new JFrame ("Add Book");
                 frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
                 frame.getContentPane().add(new CreateBookWindow());
                 frame.pack();
