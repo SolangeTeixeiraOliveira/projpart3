@@ -1,12 +1,19 @@
-﻿drop table Borrower;
-drop table BorrowerType;
-drop table Book;
-drop table HasAuthor;
-drop table HasSubject;
-drop table BookCopy;
-drop table HoldRequest;
-drop table Borrowing;
-drop table Fine;
+﻿
+drop table Borrower cascade constraints;
+drop table BorrowerType cascade constraints;
+drop table Book cascade constraints;
+drop table HasAuthor cascade constraints;
+drop table HasSubject cascade constraints;
+drop table BookCopy cascade constraints;
+drop table HoldRequest cascade constraints;
+drop table Borrowing cascade constraints;
+drop table Fine cascade constraints;
+drop sequence bor_seq;
+drop trigger bor_trig;
+
+create table BorrowerType (
+Type char(20) not null PRIMARY KEY,
+BookTimeLimit integer);
 
 create table Borrower (
 Bid integer not null PRIMARY KEY,
@@ -18,11 +25,20 @@ EmailAddress char(20),
 SinOrStNo integer,
 ExpiryDate date,
 Type char(20), 
-FOREIGN KEY (Type) REFERENCES BookType);
+FOREIGN KEY (Type) REFERENCES BorrowerType);
 
-create table BorrowerType (
-Type char(20) not null PRIMARY KEY,
-BookTimeLimit integer);
+Create SEQUENCE bor_seq;
+
+Create or Replace TRIGGER bor_trig
+Before insert on Borrower
+for each row
+
+begin
+select bor_seq.NEXTVAL
+into :new.Bid
+from dual;
+END;
+/
 
 create table Book (
 CallNumber char(20) not null PRIMARY KEY,
@@ -77,28 +93,6 @@ PaidDate date,
 Borid integer,
 FOREIGN KEY (Borid) REFERENCES Borrowing);
 
-Alter table Borrower add (
-constraint bid_random PRIMARY KEY (Bid));
-
-Create SEQUENCE bor_seq;
-
-Create or Replace TRIGGER bor_trig
-Before insert on Borrower
-for each row
-
-begin
-select bor_seq.NEXTVAL
-into :new.Bid
-from dual;
-END;
-/
-
-insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values ('ewer', 'May Smith', '123 Up St.', 111-1111, 'may.smith@gee.com', 12345678, '01/01/2015', 'Student');
-
-insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values ('asdf', 'John Doe', '456 Down St.', 222-2222, 'john.doe@gee.com', 21345678, '01/31/2015', 'Staff');
-
-insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values ('xxcv', 'Charles Dew', '789 Right St.', 333-3333, 'charles.dew@gee.com', 87654321, '05/05/2015', 'Faculty');
-
 insert into BorrowerType values
 ('Student', 2);
 
@@ -106,17 +100,27 @@ insert into BorrowerType values ('Faculty', 12);
 
 insert into BorrowerType values ('Staff', 6);
 
+insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values ('ewer', 'May Smith', '123 Up St.', 1111111, 'may.smith@gee.com', 12345678, '01-Apr-15', 'Student');
+
+insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values ('asdf', 'John Doe', '456 Down St.', 2222222, 'john.doe@gee.com', 21345678, '02-May-15', 'Staff');
+
+insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values ('xxcv', 'Charles Dew', '789 Right St.', 3333333, 'charles.dew@gee.com', 87654321, '12-Aug-15', 'Faculty');
+
 insert into Book values
 ('reed1234copyno1', 12-34-56, 'Blinded Cat', 'Mike Reed', 'BookPublisher', 2010);
 
 insert into Book values
 ('dwight345copyno2', 34-21-65, 'Cute Cuddle Bat', 'Leet Dwight', 'DreamBook', 2011);
 
-insert into HasAuthor ('reed1234copyno1', 'Paul Tate');
+insert into HasAuthor values
+('reed1234copyno1', 'Paul Tate');
 
-insert into HasAuthor ('dwight345copyno2', 'Amy Pitt');
+insert into HasAuthor values
+('dwight345copyno2', 'Amy Pitt');
 
-insert into HasSubject ('reed1234copyno1', 'Fantasy');
+insert into HasSubject values
+('reed1234copyno1', 'Fantasy');
 
-insert into HasSubject ('dwight345copyno2', 'Adventure');
+insert into HasSubject values
+('dwight345copyno2', 'Adventure');
 

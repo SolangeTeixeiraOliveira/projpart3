@@ -44,17 +44,6 @@ public class LibraryWindow {
 		panel1.add(addBorrowerBtn);
 		JButton checkOutBtn = new JButton("Check Out Items");
 		checkOutBtn.setPreferredSize(new Dimension(130, 30));
-		addBorrowerBtn.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JFrame frame = new JFrame("MyPanel");
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.getContentPane().add(new AddBorrower());
-				frame.pack();
-				frame.setVisible(true);
-			}
-		});
         panel1.add(checkOutBtn);
         JButton returnItemsBtn = new JButton("Return Items");
         returnItemsBtn.setPreferredSize(new Dimension(130, 30));
