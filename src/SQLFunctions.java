@@ -61,6 +61,12 @@ public class SQLFunctions {
 		return 0;
 	}
 	
+	public static int addBook(int bookNumber, int isbn, String title,
+			String mainAuthor, String Publisher, int publicationYear) {
+
+		return 0;
+	}
+	
 	// Get the current date in SQL format
 	private static java.sql.Date getCurrentDate() {
 		 

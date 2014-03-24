@@ -41,9 +41,20 @@ public class LibraryWindow {
         	}
         });
        
-        panel1.add(addBorrowerBtn);
-        JButton checkOutBtn = new JButton("Check Out Items");
-        checkOutBtn.setPreferredSize(new Dimension(130, 30));
+		panel1.add(addBorrowerBtn);
+		JButton checkOutBtn = new JButton("Check Out Items");
+		checkOutBtn.setPreferredSize(new Dimension(130, 30));
+		addBorrowerBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame frame = new JFrame("MyPanel");
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				frame.getContentPane().add(new AddBorrower());
+				frame.pack();
+				frame.setVisible(true);
+			}
+		});
         panel1.add(checkOutBtn);
         JButton returnItemsBtn = new JButton("Return Items");
         returnItemsBtn.setPreferredSize(new Dimension(130, 30));
@@ -74,12 +85,24 @@ public class LibraryWindow {
         JPanel panel3 = new JPanel();
         panel3.setBackground(Color.LIGHT_GRAY);
         panel3.setPreferredSize(new Dimension(200,300));
-        
+               
         JLabel librarian = new JLabel("Librarian", SwingConstants.CENTER);
         librarian.setPreferredSize(new Dimension(130, 30));
         panel3.add(librarian);
         JButton librarianbutton1 = new JButton("Create Book");
         librarianbutton1.setPreferredSize(new Dimension(130, 30));
+        librarianbutton1.addActionListener(new ActionListener() {
+        	
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		JFrame frame = new JFrame ("MyPanel");
+                frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+                frame.getContentPane().add(new CreateBookWindow());
+                frame.pack();
+                frame.setVisible (true);
+        	}
+        });
+             
         panel3.add (librarianbutton1);
         JButton librarianbutton2 = new JButton("Add Book");
         librarianbutton2.setPreferredSize(new Dimension(130, 30));
