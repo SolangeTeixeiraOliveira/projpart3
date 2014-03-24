@@ -6,10 +6,10 @@ import java.sql.SQLException;
 
 public class SQLFunctions {
 
-	private static Connection con;
+	private Connection con;
 
 	public SQLFunctions() {
-		try {
+		/*try {
 			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 			con = DriverManager.getConnection(
 					"jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug",
@@ -17,7 +17,7 @@ public class SQLFunctions {
 		} catch (SQLException e) {
 			System.out.println("Problem registering driver or connecting to oracle");
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 	// Add a borrower, automatically generating a new id for them
@@ -27,9 +27,13 @@ public class SQLFunctions {
 		System.out.println("Adding borrower " + name);
 		try {
 			// Create the statement
-			PreparedStatement ps = con.prepareStatement("INSERT INTO borrower" +
-					"(name, password, address, phone, email, sinOrStNo, expiryDate, type) " +
-					"VALUES (?,?,?,?,?,?,?,?)");
+			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+			Connection con2 = DriverManager.getConnection(
+					"jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug",
+					"ora_x4q7", "a45775103");
+			PreparedStatement ps = con2.prepareStatement("INSERT INTO borrower" +
+					"(name, password, address, phone, emailAddress, sinOrStNo, expiryDate, type) " +
+					"VALUES (?,?,?,?,?,?,?,?)", new String[] { "bid" });
 			
 			// Set all the input values
 			ps.setString(1, name);
@@ -40,13 +44,13 @@ public class SQLFunctions {
 			ps.setInt(6, sinOrStNo);
 			ps.setDate(7, getCurrentDate());
 			ps.setString(8, type);
-			
-			// Check for the automatically generated borrower id and return it
-			ResultSet generatedKeys = null;
-			generatedKeys = ps.getGeneratedKeys();
-	        if (generatedKeys.next()) {
-	            return generatedKeys.getInt(1);
-	        } else {
+			// execute the insert statement and return the new borrower id
+			if (ps.executeUpdate() > 0) {
+				ResultSet generatedKeys = ps.getGeneratedKeys();
+				if (null != generatedKeys && generatedKeys.next()) {
+					return generatedKeys.getInt(1);
+				}
+			} else {
 	            throw new SQLException("Creating user failed, no generated key obtained.");
 	        }
 			
@@ -61,7 +65,7 @@ public class SQLFunctions {
 	private static java.sql.Date getCurrentDate() {
 		 
 		java.util.Date today = new java.util.Date();
-		return (java.sql.Date) today;
+		java.sql.Date sqlDate = new java.sql.Date(today.getTime());
+		return sqlDate;
 	}
-
 }

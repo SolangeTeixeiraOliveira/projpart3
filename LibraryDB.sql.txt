@@ -1,4 +1,4 @@
-drop table Borrower;
+﻿drop table Borrower;
 drop table BorrowerType;
 drop table Book;
 drop table HasAuthor;
@@ -93,30 +93,30 @@ from dual;
 END;
 /
 
-insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values (‘ewer’, ‘May Smith’, ‘123 Up St.’, 111-1111, ‘may.smith@gee.com’, 12345678, ’01/01/2015’, ‘Student’);
+insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values ('ewer', 'May Smith', '123 Up St.', 111-1111, 'may.smith@gee.com', 12345678, '01/01/2015', 'Student');
 
-insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values (‘asdf’, ‘John Doe’, ‘456 Down St.’, 222-2222, ‘john.doe@gee.com’, 21345678, ’01/31/2015’, ‘Staff’);
+insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values ('asdf', 'John Doe', '456 Down St.', 222-2222, 'john.doe@gee.com', 21345678, '01/31/2015', 'Staff');
 
-insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values (‘xxcv’, ‘Charles Dew’, ‘789 Right St.’, 333-3333, ‘charles.dew@gee.com’, 87654321, ’05/05/2015’, ‘Faculty’);
+insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values ('xxcv', 'Charles Dew', '789 Right St.', 333-3333, 'charles.dew@gee.com', 87654321, '05/05/2015', 'Faculty');
 
 insert into BorrowerType values
-(‘Student’, 2);
+('Student', 2);
 
-insert into BorrowerType values (‘Faculty’, 12);
+insert into BorrowerType values ('Faculty', 12);
 
-insert into BorrowerType values (‘Staff’, 6);
-
-insert into Book values
-(‘reed1234copyno1’, 12-34-56, ‘Blinded Cat’, ‘Mike Reed’, ‘BookPublisher’, 2010);
+insert into BorrowerType values ('Staff', 6);
 
 insert into Book values
-(‘dwight345copyno2’, 34-21-65, ‘Cute Cuddle Bat’, ‘Leet Dwight’, ‘DreamBook’, 2011);
+('reed1234copyno1', 12-34-56, 'Blinded Cat', 'Mike Reed', 'BookPublisher', 2010);
 
-insert into HasAuthor (‘reed1234copyno1’, ‘Paul Tate’);
+insert into Book values
+('dwight345copyno2', 34-21-65, 'Cute Cuddle Bat', 'Leet Dwight', 'DreamBook', 2011);
 
-insert into HasAuthor (‘dwight345copyno2’, ‘Amy Pitt’);
+insert into HasAuthor ('reed1234copyno1', 'Paul Tate');
 
-insert into HasSubject (‘reed1234copyno1’, ‘Fantasy’);
+insert into HasAuthor ('dwight345copyno2', 'Amy Pitt');
 
-insert into HasSubject (‘dwight345copyno2’, ‘Adventure’);
+insert into HasSubject ('reed1234copyno1', 'Fantasy');
+
+insert into HasSubject ('dwight345copyno2', 'Adventure');
 
