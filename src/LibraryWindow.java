@@ -29,7 +29,6 @@ public class LibraryWindow {
         JButton addBorrowerBtn = new JButton("Add Borrower");
         addBorrowerBtn.setPreferredSize(new Dimension(160, 30));
         addBorrowerBtn.addActionListener(new ActionListener() {
-        	
         	@Override
         	public void actionPerformed(ActionEvent e) {
         		JFrame frame = new JFrame ("Add Borrower");
@@ -43,12 +42,42 @@ public class LibraryWindow {
 		panel1.add(addBorrowerBtn);
 		JButton checkOutBtn = new JButton("Check Out Items");
 		checkOutBtn.setPreferredSize(new Dimension(160, 30));
+		checkOutBtn.addActionListener(new ActionListener() { 	
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		JFrame frame = new JFrame ("Check Out Items");
+        		frame.setResizable(false);
+                frame.getContentPane().add (new CheckOut());
+                frame.pack();
+                frame.setVisible (true);
+        	}
+        });
         panel1.add(checkOutBtn);
-        JButton returnItemsBtn = new JButton("Return Items");
-        returnItemsBtn.setPreferredSize(new Dimension(160, 30));
-        panel1.add(returnItemsBtn);
+        JButton returnItemBtn = new JButton("Return Item");
+        returnItemBtn.setPreferredSize(new Dimension(160, 30));
+        returnItemBtn.addActionListener(new ActionListener() { 	
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		JFrame frame = new JFrame ("Return Item");
+        		frame.setResizable(false);
+                frame.getContentPane().add (new ReturnItem());
+                frame.pack();
+                frame.setVisible (true);
+        	}
+        });
+        panel1.add(returnItemBtn);
         JButton overdueItemsBtn = new JButton("Check Overdue Items");
         overdueItemsBtn.setPreferredSize(new Dimension(160, 30));
+        overdueItemsBtn.addActionListener(new ActionListener() { 	
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		JFrame frame = new JFrame ("Check Overdue Items");
+        		frame.setResizable(false);
+                frame.getContentPane().add (new CheckOverdue());
+                frame.pack();
+                frame.setVisible (true);
+        	}
+        });
         panel1.add(overdueItemsBtn);
         
         // Borrower panel
