@@ -6,18 +6,23 @@ import java.sql.SQLException;
 
 public class SQLFunctions {
 
-	private Connection con;
+	// Only access con through the getConnection function
+	private static Connection con;
 
-	public SQLFunctions() {
-		/*try {
-			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-			con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug",
-					"ora_x4q7", "a45775103");
-		} catch (SQLException e) {
-			System.out.println("Problem registering driver or connecting to oracle");
-			e.printStackTrace();
-		}*/
+	private static Connection getConnection() {
+		if (con == null) {
+			try {
+				System.out.println("Forming new connection");
+				DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+				con = DriverManager.getConnection(
+						"jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug",
+						"ora_x4q7", "a45775103");
+			} catch (SQLException e) {
+				System.out.println("Problem registering driver or connecting to oracle");
+				e.printStackTrace();
+			}
+		}
+		return con;
 	}
 
 	// Add a borrower, automatically generating a new id for them
@@ -26,12 +31,7 @@ public class SQLFunctions {
 
 		System.out.println("Adding borrower " + name);
 		try {
-			// Create the statement
-			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-			Connection con2 = DriverManager.getConnection(
-					"jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug",
-					"ora_x4q7", "a45775103");
-			PreparedStatement ps = con2.prepareStatement("INSERT INTO borrower" +
+			PreparedStatement ps = getConnection().prepareStatement("INSERT INTO borrower" +
 					"(name, password, address, phone, emailAddress, sinOrStNo, expiryDate, type) " +
 					"VALUES (?,?,?,?,?,?,?,?)", new String[] { "bid" });
 			
