@@ -10,6 +10,12 @@ drop table Borrowing cascade constraints;
 drop table Fine cascade constraints;
 drop sequence bor_seq;
 drop trigger bor_trig;
+drop sequence hold_seq;
+drop trigger hold_trig;
+drop sequence borrowing_seq;
+drop trigger borrowing_trig;
+drop sequence fine_seq;
+drop trigger fine_trig;
 
 create table BorrowerType (
 Type char(20) not null PRIMARY KEY,
@@ -75,6 +81,19 @@ IssuedDate date,
 FOREIGN KEY (Bid) REFERENCES Borrower,
 FOREIGN KEY (CallNumber) REFERENCES Book);
 
+Create Sequence hold_seq;
+
+Create or Replace TRIGGER hold_trig
+Before insert on HoldRequest
+for each row
+
+begin
+select hold_seq.NEXTVAL
+into :new.Hid
+from dual;
+END;
+/
+
 create table Borrowing (
 Borid integer not null PRIMARY KEY,
 Bid integer,
@@ -85,6 +104,19 @@ InDate date,
 FOREIGN KEY (Bid) REFERENCES Borrower,
 FOREIGN KEY (CallNumber) REFERENCES Book);
 
+Create Sequence borrowing_seq;
+
+Create or Replace TRIGGER borrowing_trig
+Before insert on Borrowing
+for each row
+
+begin
+select borrowing_seq.NEXTVAL
+into :new.Borid
+from dual;
+END;
+/
+
 create table Fine (
 Fid integer not null PRIMARY KEY,
 Amount integer,
@@ -92,6 +124,19 @@ IssuedDate date,
 PaidDate date,
 Borid integer,
 FOREIGN KEY (Borid) REFERENCES Borrowing);
+
+Create Sequence fine_seq;
+
+Create or Replace TRIGGER fine_trig
+Before insert on Fine
+for each row
+
+begin
+select fine_seq.NEXTVAL
+into :new.Fid
+from dual;
+END;
+/
 
 insert into BorrowerType values
 ('Student', 2);
@@ -107,20 +152,34 @@ insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, Ex
 insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values ('xxcv', 'Charles Dew', '789 Right St.', 3333333, 'charles.dew@gee.com', 87654321, '12-Aug-15', 'Faculty');
 
 insert into Book values
-('reed1234copyno1', 12-34-56, 'Blinded Cat', 'Mike Reed', 'BookPublisher', 2010);
+('reed123', 123456, 'Blinded Cat', 'Mike Reed', 'BookPublisher', 2010);
 
 insert into Book values
-('dwight345copyno2', 34-21-65, 'Cute Cuddle Bat', 'Leet Dwight', 'DreamBook', 2011);
+('dwight345', 342166, 'Cute Cuddle Bat', 'Leet Dwight', 'DreamBook', 2011);
 
-insert into HasAuthor values
-('reed1234copyno1', 'Paul Tate');
+insert into HasAuthor values ('reed123', 'Paul Tate');
 
-insert into HasAuthor values
-('dwight345copyno2', 'Amy Pitt');
+insert into HasAuthor values ('reed123', 'Mike Reed');
 
-insert into HasSubject values
-('reed1234copyno1', 'Fantasy');
+insert into HasAuthor values ('dwight345', 'Amy Pitt');
 
-insert into HasSubject values
-('dwight345copyno2', 'Adventure');
+insert into HasAuthor values ('dwight345', 'Leet Dwight');
+
+insert into HasSubject values ('reed123', 'Fantasy');
+
+insert into HasSubject values ('dwight345', 'Adventure');
+
+insert into BookCopy values ('reed123', 1, 'in');
+
+insert into BookCopy values ('reed123', 2, 'in');
+
+insert into BookCopy values ('dwight345', 1, 'out');
+
+insert into BookCopy values ('dwight345', 2, 'in');
+
+insert into HoldRequest(Bid, CallNumber, issuedDate) values (1, 'dwight345', '01-Apr-15');
+
+insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (2, 'dwight345', 1, '31-Mar-15', '01-Apr-15');
+
+insert into Fine(amount, issuedDate, paidDate, borid) values (10, '01-Jan-15', '01-Apr-15', 1);
 
