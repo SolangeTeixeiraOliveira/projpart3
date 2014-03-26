@@ -46,18 +46,19 @@ public class SearchLibrary extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//searchbook();
+				searchbook();
 			}
 		
 		});	
 	}
 	
-//	private void searchbook() {
-//
-//		String book = SQLFunctions.searchbook(bookTitle.getText(), bookAuthor
-//				.getText(), bookSubject.getText());
-//		System.out.println("Title: " + bookTitle + " Author: " + bookAuthor + " Subject: " + bookSubject);
-//	}
-//
-//	
+	private void searchbook() {
+		
+		System.out.println("Going into SQL Query");
+		String book = SQLFunctions.searchbook(bookTitle.getText(), bookAuthor
+				.getText(), bookSubject.getText());
+		System.out.println(book);
+	}
+
+	
 }
