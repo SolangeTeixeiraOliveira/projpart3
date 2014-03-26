@@ -44,6 +44,7 @@ public class SQLFunctions {
 			ps.setInt(6, sinOrStNo);
 			ps.setDate(7, getCurrentDate());
 			ps.setString(8, type);
+			
 			// execute the insert statement and return the new borrower id
 			if (ps.executeUpdate() > 0) {
 				ResultSet generatedKeys = ps.getGeneratedKeys();
@@ -76,27 +77,34 @@ public class SQLFunctions {
 	}
 	
 	// Search a book in the Book Table
-//	public static String searchbook(String title, String author, String subject){
-//		
-//		System.out.println("Searching for book with " + title + ", " + author + ", " + subject);
-//		String book = null;
-//		try {
-//			// Create the statement
-//			//PreparedStatement ps = con.prepareStatement("SELECT CallNumber, Title, MainAuthor"
-//			//		+ "FROM Book, BookCopy, HasAuthor, HasSubject" + 
-//			//		"WHERE ");
-//		
-//			// Set all the input values
-//			ps.setString(1, title);
-////			ps.setString(2, author);
-////			ps.setString(3, subject);
-//				
-//		} catch (SQLException e) {
-//			System.out.println("Failed to search for book");
-//			e.printStackTrace();
-//		}
-//		
-//		return book;
-//	}
+	public static String searchbook(String title, String author, String subject){
+		
+		System.out.println("Searching for book with " + title + ", " + author + ", " + subject);
+		String book = null;
+		try {
+			// Create the prepared statement for the query
+			PreparedStatement ps = getConnection().prepareStatement("SELECT book.title, hasauthor.name as AUTHOR, hassubject.subject"
+					+ "FROM Book, HasAuthor, HasSubject" + 
+					"WHERE book.callnumber = hasauthor.callnumber and book.callnumber = hassubject.callnumber and" +
+					"book.title like '%" + title + "%' and hasauthor.name like '%" + author + 
+					"%' and hassubject.subject like '%" + subject + "%'");
+		
+			// Set all the input values
+			ps.setString(1, title);
+			ps.setString(2, author);
+			ps.setString(3, subject);
+			
+			// Execute the query
+			ps.executeQuery();
+			
+			System.out.println("Query executed");
+				
+		} catch (SQLException e) {
+			System.out.println("Failed to search for book");
+			e.printStackTrace();
+		}
+		
+		return book;
+	}
 
 }
