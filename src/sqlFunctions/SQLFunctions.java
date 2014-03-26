@@ -1,3 +1,4 @@
+package sqlFunctions;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -66,6 +67,58 @@ public class SQLFunctions {
 			String mainAuthor, String Publisher, int publicationYear) {
 
 		return 0;
+	}
+	
+	// Return an item
+	public static boolean returnItem(String callNumber, int copyNumber) {
+		try {
+			// TODO: Set to "on-hold" if there is a hold request for it
+			// Do this in Java or SQL?
+			
+			// Update the status of the book copy
+			PreparedStatement ps = getConnection().prepareStatement("UPDATE bookcopy" +
+					"SET status='in' " +
+					"WHERE callNumber=?, copyNumber=?");
+			ps.setString(1, callNumber);
+			ps.setInt(2, copyNumber);
+			ps.executeUpdate();
+			
+			// If it is past the book's due date, assess a fine for the borrower
+			ps = getConnection().prepareStatement("SELECT borid,inDate FROM borrowing" +
+					"WHERE callNumber=?, copyNumber=?");
+			ps.setString(1, callNumber);
+			ps.setInt(2,  copyNumber);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				java.sql.Date duedate = rs.getDate("inDate");
+				String borid = rs.getString("borid");
+				java.sql.Date currentDate = getCurrentDate();
+				if (duedate.before(currentDate)) {
+					// Book is late - assess a fine
+					ps = getConnection().prepareStatement("INSERT INTO fine"
+							+ "(amount, issueddate, borid)" +
+							"VALUES (?,?,?)");
+					float dayslate = (float)((currentDate.getTime() - duedate.getTime())/(1000 * 60 * 60 * 24));
+					ps.setFloat(1, dayslate/10); // Charge 10 cents per day
+					ps.setDate(2, currentDate);
+					ps.setString(3, borid);
+					ps.executeUpdate();
+				}
+			}
+			
+			// Delete the borrowing record
+			ps = getConnection().prepareStatement("DELETE FROM borrowing" +
+					"WHERE callNumber=?, copyNumber=?");
+			ps.setString(1, callNumber);
+			ps.setInt(2, copyNumber);
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println("Failed to return item");
+			e.printStackTrace();
+		}
+		
+		return false;
 	}
 	
 	// Get the current date in SQL format
