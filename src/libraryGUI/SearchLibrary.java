@@ -60,7 +60,7 @@ public class SearchLibrary extends JPanel{
 				if (obj == searchBtn) {		//If Search Button Pressed.
 					//if search field is not provided
 					if (bookTitle.getText().equals ("") && bookAuthor.getText().equals("") && bookSubject.getText().equals("")) {
-						JOptionPane.showMessageDialog (frame, "Search Field not Provided.");
+						JOptionPane.showMessageDialog (frame, "Search Fields not Provided.");
 						bookTitle.requestFocus ();
 					}
 					else 

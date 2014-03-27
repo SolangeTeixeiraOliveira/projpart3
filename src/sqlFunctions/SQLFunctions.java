@@ -19,7 +19,7 @@ public class SQLFunctions {
 						.registerDriver(new oracle.jdbc.driver.OracleDriver());
 				con = DriverManager.getConnection(
 						"jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug",
-						"ora_x4q7", "a45775103");
+						"ora_t3s7", "a41513102");
 			} catch (SQLException e) {
 				System.out
 						.println("Problem registering driver or connecting to oracle");
@@ -246,6 +246,64 @@ public class SQLFunctions {
 			String dueDate, String bookTitle) {
 		return 0;
 
+	}
+
+	public static int holdRequest(int userID, String callNum) {
+
+		System.out.println("Adding hold request for " + userID);
+		
+		try {
+			PreparedStatement ps = getConnection().prepareStatement(
+							"INSERT INTO holdrequest"
+									+ "(bid, callnumber, issuedDate) "
+									+ "VALUES ( ?, ?, ?)",
+							new String[] { "hid" });
+
+			// Set all the input values
+			ps.setInt(1, userID);
+			ps.setString(2, callNum);
+			ps.setDate(3, getCurrentDate());
+
+			// Execute the insert statement and return the new hold request id
+			if (ps.executeUpdate() > 0) {
+				ResultSet generatedHid = ps.getGeneratedKeys();
+				if (null != generatedHid && generatedHid.next()) {
+					return generatedHid.getInt(1);
+				}
+			} else {
+				throw new SQLException(
+						"Creating hold request failed, no generated key obtained.");
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Failed to add hold request");
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	public static int payFine(int bid) {
+		
+		System.out.println("Paying fine.");
+		
+		try {
+			PreparedStatement ps = getConnection().prepareStatement(
+					"UPDATE fine SET paidDate = CURRENT_DATE "
+							+ "WHERE fine.borid = (select borid from borrowing where bid = ?)");
+
+			// Set all the input values
+			ps.setInt(1, bid);
+
+			// Execute the update statement
+			ps.executeUpdate();
+			System.out.println("Fine Paid");
+			
+		} catch (SQLException e) {
+			System.out.println("Failed to pay fine");
+			e.printStackTrace();
+		}
+		
+		return 0;
 	}
 
 }
