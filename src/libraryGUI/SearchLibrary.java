@@ -2,10 +2,14 @@ package libraryGUI;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import sqlFunctions.SQLFunctions;
 
@@ -18,6 +22,7 @@ public class SearchLibrary extends JPanel{
 	private JTextField bookAuthor;
 	private JTextField bookSubject;
 	private JButton searchBtn;
+	private JFrame frame;
 	
 	public SearchLibrary() {
 		
@@ -48,18 +53,52 @@ public class SearchLibrary extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				searchbook();
-			}
+				
+				Object obj = arg0.getSource();
+				
+
+				if (obj == searchBtn) {		//If Search Button Pressed.
+					//if search field is not provided
+					if (bookTitle.getText().equals ("") && bookAuthor.getText().equals("") && bookSubject.getText().equals("")) {
+						JOptionPane.showMessageDialog (frame, "Search Field not Provided.");
+						bookTitle.requestFocus ();
+					}
+					else 
+					{
+						searchbook();
+					}
 		
+				}
+			}
 		});	
 	}
 	
 	private void searchbook() {
 		
 		System.out.println("Going into SQL Query");
-		String book = SQLFunctions.searchbook(bookTitle.getText(), bookAuthor
-				.getText(), bookSubject.getText());
-		System.out.println(book);
+		ResultSet rs = SQLFunctions.searchbook(bookTitle.getText(), bookAuthor.getText(), bookSubject.getText());
+		
+//		String[] columnNames = {"CallNumber", "Title", "Author", "Subject", "Available Copies", "Unavailable Copies"};
+//		Object[][] data;
+//		String callnumber;
+//		String book_title;
+//		String book_author;
+//		String book_subject;
+//				//{new String callnum, new String bkTitle, new String bkAuthor, new String bkSubject, new int in_copies, new int out_copies};
+//		data = {
+//				while (rs.next()) {
+//					callnumber = rs.getString(1);
+//					book_title = rs.getString(2);
+//					book_author = rs.getString(3);
+//					book_subject = rs.getString(4);
+//					} 
+//				}
+//		};
+//		
+//		JTable searchTable = new JTable(data, columnNames);
+		
+		
+		
 	}
 
 	

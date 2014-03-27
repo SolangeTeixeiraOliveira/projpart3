@@ -160,40 +160,39 @@ public class SQLFunctions {
 	}
 
 	// Search a book in the Book Table
-	public static String searchbook(String title, String author, String subject) {
-
-		System.out.println("Searching for book with " + title + ", " + author
-				+ ", " + subject);
-		String book = null;
-		try {
-			// Create the prepared statement for the query
-			PreparedStatement ps = getConnection()
-					.prepareStatement(
-							"SELECT book.title, hasauthor.name as AUTHOR, hassubject.subject"
-									+ "FROM Book, HasAuthor, HasSubject"
-									+ "WHERE book.callnumber = hasauthor.callnumber and book.callnumber = hassubject.callnumber and"
-									+ "book.title like '%" + title
-									+ "%' and hasauthor.name like '%" + author
-									+ "%' and hassubject.subject like '%"
-									+ subject + "%'");
-
-			// Set all the input values
-			ps.setString(1, title);
-			ps.setString(2, author);
-			ps.setString(3, subject);
-
-			// Execute the query
-			ps.executeQuery();
-
-			System.out.println("Query executed");
-
-		} catch (SQLException e) {
-			System.out.println("Failed to search for book");
-			e.printStackTrace();
+		public static ResultSet searchbook(String title, String author, String subject){
+			
+			System.out.println("Searching for book with " + title + "or " + author + "or " + subject);
+			
+			ResultSet rs;
+			
+			try {
+				// Create the prepared statement for the query
+				String SQL = "SELECT DISTINCT book.callnumber, book.title, hasauthor.name as AUTHOR, hassubject.subject "
+						+ "FROM book, hasauthor, hassubject " + 
+						"WHERE book.callnumber = hasauthor.callnumber and book.callnumber = hassubject.callnumber and " 
+						+ "book.title like ? and hasauthor.name like ? or hassubject.subject like ?";
+				String sql = String.format(SQL, "SUBSTR(DSN, 27, 16)");
+				PreparedStatement ps = getConnection().prepareStatement(sql); 
+				
+				// Set all the input values
+				ps.setString(1, "%title%");
+				ps.setString(2, "%author%");
+				ps.setString(3, "%subject%");
+				
+				// Execute the query statement and return the books searched
+				rs = ps.executeQuery();
+				
+				System.out.println("Query executed");
+				return rs;
+					
+			} catch (SQLException e) {
+				System.out.println("Failed to search for book");
+				e.printStackTrace();
+			}
+			return null;
+			
 		}
-
-		return book;
-	}
 
 	//Generating a report of all the books that have been checked out.
 
