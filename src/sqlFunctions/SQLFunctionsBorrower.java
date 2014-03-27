@@ -31,43 +31,45 @@ public class SQLFunctionsBorrower {
 		
 		// Search a book in the Book Table
 		public static ResultSet searchbook(String title, String author, String subject){
-					
-			System.out.println("Searching for book with " + title + "or " + author + "or " + subject);
-					
-			ResultSet rs;
+			
+			title = title.toLowerCase();
+			author = author.toLowerCase();
+			subject = subject.toLowerCase();
+			System.out.println("In search book, Searching for book with " + title + " or " + author + " or " + subject);
+			ResultSet rs = null;
 					
 			try {
 				// Create the prepared statement for the query
-				String SQL = "SELECT DISTINCT book.callnumber, LOWER(book.title) as TITLE, LOWER(hasauthor.name) as AUTHOR, " + 
+//				String SQL = "SELECT DISTINCT book.callnumber, LOWER(book.title) as TITLE, LOWER(hasauthor.name) as AUTHOR, " + 
+//						"LOWER(hassubject.subject) as subject, copies.in_copies, copies.out_copies "
+//						+ "FROM book, hasauthor, hassubject, (select callnumber, count(case status when 'in' then 1 else null end) as in_copies, " +
+//						"count(case status when 'out' then 1 else null end) as out_copies " + 
+//						"from bookcopy group by callnumber) copies " + 
+//						"WHERE book.callnumber = hasauthor.callnumber and book.callnumber = hassubject.callnumber and book.callnumber = copies.callnumber and " 
+//						+ "LOWER(book.title) like ? and LOWER(hasauthor.name) like ? or LOWER(hassubject.subject) like ?";
+//				String sql = String.format(SQL, "SUBSTR(DSN, 27, 16)");
+				PreparedStatement ps = getConnection().prepareStatement("SELECT DISTINCT book.callnumber, LOWER(book.title) as TITLE, LOWER(hasauthor.name) as AUTHOR, " + 
 						"LOWER(hassubject.subject) as subject, copies.in_copies, copies.out_copies "
 						+ "FROM book, hasauthor, hassubject, (select callnumber, count(case status when 'in' then 1 else null end) as in_copies, " +
 						"count(case status when 'out' then 1 else null end) as out_copies " + 
 						"from bookcopy group by callnumber) copies " + 
 						"WHERE book.callnumber = hasauthor.callnumber and book.callnumber = hassubject.callnumber and book.callnumber = copies.callnumber and " 
-						+ "LOWER(book.title) like ? and LOWER(hasauthor.name) like ? or LOWER(hassubject.subject) like ?";
-				String sql = String.format(SQL, "SUBSTR(DSN, 27, 16)");
-				PreparedStatement ps = getConnection().prepareStatement(sql); 
-				
-				title = title.toLowerCase();
-				author = author.toLowerCase();
-				subject = subject.toLowerCase();
+						+ "LOWER(book.title) like ? and LOWER(hasauthor.name) like ? and LOWER(hassubject.subject) like ?"); 
 				
 				// Set all the input values
-				ps.setString(1, "%title%");
-				ps.setString(2, "%author%");
-				ps.setString(3, "%subject%");
+				ps.setString(1, "%" + title + "%");
+				ps.setString(2, "%" + author + "%");
+				ps.setString(3, "%" + subject + "%");
 						
 				// Execute the query statement and return the books searched
-				rs = ps.executeQuery();
-						
+				rs = ps.executeQuery();		
 				System.out.println("Query executed");
-				return rs;
 							
 			} catch (SQLException e) {
 				System.out.println("Failed to search for book");
 				e.printStackTrace();
 			}
-			return null;
+			return rs;
 					
 		}
 	
