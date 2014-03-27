@@ -38,10 +38,13 @@ public class SQLFunctionsBorrower {
 					
 			try {
 				// Create the prepared statement for the query
-				String SQL = "SELECT DISTINCT book.callnumber, LOWER(book.title), LOWER(hasauthor.name) as AUTHOR, LOWER(hassubject.subject) "
-						+ "FROM book, hasauthor, hassubject " + 
-						"WHERE book.callnumber = hasauthor.callnumber and book.callnumber = hassubject.callnumber and " 
-						+ "book.title like ? and hasauthor.name like ? or hassubject.subject like ?";
+				String SQL = "SELECT DISTINCT book.callnumber, LOWER(book.title) as TITLE, LOWER(hasauthor.name) as AUTHOR, " + 
+						"LOWER(hassubject.subject) as subject, copies.in_copies, copies.out_copies "
+						+ "FROM book, hasauthor, hassubject, (select callnumber, count(case status when 'in' then 1 else null end) as in_copies, " +
+						"count(case status when 'out' then 1 else null end) as out_copies " + 
+						"from bookcopy group by callnumber) copies " + 
+						"WHERE book.callnumber = hasauthor.callnumber and book.callnumber = hassubject.callnumber and book.callnumber = copies.callnumber and " 
+						+ "LOWER(book.title) like ? and LOWER(hasauthor.name) like ? or LOWER(hassubject.subject) like ?";
 				String sql = String.format(SQL, "SUBSTR(DSN, 27, 16)");
 				PreparedStatement ps = getConnection().prepareStatement(sql); 
 				
