@@ -71,9 +71,31 @@ public class SQLFunctions {
 		return 0;
 	}
 
-	public static int addBook(int bookNumber, int isbn, String title,
-			String mainAuthor, String Publisher, int publicationYear) {
+	public static int addBook(int callNumber, int isbn, String title,
+			String mainAuthor, String publisher, int publicationYear) {
 
+		System.out.println("Adding Book " + callNumber);
+		try {
+			PreparedStatement ps = getConnection()
+					.prepareStatement(
+							"INSERT INTO book"
+									+ "(callNumber, isbn, title, mainAuthor, Publisher, publicationYear) "
+									+ "VALUES (?,?,?,?,?,?)");
+
+			// Set all the input values
+			ps.setInt(1, callNumber);
+			ps.setInt(2, isbn);
+			ps.setString(3, title);
+			ps.setString(4, mainAuthor);
+			ps.setString(5, publisher);
+			ps.setInt(6, publicationYear);
+			
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println("Failed to add book");
+			e.printStackTrace();
+		}
 		return 0;
 	}
 
@@ -213,6 +235,11 @@ public class SQLFunctions {
 		return 0;
 
 	}
-
 	
+	public static int popuparBook(){
+		return 0;
+		
+	}
 }
+
+
