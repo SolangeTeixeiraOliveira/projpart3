@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Vector;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import sqlFunctions.SQLFunctions;
 
@@ -31,6 +32,7 @@ public class CheckOverdue extends JPanel {
 		try {
 			while (rs.next()) {
 				Vector<String> rowData = new Vector<String>();
+				System.out.println(rs.getString(1) + rs.getString(2) + rs.getString(3));
 				rowData.add(rs.getString(1));
 				rowData.add(rs.getString(2));
 				rowData.add(rs.getString(3));
@@ -41,16 +43,20 @@ public class CheckOverdue extends JPanel {
 			e.printStackTrace();
 		}
 		
+		// Create the table
 		Vector<String> columnNames = new Vector<String>();
 		columnNames.add("Call number");
 		columnNames.add("Title");
 		columnNames.add("Email address");
 		table = new JTable(data, columnNames);
-		scrollpane = new JScrollPane(table);
-		this.add(scrollpane);
 		table.getColumnModel().getColumn(0).setPreferredWidth(150);
 		table.getColumnModel().getColumn(1).setPreferredWidth(150);
 		table.getColumnModel().getColumn(2).setPreferredWidth(150);
+		table.setEnabled(false);
+		scrollpane = new JScrollPane(table);
+		this.add(scrollpane);
+		
+		System.out.println("Displayed overdue items");
 	}
 
 }

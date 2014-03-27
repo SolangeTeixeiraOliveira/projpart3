@@ -3,10 +3,16 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Vector;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 
@@ -15,10 +21,20 @@ public class CheckOut extends JPanel {
 
 	private JTextField cardNumber;
 	private JTextField callNumber;
+	private JTextField copyNumber;
 	private JButton addBtn;
+	private JButton checkOutBtn;
+	private JList booklist;
+	private Vector<String> callNumList;
+	private Vector<Integer> copyNumList;
+	private Vector<String> fullCallNums;
+	private JScrollPane listScrollPane;
+	private JFrame frame;
 
 	public CheckOut() {
-		this.setPreferredSize(new Dimension(400, 400));
+		this.setPreferredSize(new Dimension(400, 300));
+		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		
 		JLabel cardNumberLabel = new JLabel("Card Number:");
 		this.add(cardNumberLabel);
 		cardNumber = new JTextField(20);
@@ -26,19 +42,70 @@ public class CheckOut extends JPanel {
 		JLabel callNumberLabel = new JLabel("Call Number:");
 		this.add(callNumberLabel);
 		callNumber = new JTextField(20);
+		//callNumber.setPreferredSize(new Dimension(300, 30));
 		this.add(callNumber);
+		JLabel copyNumberLabel = new JLabel("Copy:");
+		this.add(copyNumberLabel);
+		copyNumber = new JTextField(3);
+		this.add(copyNumber);
 		addBtn = new JButton("Add");
 		this.add(addBtn);
+		checkOutBtn = new JButton("Check out");
+		this.add(checkOutBtn);
+		
+		// The list of call numbers and the JList to display them in
+		callNumList = new Vector<String>();
+		copyNumList = new Vector<Integer>();
+		fullCallNums = new Vector<String>();
+		booklist = new JList();
+		listScrollPane = new JScrollPane(booklist);
+		this.add(listScrollPane);
+		
 		addBtn.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//checkOutItems();
+				addToBookList();
+			}
+		});
+		
+		checkOutBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				checkOutItems();
 			}
 		});
 	}
 	
-	private void checkOutItems(List<String> callNumbers) {
+	private void addToBookList() {
+		String book = callNumber.getText().trim();
+		Integer copy;
+
+		// Check for valid inputs
+		if (book.length() == 0) {
+			JOptionPane.showMessageDialog(frame, "Please enter a call number");
+			return;
+		}
+		
+		try {
+			copy = Integer.parseInt(copyNumber.getText());
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(frame, "Invalid copy number");
+			return;
+		}
+		
+		// Concatenate the book call number with the copy number
+		String fullCallNum = book + " C" + copy;
+		if (!fullCallNums.contains(fullCallNum)) {
+			callNumList.add(book);
+			copyNumList.add(copy);
+			fullCallNums.add(fullCallNum);
+			booklist.setListData(fullCallNums);
+		}
+	}
+	
+	private void checkOutItems() {
 		
 	}
 }

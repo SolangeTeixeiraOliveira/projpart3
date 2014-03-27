@@ -121,7 +121,7 @@ create table Fine (
 Fid integer not null PRIMARY KEY,
 Amount integer not null,
 IssuedDate date not null,
-PaidDate date not null,
+PaidDate date,
 Borid integer not null,
 FOREIGN KEY (Borid) REFERENCES Borrowing);
 
@@ -145,11 +145,11 @@ insert into BorrowerType values ('Faculty', 12);
 
 insert into BorrowerType values ('Staff', 6);
 
-insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values ('ewer', 'May Smith', '123 Up St.', 1111111, 'may.smith@gee.com', 12345678, '01-Apr-15', 'Student');
+insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values ('ewer', 'May Smith', '123 Up St.', 1111111, 'may.smith@gee.com', 12345678, '15-Apr-02', 'Student');
 
-insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values ('asdf', 'John Doe', '456 Down St.', 2222222, 'john.doe@gee.com', 21345678, '02-May-15', 'Staff');
+insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values ('asdf', 'John Doe', '456 Down St.', 2222222, 'john.doe@gee.com', 21345678, '14-May-30', 'Staff');
 
-insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values ('xxcv', 'Charles Dew', '789 Right St.', 3333333, 'charles.dew@gee.com', 87654321, '12-Aug-15', 'Faculty');
+insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values ('xxcv', 'Charles Dew', '789 Right St.', 3333333, 'charles.dew@gee.com', 87654321, '14-Aug-28', 'Faculty');
 
 insert into Book values
 ('reed123', 123456, 'Blinded Cat', 'Mike Reed', 'BookPublisher', 2010);
