@@ -9,8 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-import sqlFunctions.SQLFunctions;
+import sqlFunctions.SQLFunctionsBorrower;
 
 
 public class PayFine extends JPanel {
@@ -54,7 +53,7 @@ public class PayFine extends JPanel {
 			return;
 		}
 		
-		int fid = SQLFunctions.payFine(bid);
+		int fid = SQLFunctionsBorrower.payFine(bid);
 		
 		System.out.println(fid);
 		

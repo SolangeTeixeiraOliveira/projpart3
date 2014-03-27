@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import sqlFunctions.SQLFunctions;
+import sqlFunctions.SQLFunctionsBorrower;
 
 // Pop up for Searching a Book from the Library
 public class SearchLibrary extends JPanel{
@@ -76,7 +76,7 @@ public class SearchLibrary extends JPanel{
 	private void searchbook() {
 		
 		System.out.println("Going into SQL Query");
-		ResultSet rs = SQLFunctions.searchbook(bookTitle.getText(), bookAuthor.getText(), bookSubject.getText());
+		ResultSet rs = SQLFunctionsBorrower.searchbook(bookTitle.getText(), bookAuthor.getText(), bookSubject.getText());
 		
 //		String[] columnNames = {"CallNumber", "Title", "Author", "Subject", "Available Copies", "Unavailable Copies"};
 //		Object[][] data;
