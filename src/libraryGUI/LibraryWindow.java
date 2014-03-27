@@ -1,4 +1,5 @@
 package libraryGUI;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -182,6 +183,16 @@ public class LibraryWindow {
         panel3.add (librarianbutton1);
         JButton librarianbutton2 = new JButton("Add Book");
         librarianbutton2.setPreferredSize(new Dimension(160, 30));
+        librarianbutton2.addActionListener(new ActionListener() {
+        	
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		JFrame frame = new JFrame ("Add Book");
+                frame.getContentPane().add(new CreateBookWindow());
+                frame.pack();
+                frame.setVisible (true);
+        	}
+        });
         panel3.add (librarianbutton2);
         JButton librarianbutton3 = new JButton("Generate Report");
         librarianbutton3.setPreferredSize(new Dimension(160, 30));

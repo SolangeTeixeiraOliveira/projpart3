@@ -7,7 +7,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
 import sqlFunctions.SQLFunctions;
 
 // Pop up for Searching a Book from the Library

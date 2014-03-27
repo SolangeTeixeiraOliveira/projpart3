@@ -148,7 +148,6 @@ public class SQLFunctions {
 			System.out.println("Failed to return item");
 			e.printStackTrace();
 		}
-
 		return holderEmailAddress;
 	}
 
@@ -194,6 +193,14 @@ public class SQLFunctions {
 		}
 
 		return book;
+	}
+
+	//Generating a report of all the books that have been checked out.
+
+	public static int  BookcheckeOut(int callNumber, String checkedOutDate,
+			String dueDate, String bookTitle) {
+		return 0;
+
 	}
 
 }
