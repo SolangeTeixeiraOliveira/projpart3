@@ -9,8 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-import sqlFunctions.SQLFunctions;
+import sqlFunctions.SQLFunctionsBorrower;
 
 
 public class HoldRequest extends JPanel {
@@ -60,7 +59,7 @@ public class HoldRequest extends JPanel {
 			return;
 		}
 		
-		int hid = SQLFunctions.holdRequest(bid, callNumber.getText());
+		int hid = SQLFunctionsBorrower.holdRequest(bid, callNumber.getText());
 		
 		System.out.println(hid);
 		

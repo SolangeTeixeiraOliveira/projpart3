@@ -205,40 +205,6 @@ public class SQLFunctions {
 		return sqlDate;
 	}
 
-	// Search a book in the Book Table
-		public static ResultSet searchbook(String title, String author, String subject){
-			
-			System.out.println("Searching for book with " + title + "or " + author + "or " + subject);
-			
-			ResultSet rs;
-			
-			try {
-				// Create the prepared statement for the query
-				String SQL = "SELECT DISTINCT book.callnumber, book.title, hasauthor.name as AUTHOR, hassubject.subject "
-						+ "FROM book, hasauthor, hassubject " + 
-						"WHERE book.callnumber = hasauthor.callnumber and book.callnumber = hassubject.callnumber and " 
-						+ "book.title like ? and hasauthor.name like ? or hassubject.subject like ?";
-				String sql = String.format(SQL, "SUBSTR(DSN, 27, 16)");
-				PreparedStatement ps = getConnection().prepareStatement(sql); 
-				
-				// Set all the input values
-				ps.setString(1, "%title%");
-				ps.setString(2, "%author%");
-				ps.setString(3, "%subject%");
-				
-				// Execute the query statement and return the books searched
-				rs = ps.executeQuery();
-				
-				System.out.println("Query executed");
-				return rs;
-					
-			} catch (SQLException e) {
-				System.out.println("Failed to search for book");
-				e.printStackTrace();
-			}
-			return null;
-			
-		}
 
 	//Generating a report of all the books that have been checked out.
 
@@ -248,62 +214,5 @@ public class SQLFunctions {
 
 	}
 
-	public static int holdRequest(int userID, String callNum) {
-
-		System.out.println("Adding hold request for " + userID);
-		
-		try {
-			PreparedStatement ps = getConnection().prepareStatement(
-							"INSERT INTO holdrequest"
-									+ "(bid, callnumber, issuedDate) "
-									+ "VALUES ( ?, ?, ?)",
-							new String[] { "hid" });
-
-			// Set all the input values
-			ps.setInt(1, userID);
-			ps.setString(2, callNum);
-			ps.setDate(3, getCurrentDate());
-
-			// Execute the insert statement and return the new hold request id
-			if (ps.executeUpdate() > 0) {
-				ResultSet generatedHid = ps.getGeneratedKeys();
-				if (null != generatedHid && generatedHid.next()) {
-					return generatedHid.getInt(1);
-				}
-			} else {
-				throw new SQLException(
-						"Creating hold request failed, no generated key obtained.");
-			}
-
-		} catch (SQLException e) {
-			System.out.println("Failed to add hold request");
-			e.printStackTrace();
-		}
-		return 0;
-	}
-
-	public static int payFine(int bid) {
-		
-		System.out.println("Paying fine.");
-		
-		try {
-			PreparedStatement ps = getConnection().prepareStatement(
-					"UPDATE fine SET paidDate = CURRENT_DATE "
-							+ "WHERE fine.borid = (select borid from borrowing where bid = ?)");
-
-			// Set all the input values
-			ps.setInt(1, bid);
-
-			// Execute the update statement
-			ps.executeUpdate();
-			System.out.println("Fine Paid");
-			
-		} catch (SQLException e) {
-			System.out.println("Failed to pay fine");
-			e.printStackTrace();
-		}
-		
-		return 0;
-	}
-
+	
 }
