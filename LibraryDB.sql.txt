@@ -27,7 +27,7 @@ Password char(20) not null,
 Name char(20),
 Address char(20),
 Phone integer,
-EmailAddress char(20) not null,
+EmailAddress char(30) not null,
 SinOrStNo integer,
 ExpiryDate date not null,
 Type char(20) not null, 
@@ -151,11 +151,19 @@ insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, Ex
 
 insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values ('xxcv', 'Charles Dew', '789 Right St.', 3333333, 'charles.dew@gee.com', 87654321, '14-Aug-28', 'Faculty');
 
+insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values ('abcd', 'Peter Piper', '555 W 5th Ave.', 2012222, 'fluffykitty@hotmail.com', 1098921, '14-Jul-01', 'Student');
+
 insert into Book values
 ('reed123', 123456, 'Blinded Cat', 'Mike Reed', 'BookPublisher', 2010);
 
 insert into Book values
 ('dwight345', 342166, 'Cute Cuddle Bat', 'Leet Dwight', 'DreamBook', 2011);
+
+insert into Book values
+('rowling980', 980928, 'Harry Potter', 'J.K. Rowling', 'Penguin', 2000);
+
+insert into Book values
+('christie801', 801234, 'Death on the Nile', 'Agatha Christie', 'Penguin', 1990);
 
 insert into HasAuthor values ('reed123', 'Paul Tate');
 
@@ -165,9 +173,17 @@ insert into HasAuthor values ('dwight345', 'Amy Pitt');
 
 insert into HasAuthor values ('dwight345', 'Leet Dwight');
 
+insert into HasAuthor values ('rowling980', 'J.K. Rowling');
+
+insert into HasAuthor values ('christie801', 'Agatha Christie');
+
 insert into HasSubject values ('reed123', 'Fantasy');
 
 insert into HasSubject values ('dwight345', 'Adventure');
+
+insert into HasSubject values ('rowling980', 'Fantasy');
+
+insert into HasSubject values ('christie801', 'Mystery');
 
 insert into BookCopy values ('reed123', 1, 'in');
 
@@ -177,9 +193,15 @@ insert into BookCopy values ('dwight345', 1, 'out');
 
 insert into BookCopy values ('dwight345', 2, 'in');
 
+insert into BookCopy values ('rowling980', 1, 'out');
+
+insert into BookCopy values ('christie801', 1, 'in');
+
 insert into HoldRequest(Bid, CallNumber, issuedDate) values (1, 'dwight345', '13-Apr-01');
 
 insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (2, 'dwight345', 1, '13-Mar-31', '14-Apr-12');
+
+insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (4, 'rowling980', 1, '14-Jan-02', '14-Mar-20');
 
 insert into Fine(amount, issuedDate, paidDate, borid) values (10, '14-Jan-20', '14-Feb-11', 1);
 
