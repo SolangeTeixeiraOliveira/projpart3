@@ -8,6 +8,7 @@ public class SQLFunctions {
 
 	// Only access con through the getConnection function
 	private static Connection con;
+	
 
 	private static Connection getConnection() {
 		if (con == null) {
@@ -16,7 +17,7 @@ public class SQLFunctions {
 				DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 				con = DriverManager.getConnection(
 						"jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug",
-						"ora_x4q7", "a45775103");
+						"ora_t3s7", "a41513102");
 			} catch (SQLException e) {
 				System.out.println("Problem registering driver or connecting to oracle");
 				e.printStackTrace();
@@ -77,34 +78,38 @@ public class SQLFunctions {
 	}
 	
 	// Search a book in the Book Table
-	public static String searchbook(String title, String author, String subject){
+	public static ResultSet searchbook(String title, String author, String subject){
 		
-		System.out.println("Searching for book with " + title + ", " + author + ", " + subject);
-		String book = null;
+		System.out.println("Searching for book with " + title + "or " + author + "or " + subject);
+		
+		ResultSet rs;
+		
 		try {
 			// Create the prepared statement for the query
-			PreparedStatement ps = getConnection().prepareStatement("SELECT book.title, hasauthor.name as AUTHOR, hassubject.subject"
-					+ "FROM Book, HasAuthor, HasSubject" + 
-					"WHERE book.callnumber = hasauthor.callnumber and book.callnumber = hassubject.callnumber and" +
-					"book.title like '%" + title + "%' and hasauthor.name like '%" + author + 
-					"%' and hassubject.subject like '%" + subject + "%'");
-		
-			// Set all the input values
-			ps.setString(1, title);
-			ps.setString(2, author);
-			ps.setString(3, subject);
+			String SQL = "SELECT DISTINCT book.callnumber, book.title, hasauthor.name as AUTHOR, hassubject.subject "
+					+ "FROM book, hasauthor, hassubject " + 
+					"WHERE book.callnumber = hasauthor.callnumber and book.callnumber = hassubject.callnumber and " 
+					+ "book.title like ? and hasauthor.name like ? or hassubject.subject like ?";
+			String sql = String.format(SQL, "SUBSTR(DSN, 27, 16)");
+			PreparedStatement ps = getConnection().prepareStatement(sql); 
 			
-			// Execute the query
-			ps.executeQuery();
+			// Set all the input values
+			ps.setString(1, "%title%");
+			ps.setString(2, "%author%");
+			ps.setString(3, "%subject%");
+			
+			// Execute the query statement and return the books searched
+			rs = ps.executeQuery();
 			
 			System.out.println("Query executed");
+			return rs;
 				
 		} catch (SQLException e) {
 			System.out.println("Failed to search for book");
 			e.printStackTrace();
 		}
+		return null;
 		
-		return book;
 	}
 
 }
