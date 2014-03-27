@@ -230,13 +230,14 @@ public class SQLFunctions {
 
 	//Generating a report of all the books that have been checked out.
 
-	public static int  BookcheckeOut(int callNumber, String checkedOutDate,
+	public static int  bookcheckeOut(int callNumber, String checkedOutDate,
 			String dueDate, String bookTitle) {
 		return 0;
 
 	}
 	
-	public static int popuparBook(){
+	public static int popuparBook(int callNumber, String checkedOutDate,
+			String dueDate, String bookTitle){
 		return 0;
 		
 	}
