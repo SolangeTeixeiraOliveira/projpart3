@@ -4,9 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import sqlFunctions.SQLFunctions;
 
 
 public class HoldRequest extends JPanel {
@@ -16,6 +20,7 @@ public class HoldRequest extends JPanel {
 	private JTextField borID;
 	private JTextField callNumber;
 	private JButton holdBtn;
+	private JFrame frame;
 	
 	public HoldRequest() {
 		this.setPreferredSize(new Dimension(450, 150));
@@ -38,10 +43,28 @@ public class HoldRequest extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//holdrequest();
+				holdrequest();
 			}
 		
 		});
+	}
+	
+	private void holdrequest() {
+
+		int bid;
+		
+		try {
+			bid = Integer.parseInt(borID.getText());
+		}catch(NumberFormatException e){
+			JOptionPane.showMessageDialog(frame, "Borrower ID should be an Integer." );
+			return;
+		}
+		
+		int hid = SQLFunctions.holdRequest(bid, callNumber.getText());
+		
+		System.out.println(hid);
+		
+		JOptionPane.showMessageDialog(frame, "New Hold Request Made." );
 		
 	}
 	
