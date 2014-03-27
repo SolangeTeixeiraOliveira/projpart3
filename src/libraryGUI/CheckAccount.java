@@ -14,7 +14,6 @@ public class CheckAccount extends JPanel{
 	private static final long serialVersionUID = 1L;
 
 	private JTextField borID;
-	private JTextField borPassword;
 	private JButton checkAcctBtn;
 	
 	public CheckAccount() {
