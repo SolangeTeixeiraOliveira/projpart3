@@ -35,11 +35,11 @@ public class ReturnItem extends JPanel {
 	private void processReturn() {
 		String bookCallNum = callNumber.getText();
 		int bookCopyNum = Integer.parseInt(copyNumber.getText());
-		boolean success = SQLFunctions.returnItem(bookCallNum, bookCopyNum);
-		if (success) {
-			System.out.println("Successfully returned book " + bookCallNum + " C" + bookCopyNum);
+		String emailAddress = SQLFunctions.returnItem(bookCallNum, bookCopyNum);
+		if (emailAddress != null) {
+			System.out.println("Book returned - sent email to " + emailAddress);
 		} else {
-			System.out.println("Failed to return book " + bookCallNum + " C" + bookCopyNum);
+			System.out.println("Book has been returned");
 		}
 	}
 }
