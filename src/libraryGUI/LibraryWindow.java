@@ -159,7 +159,7 @@ public class LibraryWindow {
         });
         panel2.add (payFineBtn);
         
-        // Librarian panel
+     // Librarian panel
         JPanel panel3 = new JPanel();
         panel3.setBackground(Color.LIGHT_GRAY);
         panel3.setPreferredSize(new Dimension(200,300));
@@ -167,7 +167,7 @@ public class LibraryWindow {
         JLabel librarian = new JLabel("Librarian", SwingConstants.CENTER);
         librarian.setPreferredSize(new Dimension(160, 30));
         panel3.add(librarian);
-        JButton librarianbutton1 = new JButton("Create Book");
+        JButton librarianbutton1 = new JButton("Add Book");
         librarianbutton1.setPreferredSize(new Dimension(160, 30));
         librarianbutton1.addActionListener(new ActionListener() {
         	
@@ -179,24 +179,20 @@ public class LibraryWindow {
                 frame.setVisible (true);
         	}
         });
-             
         panel3.add (librarianbutton1);
-        JButton librarianbutton2 = new JButton("Add Book");
+        
+        JButton librarianbutton2 = new JButton("Generate Report");
         librarianbutton2.setPreferredSize(new Dimension(160, 30));
         librarianbutton2.addActionListener(new ActionListener() {
-        	
         	@Override
         	public void actionPerformed(ActionEvent e) {
-        		JFrame frame = new JFrame ("Add Book");
-                frame.getContentPane().add(new CreateBookWindow());
+        		JFrame frame = new JFrame ("Books checked Out");
+                frame.getContentPane().add(new GenerateReport());
                 frame.pack();
                 frame.setVisible (true);
         	}
         });
         panel3.add (librarianbutton2);
-        JButton librarianbutton3 = new JButton("Generate Report");
-        librarianbutton3.setPreferredSize(new Dimension(160, 30));
-        panel3.add (librarianbutton3);
 
         //Display the window.
         

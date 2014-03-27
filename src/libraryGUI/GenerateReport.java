@@ -27,43 +27,58 @@ public class GenerateReport extends JPanel {
 		private JButton addBtn;
 
 		public GenerateReport() {
-			this.setPreferredSize(new Dimension(400, 400));
-			JLabel ReportCheckedOutLabel = new JLabel("ReportCheckedOut");
+			this.setPreferredSize(new Dimension(300, 300));
+			JLabel ReportCheckedOutLabel = new JLabel("Report: CheckedOut Books");
 			this.add(ReportCheckedOutLabel);
-			ReportCheckedOut = new JTextField(20);
-			this.add(ReportCheckedOut);
+			ReportCheckedOut = new JTextField(30);
+			addBtn = new JButton("confirm");
+			this.add(addBtn);
 			addBtn.addActionListener(new ActionListener() {
-	        	
+				
 	        	@Override
 	        	public void actionPerformed(ActionEvent e) {
 	        		JFrame frame = new JFrame ("Books checked Out");
 	                frame.getContentPane().add(new GenerateReport());
 	                frame.pack();
 	                frame.setVisible (true);
+	                	               
+					bookcheckeOut();
+					
 	        	}
 	        });
 			
-			JLabel ReportPopularBooksLabel = new JLabel("ReportPopularBooks");
+			JLabel ReportPopularBooksLabel = new JLabel("Report: Popular Books");
 			this.add(ReportPopularBooksLabel);
-			ReportPopularBooks = new JTextField(20);
-			this.add(ReportPopularBooks);
-			
-			addBtn = new JButton("Add");
+			ReportPopularBooks = new JTextField(30);
+			//this.add(ReportPopularBooks);
+			addBtn = new JButton("Confirm");
 			this.add(addBtn);
 			addBtn.addActionListener(new ActionListener() {
 
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					BookcheckeOut();
-				}
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame frame = new JFrame("Popular Books");
+				frame.getContentPane().add(new GenerateReport());
+				frame.pack();
+				frame.setVisible(true);
+
+				PopularBook();
+			}
 			});
 		}
 		
-		private void BookcheckeOut() {
-			int callNumber = Integer.parseInt(bookNumber.getText());
-			int report = SQLFunctions.BookcheckeOut(callNumber, checkedOutDate.getText(), dueDate.getText(),
-					bookTitle.getText());
-			System.out.println(report);
+		private void bookcheckeOut() {
+//			int callNumber = Integer.parseInt(bookNumber.getText());
+//			int report = SQLFunctions.bookcheckeOut(callNumber, checkedOutDate.getText(), dueDate.getText(),
+//					bookTitle.getText());
+//			System.out.println(report);
+		}
+		
+		private void PopularBook() {
+//			int callNumber = Integer.parseInt(bookNumber.getText());
+//			int report = SQLFunctions.popularBook(callNumber, checkedOutDate.getText(), dueDate.getText(),
+//					bookTitle.getText());
+//			System.out.println(report);
 		}
 	}
 	
