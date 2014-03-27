@@ -174,6 +174,28 @@ public class SQLFunctions {
 		}
 		return holderEmailAddress;
 	}
+	
+	public static ResultSet getOverdueItems() {
+
+		System.out.println("Checking overdue items");
+		ResultSet rs = null;
+		
+		try {
+			PreparedStatement ps = getConnection()
+					.prepareStatement(
+							"SELECT book.callnumber, title, emailaddress " +
+							"FROM borrowing, borrower, book " +
+							"WHERE borrowing.bid=borrower.bid " +
+							"AND borrowing.callnumber = book.callnumber " +
+							"AND borrowing.indate < CURRENT_DATE");
+			rs = ps.executeQuery();
+
+		} catch (SQLException e) {
+			System.out.println("Failed to add borrower");
+			e.printStackTrace();
+		}
+		return rs;
+	}
 
 	// Get the current date in SQL format
 	private static java.sql.Date getCurrentDate() {

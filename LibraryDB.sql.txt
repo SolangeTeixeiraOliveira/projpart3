@@ -177,9 +177,9 @@ insert into BookCopy values ('dwight345', 1, 'out');
 
 insert into BookCopy values ('dwight345', 2, 'in');
 
-insert into HoldRequest(Bid, CallNumber, issuedDate) values (1, 'dwight345', '01-Apr-15');
+insert into HoldRequest(Bid, CallNumber, issuedDate) values (1, 'dwight345', '13-Apr-01');
 
-insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (2, 'dwight345', 1, '31-Mar-15', '01-Apr-15');
+insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (2, 'dwight345', 1, '13-Mar-31', '14-Apr-12');
 
-insert into Fine(amount, issuedDate, paidDate, borid) values (10, '01-Jan-15', '01-Apr-15', 1);
+insert into Fine(amount, issuedDate, paidDate, borid) values (10, '14-Jan-20', '14-Feb-11', 1);
 
