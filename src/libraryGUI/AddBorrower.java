@@ -22,6 +22,7 @@ public class AddBorrower extends JPanel {
 	private JTextField borSinOrStNo;
 	private JComboBox borType;
 	private JButton addBtn;
+	private JFrame frame;
 
 	public AddBorrower() {
 		this.setPreferredSize(new Dimension(360, 250));
@@ -86,13 +87,26 @@ public class AddBorrower extends JPanel {
 	
 	private void addBorrower() {
 
-		int phone = Integer.parseInt(borPhone.getText());
-		int sinOrStNo = Integer.parseInt(borSinOrStNo.getText());
+		int phone;
+		int sinOrStNo;
+		
+		if (borName.getText().length() == 0 || borPassword.getText().length() == 0) {
+			JOptionPane.showMessageDialog(frame, "Must provide borrower name and password");
+			return;
+		}
+		
+		try {
+			phone = Integer.parseInt(borPhone.getText());
+			sinOrStNo = Integer.parseInt(borSinOrStNo.getText());
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(frame, "Phone number and SIN/Student number must be integers");
+			return;
+		}
 		int bid = SQLFunctions.addBorrower(borName.getText(), borPassword
 				.getText(), borAddress.getText(), phone, borEmail.getText(),
 				sinOrStNo, borType.getSelectedItem().toString());
 		System.out.println(bid);
-		//JOptionPane.showMessageDialog(frame, "New borrower id: " + );
+		JOptionPane.showMessageDialog(frame, "New borrower id: " + bid);
 	}
 
 }

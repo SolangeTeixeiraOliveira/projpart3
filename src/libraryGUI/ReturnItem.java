@@ -14,6 +14,7 @@ public class ReturnItem extends JPanel {
 	private JTextField callNumber;
 	private JTextField copyNumber;
 	private JButton returnBtn;
+	private JFrame frame;
 
 	public ReturnItem() {
 		this.setPreferredSize(new Dimension(400, 400));
@@ -34,7 +35,20 @@ public class ReturnItem extends JPanel {
 	
 	private void processReturn() {
 		String bookCallNum = callNumber.getText();
-		int bookCopyNum = Integer.parseInt(copyNumber.getText());
+		int bookCopyNum;
+		
+		// Check for empty inputs
+		if (callNumber.getText().length() == 0 || copyNumber.getText().length() == 0) {
+			JOptionPane.showMessageDialog(frame, "Please enter a call number and copy number");
+			return;
+		}	
+		try {
+			bookCopyNum = Integer.parseInt(copyNumber.getText());
+		} catch(NumberFormatException e) {
+			JOptionPane.showMessageDialog(frame, "Invalid copy number");
+			return;
+		}
+		
 		String emailAddress = SQLFunctions.returnItem(bookCallNum, bookCopyNum);
 		if (emailAddress != null) {
 			System.out.println("Book returned - sent email to " + emailAddress);

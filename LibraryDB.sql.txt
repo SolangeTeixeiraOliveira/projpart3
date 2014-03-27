@@ -19,18 +19,18 @@ drop trigger fine_trig;
 
 create table BorrowerType (
 Type char(20) not null PRIMARY KEY,
-BookTimeLimit integer);
+BookTimeLimit integer not null);
 
 create table Borrower (
 Bid integer not null PRIMARY KEY,
-Password char(20),
+Password char(20) not null,
 Name char(20),
 Address char(20),
 Phone integer,
-EmailAddress char(20),
+EmailAddress char(20) not null,
 SinOrStNo integer,
-ExpiryDate date,
-Type char(20), 
+ExpiryDate date not null,
+Type char(20) not null, 
 FOREIGN KEY (Type) REFERENCES BorrowerType);
 
 Create SEQUENCE bor_seq;
@@ -48,7 +48,7 @@ END;
 
 create table Book (
 CallNumber char(20) not null PRIMARY KEY,
-ISBN integer,
+ISBN integer not null,
 Title char(20),
 MainAuthor char(20),
 Publisher char(20),
@@ -69,15 +69,15 @@ FOREIGN KEY (CallNumber) REFERENCES Book);
 create table BookCopy (
 CallNumber char(20) not null,
 CopyNo integer not null,
-Status char(20),
+Status char(20) not null,
 PRIMARY KEY (CallNumber, CopyNo),
 FOREIGN KEY (CallNumber) REFERENCES Book);
 
 create table HoldRequest (
 Hid integer not null PRIMARY KEY,
-Bid integer,
-CallNumber char(20),
-IssuedDate date,
+Bid integer not null,
+CallNumber char(20) not null,
+IssuedDate date not null,
 FOREIGN KEY (Bid) REFERENCES Borrower,
 FOREIGN KEY (CallNumber) REFERENCES Book);
 
@@ -96,11 +96,11 @@ END;
 
 create table Borrowing (
 Borid integer not null PRIMARY KEY,
-Bid integer,
-CallNumber char(20),
-CopyNo integer,
-OutDate date,
-InDate date,
+Bid integer not null,
+CallNumber char(20) not null,
+CopyNo integer not null,
+OutDate date not null,
+InDate date not null,
 FOREIGN KEY (Bid) REFERENCES Borrower,
 FOREIGN KEY (CallNumber) REFERENCES Book);
 
@@ -119,10 +119,10 @@ END;
 
 create table Fine (
 Fid integer not null PRIMARY KEY,
-Amount integer,
-IssuedDate date,
-PaidDate date,
-Borid integer,
+Amount integer not null,
+IssuedDate date not null,
+PaidDate date not null,
+Borid integer not null,
 FOREIGN KEY (Borid) REFERENCES Borrowing);
 
 Create Sequence fine_seq;
