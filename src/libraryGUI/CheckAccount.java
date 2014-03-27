@@ -28,12 +28,6 @@ public class CheckAccount extends JPanel{
 		borID = new JTextField(20);
 		this.add(borID);
 		
-		JLabel passwordLabel = new JLabel("Password:");
-		passwordLabel.setPreferredSize(new Dimension(110, 20));
-		this.add(passwordLabel);
-		borPassword = new JTextField(20);
-		this.add(borPassword);
-		
 		checkAcctBtn = new JButton("Confirm");
 		this.add(checkAcctBtn);
 		checkAcctBtn.addActionListener(new ActionListener() {
