@@ -58,7 +58,7 @@ public class HoldRequest extends JPanel {
 			JOptionPane.showMessageDialog(frame, "Borrower ID should be an Integer." );
 			return;
 		}
-		
+		//TODO: make sure there's a callNumber in the database
 		int hid = SQLFunctionsBorrower.holdRequest(bid, callNumber.getText());
 		
 		System.out.println(hid);
