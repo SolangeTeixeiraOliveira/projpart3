@@ -11,7 +11,7 @@ import sqlFunctions.SQLFunctionsBorrower;
 
 public class SearchResults extends JPanel {
 
-private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 	
 	private JScrollPane scrollpane;
 	private JTable table;
@@ -27,12 +27,12 @@ private static final long serialVersionUID = 1L;
 	public void searchLib() {
 
 		System.out.println("Going into SQL Query");
-		System.out.println("in searchLib, Searching for: " + bkTitle.getText() + " and " + bkAuthor.getText() + " and " + bkSubject.getText());
 		ResultSet rs = SQLFunctionsBorrower.searchbook(bkTitle.getText(), bkAuthor.getText(), bkSubject.getText());
 		
+		//TODO: make a list of authors instead of having 2 rows of authors
 		Vector<Vector<String>> data1 = new Vector<Vector<String>>();
 		try {
-			while (rs.next()) { //TODO: make a list of authors instead of having 2 rows of authors
+			while (rs.next()) { 
 					Vector<String> rowData1 = new Vector<String>();
 					System.out.println(rs.getString(1) + rs.getString(2) + rs.getString(3));
 					rowData1.add(rs.getString(1));
