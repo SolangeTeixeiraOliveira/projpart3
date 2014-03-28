@@ -18,8 +18,8 @@ public class SQLFunctions {
 				DriverManager
 						.registerDriver(new oracle.jdbc.driver.OracleDriver());
 				con = DriverManager.getConnection(
-						"jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug",
-						"ora_t3s7", "a41513102");
+						"jdbc:oracle:thin:@localhost:1522:ug",
+						"ora_x4q7", "a45775103");
 				con.setAutoCommit(false);
 			} catch (SQLException e) {
 				System.out
@@ -106,26 +106,13 @@ public class SQLFunctions {
 		
 		try {
 			// Check if there is a hold request for the book
-			/*PreparedStatement ps = getConnection().prepareStatement(
+			PreparedStatement ps = getConnection().prepareStatement(
 					"SELECT emailAddress FROM holdrequest, borrower "
 							+ "WHERE holdrequest.bid = borrower.bid "
-							+ "AND holdrequest.issuedDate="
-							+ "(SELECT MIN(issuedDate) FROM holdrequest)");
-			ResultSet rs = ps.executeQuery();*/
-			System.out.println("Callnumber: " + callNumber + " copyNumber: " + copyNumber);
+							+ "AND callnumber=? ORDER BY issueddate");
+			ps.setString(1, callNumber);
+			ResultSet rs = ps.executeQuery();
 			
-			PreparedStatement ps8 = getConnection().prepareStatement(
-					"SELECT status FROM bookcopy WHERE" +
-					" callNumber=? AND copyNo=?");
-			ps8.setString(1, callNumber);
-			ps8.setInt(2, copyNumber);
-			ResultSet rs4 = ps8.executeQuery();
-			if (rs4.next()) {
-				System.out.println("Status: " + rs4.getString(1));
-			} else {
-				System.out.println("Did not find book copy status");
-			}
-			/*
 			if (rs.next()) {
 				System.out.println("Setting book to on-hold");
 				// Set the status of the book copy to 'on-hold'
@@ -154,43 +141,46 @@ public class SQLFunctions {
 			}
 
 			// If it is past the book's due date, assess a fine for the borrower
-			PreparedStatement ps4 = getConnection().prepareStatement(
-					"SELECT borid,inDate FROM borrowing"
-							+ " WHERE callNumber=? AND copyNo=?");
+			PreparedStatement ps4 = getConnection()
+					.prepareStatement(
+							"SELECT borid, 0.1*(CURRENT_DATE-(borrowertype.booktimelimit+borrowing.outdate)) "
+									+ "FROM borrowing, borrower, borrowertype "
+									+ "WHERE borrowing.callnumber=? "
+									+ "AND borrowing.copyno=? "
+									+ "AND borrowing.bid=borrower.bid "
+									+ "AND borrower.type=borrowertype.type");
 			ps4.setString(1, callNumber);
 			ps4.setInt(2, copyNumber);
 			ResultSet rs2 = ps4.executeQuery();
-			while (rs2.next()) {
-				java.sql.Date duedate = rs2.getDate("inDate");
-				String borid = rs2.getString("borid");
-				java.sql.Date currentDate = getCurrentDate();
-				System.out.println("Duedate: " + duedate.toString() + " Current date: " + currentDate.toString());
-				
-				if (duedate.before(currentDate)) {
-					// Book is late - assess a fine
-					PreparedStatement ps6 = getConnection().prepareStatement(
-							"INSERT INTO fine (amount, issueddate, borid) "
-									+ "VALUES (?,?,?)");
-					float dayslate = (float) ((currentDate.getTime() - duedate
-							.getTime()) / (1000 * 60 * 60 * 24));
-					System.out.println("Charging fine to borrower for " + dayslate + " days");
-					ps6.setFloat(1, dayslate / 10); // Charge 10 cents per day
-					ps6.setDate(2, currentDate);
-					ps6.setString(3, borid);
-					ps6.executeUpdate();
-				}
+			int borid;
+			float fine;
+			if (rs2.next()) {
+				borid = rs2.getInt(1);
+				fine = rs2.getFloat(2);
+			} else {
+				System.out.println("Did not find borrowing record");
+				throw new SQLException();
 			}
-
-			// Delete the borrowing record
+			
+			if (fine > 0) {
+				PreparedStatement ps6 = getConnection().prepareStatement(
+						"INSERT INTO fine (amount, issueddate, borid) "
+								+ "VALUES (?,CURRENT_DATE,?)");
+				ps6.setFloat(1, fine);
+				ps6.setInt(2, borid);
+				ps6.executeUpdate();
+			}
+			
+			// Update the indate of the borrowing record
 			PreparedStatement ps5 = getConnection().prepareStatement(
-					"DELETE FROM borrowing "
-							+ "WHERE callNumber=? AND copyNo=?");
+					"UPDATE borrowing SET indate=CURRENT_DATE " +
+					"WHERE callNumber=? AND copyNo=?");
 			ps5.setString(1, callNumber);
 			ps5.setInt(2, copyNumber);
 			ps5.executeUpdate();
-			System.out.println("Deleted borrowing record");
+			System.out.println("Updated indate");
 			ps5.close();
-*/
+		
 			getConnection().commit();
 		} catch (SQLException e) {
 			System.out.println("Failed to return item");
@@ -208,14 +198,16 @@ public class SQLFunctions {
 			PreparedStatement ps = getConnection()
 					.prepareStatement(
 							"SELECT book.callnumber, title, emailaddress " +
-							"FROM borrowing, borrower, book " +
+							"FROM borrowing, borrower, borrowertype, book " +
 							"WHERE borrowing.bid=borrower.bid " +
 							"AND borrowing.callnumber = book.callnumber " +
-							"AND borrowing.indate < CURRENT_DATE");
+							"AND borrower.type=borrowertype.type " +
+							"AND borrowing.outdate+(7*(borrowertype.booktimelimit)) < CURRENT_DATE " +
+							"AND borrowing.indate IS NULL");
 			rs = ps.executeQuery();
 
 		} catch (SQLException e) {
-			System.out.println("Failed to add borrower");
+			System.out.println("Failed to check overdue items");
 			e.printStackTrace();
 		}
 		return rs;
@@ -257,7 +249,7 @@ public class SQLFunctions {
 				}
 			}
 			
-			// TODO:  Check if this is needed
+			// Check to make sure the item is not already out
 			PreparedStatement ps8 = getConnection().prepareStatement(
 					"SELECT status FROM bookcopy WHERE" +
 					" callNumber=? AND copyNo=?");
@@ -272,7 +264,6 @@ public class SQLFunctions {
 			}
 			
 			// Set the bookcopy status to 'out'
-			// TODO: This isn't working
 			PreparedStatement ps1 = getConnection().prepareStatement(
 					"UPDATE bookcopy SET status='out' "
 							+ "WHERE callnumber=? AND copyNo=?");

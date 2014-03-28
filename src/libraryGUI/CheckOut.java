@@ -80,6 +80,11 @@ public class CheckOut extends JPanel {
 	}
 	
 	private void addToBookList() {
+		if (callNumList.size() == 20) {
+			JOptionPane.showMessageDialog(frame, "Cannot check out more than 20 books at once");
+			return;
+		}
+		
 		String book = callNumber.getText().trim();
 		Integer copy;
 
