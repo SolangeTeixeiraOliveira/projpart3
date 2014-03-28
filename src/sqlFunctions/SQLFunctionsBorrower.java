@@ -19,7 +19,7 @@ public class SQLFunctionsBorrower {
 				.registerDriver(new oracle.jdbc.driver.OracleDriver());
 				System.out.println("Connected");
 				con = DriverManager.getConnection(
-						"jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug",
+						"jdbc:oracle:thin:@localhost:1522:ug",
 						"ora_t3s7", "a41513102");
 				System.out.println("Connect?");
 			} catch (SQLException e) {
@@ -45,7 +45,6 @@ public class SQLFunctionsBorrower {
 			// Create the prepared statement for the query
 			PreparedStatement ps = getConnection().prepareStatement(
 					"SELECT DISTINCT book.callnumber, LOWER(book.title) as TITLE, " + 
-					"LOWER(hasauthor.name) as AUTHOR, LOWER(hassubject.subject) as subject, " + 
 					"copies.in_copies, copies.out_copies "+ 
 					"FROM book, hasauthor, hassubject, (select callnumber, " + 
 					"count(case status when 'in' then 1 else null end) as in_copies, " +
@@ -138,8 +137,8 @@ public class SQLFunctionsBorrower {
 		try {
 			// Create the prepared statement for the query
 			PreparedStatement ps = getConnection().prepareStatement(
-					"SELECT bid, borid, callnumber, copyno, TO_DATE(outdate, YY-MM-DD), " + 
-					"TO_DATE(indate, YY-MM-DD) FROM borrowing WHERE bid = ?"); 
+					"SELECT bid, borid, callnumber, copyno, outdate, " + 
+					"indate FROM borrowing WHERE bid = ?"); 
 
 			// Set all the input values
 			ps.setInt(1, bid);
@@ -164,8 +163,8 @@ public class SQLFunctionsBorrower {
 		try {
 			// Create the prepared statement for the query
 			PreparedStatement ps = getConnection().prepareStatement(
-					"SELECT borrowing.bid, fine.fid, fine.amount, TO_DATE(fine.issueddate, YY-MM-DD), " +
-					"TO_DATE(fine.paiddate, YY-MM-DD) FROM fine, borrowing " + 
+					"SELECT borrowing.bid, fine.fid, fine.amount, fine.issueddate, " +
+					"fine.paiddate FROM fine, borrowing " + 
 					"WHERE fine.borid = borrowing.borid and borrowing.bid = ?"); 
 
 			// Set all the input values
@@ -191,7 +190,7 @@ public class SQLFunctionsBorrower {
 		try {
 			// Create the prepared statement for the query
 			PreparedStatement ps = getConnection().prepareStatement(
-					"SELECT bid, hid, callnumber, TO_DATE(issueddate, YY-MM-DD) FROM holdrequest WHERE bid = ?"); 
+					"SELECT bid, hid, callnumber, issueddate FROM holdrequest WHERE bid = ?"); 
 
 			// Set all the input values
 			ps.setInt(1, bid);
