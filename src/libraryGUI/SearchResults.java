@@ -32,9 +32,11 @@ public class SearchResults extends JPanel {
 		//TODO: make a list of authors instead of having 2 rows of authors
 		Vector<Vector<String>> data1 = new Vector<Vector<String>>();
 		try {
+			String callnumber = rs.getString(1);
 			while (rs.next()) { 
 					Vector<String> rowData1 = new Vector<String>();
 					System.out.println(rs.getString(1) + rs.getString(2) + rs.getString(3));
+					if (callnumber != rs.getString(1)) {
 					rowData1.add(rs.getString(1));
 					rowData1.add(rs.getString(2));
 					rowData1.add(rs.getString(3));
@@ -42,7 +44,8 @@ public class SearchResults extends JPanel {
 					rowData1.add(rs.getString(5));
 					rowData1.add(rs.getString(6));
 					data1.add(rowData1);				
-			} 
+					} 
+			}
 		} catch (SQLException e) {
 			System.out.println("Error searching Library");
 			e.printStackTrace();
