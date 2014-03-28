@@ -2,7 +2,6 @@ package libraryGUI;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 import java.util.Vector;
 
 import javax.swing.BoxLayout;
@@ -44,7 +43,6 @@ public class CheckOut extends JPanel {
 		JLabel callNumberLabel = new JLabel("Call Number:");
 		this.add(callNumberLabel);
 		callNumber = new JTextField(20);
-		//callNumber.setPreferredSize(new Dimension(300, 30));
 		this.add(callNumber);
 		JLabel copyNumberLabel = new JLabel("Copy:");
 		this.add(copyNumberLabel);
@@ -52,8 +50,6 @@ public class CheckOut extends JPanel {
 		this.add(copyNumber);
 		addBtn = new JButton("Add");
 		this.add(addBtn);
-		checkOutBtn = new JButton("Check out");
-		this.add(checkOutBtn);
 		
 		// The list of call numbers and the JList to display them in
 		callNumList = new Vector<String>();
@@ -62,6 +58,9 @@ public class CheckOut extends JPanel {
 		booklist = new JList();
 		listScrollPane = new JScrollPane(booklist);
 		this.add(listScrollPane);
+
+		checkOutBtn = new JButton("Check out");
+		this.add(checkOutBtn);
 		
 		addBtn.addActionListener(new ActionListener() {
 
@@ -137,8 +136,25 @@ public class CheckOut extends JPanel {
 			} 
 		}
 		
-		// Show error message with failed checkouts
-		JOptionPane.showMessageDialog(frame, "Failed to check out the following items; could be due to existing hold requests");
+		// DEBUGGING
+		failedCheckouts.add("testtest123 C1");
+		failedCheckouts.add("abcdefg C3");
+		failedCheckouts.add("blabla C2");
+
+		if (failedCheckouts.size() > 0) {
+			// Show error message with failed checkouts
+			JPanel errorPanel = new JPanel();
+			JLabel errorLabel = new JLabel("Failed to check out the following items:");
+			JList failedList = new JList();
+			JScrollPane errorScP = new JScrollPane(failedList);
+			errorPanel.setPreferredSize(new Dimension(300, 170));
+			errorScP.setPreferredSize(new Dimension(300, 150));
+			errorPanel.add(errorLabel);
+			errorPanel.add(errorScP);
+			
+			failedList.setListData(failedCheckouts);
+			JOptionPane.showMessageDialog(frame, errorPanel, "Failed checkouts", JOptionPane.WARNING_MESSAGE);
+		}
 	}
 }
 	

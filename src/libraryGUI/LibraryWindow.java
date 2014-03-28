@@ -73,7 +73,7 @@ public class LibraryWindow {
         overdueItemsBtn.addActionListener(new ActionListener() { 	
         	@Override
         	public void actionPerformed(ActionEvent e) {
-        		JFrame frame = new JFrame ("Check Overdue Items");
+        		JFrame frame = new JFrame ("Overdue Items");
         		frame.setResizable(false);
                 frame.getContentPane().add (new CheckOverdue());
                 frame.pack();

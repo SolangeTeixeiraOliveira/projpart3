@@ -1,5 +1,6 @@
 package libraryGUI;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,12 +18,26 @@ public class ReturnItem extends JPanel {
 	private JFrame frame;
 
 	public ReturnItem() {
-		this.setPreferredSize(new Dimension(400, 400));
+		this.setPreferredSize(new Dimension(350, 100));
+		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		
+		JPanel firstPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		firstPanel.setPreferredSize(new Dimension(350,25));
+		JLabel callNumLbl = new JLabel("Call number:");
+		firstPanel.add(callNumLbl);
 		callNumber = new JTextField(20);
-		this.add(callNumber);
+		firstPanel.add(callNumber);
+		this.add(firstPanel);
+		
+		JPanel secondPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		secondPanel.setPreferredSize(new Dimension(350,25));
+		JLabel copyNumLbl = new JLabel("Copy number:");
+		secondPanel.add(copyNumLbl);
 		copyNumber = new JTextField(3);
-		this.add(copyNumber);
+		secondPanel.add(copyNumber);
 		returnBtn = new JButton("Return");
+		this.add(secondPanel);
+		
 		this.add(returnBtn);
 		returnBtn.addActionListener(new ActionListener() {
 
