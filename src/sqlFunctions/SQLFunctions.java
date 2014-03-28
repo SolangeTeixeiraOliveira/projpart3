@@ -20,6 +20,7 @@ public class SQLFunctions {
 				con = DriverManager.getConnection(
 						"jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug",
 						"ora_x4q7", "a45775103");
+				con.setAutoCommit(false);
 			} catch (SQLException e) {
 				System.out
 						.println("Problem registering driver or connecting to oracle");
@@ -39,7 +40,7 @@ public class SQLFunctions {
 					.prepareStatement(
 							"INSERT INTO borrower"
 									+ "(name, password, address, phone, emailAddress, sinOrStNo, expiryDate, type) "
-									+ "VALUES (?,?,?,?,?,?,?,?)",
+									+ "VALUES (?,?,?,?,?,?,CURRENT_DATE+365,?)",
 							new String[] { "bid" });
 
 			// Set all the input values
@@ -49,9 +50,7 @@ public class SQLFunctions {
 			ps.setInt(4, phone);
 			ps.setString(5, email);
 			ps.setInt(6, sinOrStNo);
-			// TODO: use current date plus one year
-			ps.setDate(7, getCurrentDate());
-			ps.setString(8, type);
+			ps.setString(7, type);
 
 			// execute the insert statement and return the new borrower id
 			if (ps.executeUpdate() > 0) {
@@ -63,6 +62,7 @@ public class SQLFunctions {
 				throw new SQLException(
 						"Creating user failed, no generated key obtained.");
 			}
+			getConnection().commit();
 
 		} catch (SQLException e) {
 			System.out.println("Failed to add borrower");
@@ -91,6 +91,7 @@ public class SQLFunctions {
 			ps.setInt(6, publicationYear);
 			
 			ps.executeUpdate();
+			getConnection().commit();
 
 		} catch (SQLException e) {
 			System.out.println("Failed to add book");
@@ -190,6 +191,7 @@ public class SQLFunctions {
 			System.out.println("Deleted borrowing record");
 			ps5.close();
 */
+			getConnection().commit();
 		} catch (SQLException e) {
 			System.out.println("Failed to return item");
 			e.printStackTrace();
@@ -218,14 +220,107 @@ public class SQLFunctions {
 		}
 		return rs;
 	}
+	
+	public static boolean isValidAccount(int bid) {
+		try {
+			PreparedStatement ps = getConnection().prepareStatement(
+					"SELECT * FROM borrower WHERE bid=?");
+			ps.setInt(1, bid);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				return true;
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Checking borrower account failed");
+		}
+		return false;
+	}
+
+	// Check out an item
+	public static boolean checkOutItem(String callNum, int copyNum, int bid) {
+		System.out.println("Checking out item " + callNum + " C" + copyNum);
+		try {
+			// Check hold requests for the item
+			PreparedStatement ps3 = getConnection().prepareStatement(
+					"SELECT bid FROM holdrequest " +
+					"WHERE callnumber=? " +
+					"ORDER BY issueddate");
+			ps3.setString(1,  callNum);
+			ResultSet rs = ps3.executeQuery();
+			if (rs.next()) {
+				// If this borrower doesn't have the earliest hold request on the
+				// item, they can't check it out
+				if (rs.getInt(1) != bid) {
+					System.out.println("Cannot checkout book - someone else has a hold request");
+					return false;
+				}
+			}
+			
+			// TODO:  Check if this is needed
+			PreparedStatement ps8 = getConnection().prepareStatement(
+					"SELECT status FROM bookcopy WHERE" +
+					" callNumber=? AND copyNo=?");
+			ps8.setString(1, callNum);
+			ps8.setInt(2, copyNum);
+			ResultSet rs4 = ps8.executeQuery();
+			if (rs4.next()) {
+				if (rs.getString(1) == "out") {
+					System.out.println("Cannot check out a book that's already out");
+					return false;
+				}
+			}
+			
+			// Set the bookcopy status to 'out'
+			// TODO: This isn't working
+			PreparedStatement ps1 = getConnection().prepareStatement(
+					"UPDATE bookcopy SET status='out' "
+							+ "WHERE callnumber=? AND copyNo=?");
+			ps1.setString(1, callNum);
+			ps1.setInt(2, copyNum);
+			ps1.executeUpdate();
+			
+			// If this borrower had a hold request for the item, delete it
+			PreparedStatement ps2 = getConnection().prepareStatement(
+					"DELETE FROM holdrequest " +
+					"WHERE callnumber=? AND bid=?");
+			ps2.setString(1, callNum);
+			ps2.setInt(2, bid);
+			ps2.executeUpdate();
+			
+			// Insert a borrowing record
+			PreparedStatement ps = getConnection().prepareStatement(
+					"INSERT INTO borrowing"
+							+ "(bid, callnumber, copyno, outdate, indate) "
+							+ "VALUES (?,?,?,CURRENT_DATE,"
+							+ "(SELECT CURRENT_DATE+(7*booktimelimit)"
+							+ " FROM borrowertype, borrower "
+							+ "WHERE borrowertype.type=borrower.type "
+							+ "AND borrower.bid=?))");
+
+			// Set all the input values
+			ps.setInt(1, bid);
+			ps.setString(2, callNum);
+			ps.setInt(3, copyNum);
+			ps.setInt(4, bid);
+			ps.executeUpdate();
+			getConnection().commit();
+			return true;
+			
+		} catch (SQLException e) {
+			System.out.println("Failed to check out item");
+			e.printStackTrace();
+		}
+		return false;
+	}
 
 	// Get the current date in SQL format
-	private static java.sql.Date getCurrentDate() {
+	/*private static java.sql.Date getCurrentDate() {
 
 		java.util.Date today = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(today.getTime());
 		return sqlDate;
-	}
+	}*/
 
 
 	//Generating a report of all the books that have been checked out.

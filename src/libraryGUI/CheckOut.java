@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import sqlFunctions.SQLFunctions;
+
 
 public class CheckOut extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -107,6 +109,36 @@ public class CheckOut extends JPanel {
 	
 	private void checkOutItems() {
 		
+		// Get borrower id
+		int bid;
+		try {
+			bid = Integer.parseInt(cardNumber.getText());
+			boolean validAccount = SQLFunctions.isValidAccount(bid);
+			if (!validAccount) {
+				JOptionPane.showMessageDialog(frame, "Account does not exist");
+				return;
+			}
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(frame, "Not a valid card number");
+			return;
+		}
+		
+		// Try to check out each item
+		Vector<String> failedCheckouts = new Vector<String>();
+		//Vector<String> successfulCheckouts = new Vector<String>();
+		for (int i=0; i<callNumList.size(); i++) {
+			boolean success = SQLFunctions.checkOutItem(callNumList.get(i),
+					copyNumList.get(i), bid);
+			if (success) {
+				System.out.println("Successfully checked out " + fullCallNums.get(i));
+				//successfulCheckouts.add(fullCallNums.get(i));
+			} else {
+				failedCheckouts.add(fullCallNums.get(i));
+			} 
+		}
+		
+		// Show error message with failed checkouts
+		JOptionPane.showMessageDialog(frame, "Failed to check out the following items; could be due to existing hold requests");
 	}
 }
 	
