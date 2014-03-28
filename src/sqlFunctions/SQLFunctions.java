@@ -19,7 +19,7 @@ public class SQLFunctions {
 						.registerDriver(new oracle.jdbc.driver.OracleDriver());
 				con = DriverManager.getConnection(
 						"jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug",
-						"ora_x4q7", "a45775103");
+						"ora_t3s7", "a41513102");
 				con.setAutoCommit(false);
 			} catch (SQLException e) {
 				System.out
