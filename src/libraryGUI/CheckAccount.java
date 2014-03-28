@@ -4,7 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -13,8 +15,9 @@ public class CheckAccount extends JPanel{
 	
 	private static final long serialVersionUID = 1L;
 
-	private JTextField borID;
+	public static JTextField borID;
 	private JButton checkAcctBtn;
+	private JFrame frame;
 	
 	public CheckAccount() {
 		
@@ -33,18 +36,28 @@ public class CheckAccount extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//checkaccount();
+				
+				Object obj = arg0.getSource();
+				//If Search Button Pressed.
+				if (obj == checkAcctBtn) {		
+					//If search fields are not provided
+					if (borID.getText().equals ("")) {
+						JOptionPane.showMessageDialog (frame, "Search Fields not Provided.");
+						borID.requestFocus ();
+					}
+					else 
+					{
+						JFrame frame = new JFrame ("Account Information");
+		        		frame.setResizable(false);
+		                frame.getContentPane().add (new CheckAcctResults());
+		                frame.pack();
+		                frame.setVisible (true);
+					}
+		
+				}
 			}
 		
 		});	
 	}
 	
-//	private void checkaccount() {
-//
-//		String book = SQLFunctions.searchbook(bookTitle.getText(), bookAuthor
-//				.getText(), bookSubject.getText());
-//		System.out.println("Title: " + bookTitle + " Author: " + bookAuthor + " Subject: " + bookSubject);
-//	}
-//
-//	
 }
