@@ -48,9 +48,9 @@ public class SearchLibrary extends JPanel{
 			public void actionPerformed(ActionEvent arg0) {
 				
 				Object obj = arg0.getSource();
-				
-				if (obj == searchBtn) {		//If Search Button Pressed.
-					//if search field is not provided
+				//If Search Button Pressed.
+				if (obj == searchBtn) {		
+					//If search fields are not provided
 					if (bookTitle.getText().equals ("") && bookAuthor.getText().equals("") && bookSubject.getText().equals("")) {
 						JOptionPane.showMessageDialog (frame, "Search Fields not Provided.");
 						bookTitle.requestFocus ();
