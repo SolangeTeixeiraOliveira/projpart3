@@ -19,7 +19,7 @@ public class SQLFunctions {
 						.registerDriver(new oracle.jdbc.driver.OracleDriver());
 				con = DriverManager.getConnection(
 						"jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug",
-						"ora_t3s7", "a41513102");
+						"ora_y2c9", "a64353139");
 				con.setAutoCommit(false);
 			} catch (SQLException e) {
 				System.out
@@ -79,7 +79,7 @@ public class SQLFunctions {
 			PreparedStatement ps = getConnection()
 					.prepareStatement(
 							"INSERT INTO book"
-									+ "(callNumber, isbn, title, mainAuthor, Publisher, publicationYear) "
+									+ "(callNumber, isbn, title, mainAuthor, Publisher, year) "
 									+ "VALUES (?,?,?,?,?,?)");
 
 			// Set all the input values
@@ -91,7 +91,7 @@ public class SQLFunctions {
 			ps.setInt(6, publicationYear);
 			
 			ps.executeUpdate();
-			getConnection().commit();
+			//getConnection().commit();
 
 		} catch (SQLException e) {
 			System.out.println("Failed to add book");
