@@ -2,6 +2,7 @@ package libraryGUI;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -49,7 +50,12 @@ public class CheckAccount extends JPanel{
 					{
 						JFrame frame = new JFrame ("Account Information");
 		        		frame.setResizable(false);
-		                frame.getContentPane().add (new CheckAcctResults());
+		                try {
+							frame.getContentPane().add (new CheckAcctResults());
+						} catch (ParseException e) {
+							System.out.println("Parse Exception");
+							e.printStackTrace();
+						}
 		                frame.pack();
 		                frame.setVisible (true);
 					}

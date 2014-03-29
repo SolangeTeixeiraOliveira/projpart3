@@ -18,19 +18,19 @@ drop sequence fine_seq;
 drop trigger fine_trig;
 
 create table BorrowerType (
-Type char(20) not null PRIMARY KEY,
+Type varchar(20) not null PRIMARY KEY,
 BookTimeLimit integer not null);
 
 create table Borrower (
 Bid integer not null PRIMARY KEY,
-Password char(20) not null,
-Name char(20),
-Address char(20),
+Password varchar(20) not null,
+Name varchar(20),
+Address varchar(20),
 Phone integer,
-EmailAddress char(30) not null,
+EmailAddress varchar(30) not null,
 SinOrStNo integer,
 ExpiryDate date not null,
-Type char(20) not null, 
+Type varchar(20) not null, 
 FOREIGN KEY (Type) REFERENCES BorrowerType);
 
 Create SEQUENCE bor_seq;
@@ -47,36 +47,36 @@ END;
 /
 
 create table Book (
-CallNumber char(20) not null PRIMARY KEY,
+CallNumber varchar(20) not null PRIMARY KEY,
 ISBN integer not null,
-Title char(20),
-MainAuthor char(20),
-Publisher char(20),
+Title varchar(20),
+MainAuthor varchar(20),
+Publisher varchar(20),
 Year integer);
 
 create table HasAuthor (
-CallNumber char(20) not null,
-Name char(20) not null,
+CallNumber varchar(20) not null,
+Name varchar(20) not null,
 PRIMARY KEY(CallNumber, Name),
 FOREIGN KEY (CallNumber) REFERENCES Book);
 
 create table HasSubject (
-CallNumber char(20) not null,
-Subject char(20) not null,
+CallNumber varchar(20) not null,
+Subject varchar(20) not null,
 PRIMARY KEY (CallNumber, Subject),
 FOREIGN KEY (CallNumber) REFERENCES Book);
 
 create table BookCopy (
-CallNumber char(20) not null,
+CallNumber varchar(20) not null,
 CopyNo integer not null,
-Status char(20) not null,
+Status varchar(20) not null,
 PRIMARY KEY (CallNumber, CopyNo),
 FOREIGN KEY (CallNumber) REFERENCES Book);
 
 create table HoldRequest (
 Hid integer not null PRIMARY KEY,
 Bid integer not null,
-CallNumber char(20) not null,
+CallNumber varchar(20) not null,
 IssuedDate date not null,
 FOREIGN KEY (Bid) REFERENCES Borrower,
 FOREIGN KEY (CallNumber) REFERENCES Book);
@@ -97,10 +97,10 @@ END;
 create table Borrowing (
 Borid integer not null PRIMARY KEY,
 Bid integer not null,
-CallNumber char(20) not null,
+CallNumber varchar(20) not null,
 CopyNo integer not null,
 OutDate date not null,
-InDate date not null,
+InDate date,
 FOREIGN KEY (Bid) REFERENCES Borrower,
 FOREIGN KEY (CallNumber) REFERENCES Book);
 
@@ -149,7 +149,7 @@ insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, Ex
 
 insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values ('asdf', 'John Doe', '456 Down St.', 2222222, 'john.doe@gee.com', 21345678, '14-May-30', 'Staff');
 
-insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values ('xxcv', 'Charles Dew', '789 Right St.', 3333333, 'charles.dew@gee.com', 87654321, '14-Aug-28', 'Faculty');
+insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values ('xxcv', 'varcharles Dew', '789 Right St.', 3333333, 'varcharles.dew@gee.com', 87654321, '14-Aug-28', 'Faculty');
 
 insert into Borrower(Password, Name, Address, Phone, EmailAddress, SinOrStNo, ExpiryDate,  Type) values ('abcd', 'Peter Piper', '555 W 5th Ave.', 2012222, 'fluffykitty@hotmail.com', 1098921, '14-Jul-01', 'Student');
 
