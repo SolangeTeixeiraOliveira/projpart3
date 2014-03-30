@@ -23,15 +23,18 @@ public class GenerateReport extends JPanel {
 		private JTextField outDate;
 		private JTextField inDate;
 		private JTextField bookTitle;
-		private JTextField ReportCheckedOut;
+		private JTextField CheckedOutSubject;
 	    private JTextField ReportPopularBooks;
 		private JButton addBtn;
 
 		public GenerateReport() {
-			this.setPreferredSize(new Dimension(300, 300));
+			this.setPreferredSize(new Dimension(200, 300));
 			JLabel ReportCheckedOutLabel = new JLabel("Report: CheckedOut Books");
 			this.add(ReportCheckedOutLabel);
-			ReportCheckedOut = new JTextField(30);
+			JLabel subjectLabel = new JLabel("Subject:");
+			this.add(subjectLabel);
+			CheckedOutSubject = new JTextField(15);
+			this.add(CheckedOutSubject);
 			addBtn = new JButton("confirm");
 			this.add(addBtn);
 			addBtn.addActionListener(new ActionListener() {
@@ -58,8 +61,10 @@ public class GenerateReport extends JPanel {
 		}
 		
 		private void checkedOutBooks() {
+			String subject = CheckedOutSubject.getText().trim();
+			
 			JFrame frame = new JFrame ("Checked Out Books");
-            frame.getContentPane().add (new DisplayCheckedOutBooks());
+            frame.getContentPane().add (new DisplayCheckedOutBooks(subject));
             frame.pack();
             frame.setVisible (true);
 		}

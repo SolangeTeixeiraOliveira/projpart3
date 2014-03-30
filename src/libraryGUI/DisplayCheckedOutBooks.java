@@ -20,14 +20,15 @@ public class DisplayCheckedOutBooks  extends JPanel{
 	private JTable table;
 	private JFrame frame;
 
-	public DisplayCheckedOutBooks() {
+	public DisplayCheckedOutBooks(String subject) {
 		this.setPreferredSize(new Dimension(600, 400));
-		displayCheckOutAllBook();
+		displayCheckOutAllBook(subject);
 	}
 
-	private void displayCheckOutAllBook() {
-		ResultSet rs = SQLFunctions.getdisplayCheckOutAllBook();
+	private void displayCheckOutAllBook(String subject) {
+		ResultSet rs = SQLFunctions.getdisplayCheckOutAllBook(subject);
 		Vector<Vector<String>> data = new Vector<Vector<String>>();
+		java.util.Date currDate = new java.util.Date();
 		try {
 			while (rs.next()) {
 				System.out.println("Found a book");
@@ -50,6 +51,14 @@ public class DisplayCheckedOutBooks  extends JPanel{
 				
 				rowData.add(outdate);
 				rowData.add(duedate);
+				
+				// Check if the item is overdue
+				if (utilDateDue.before(currDate)) {
+					rowData.add("Yes");
+				} else {
+					rowData.add("No");
+				}
+				
 				data.add(rowData);
 			}
 		} catch (SQLException e) {
@@ -63,11 +72,13 @@ public class DisplayCheckedOutBooks  extends JPanel{
 		columnNames.add("Title");
 		columnNames.add("Out date");
 		columnNames.add("Due Date");
+		columnNames.add("Overdue");
 		table = new JTable(data, columnNames);
 		table.getColumnModel().getColumn(0).setPreferredWidth(150);
 		table.getColumnModel().getColumn(1).setPreferredWidth(150);
 		table.getColumnModel().getColumn(2).setPreferredWidth(150);
 		table.getColumnModel().getColumn(3).setPreferredWidth(150);
+		table.getColumnModel().getColumn(4).setPreferredWidth(100);
 		table.setEnabled(false);
 		scrollpane = new JScrollPane(table);
 		scrollpane.setPreferredSize(new Dimension(600, 400));

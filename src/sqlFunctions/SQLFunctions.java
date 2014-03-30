@@ -320,23 +320,40 @@ public class SQLFunctions {
 
 	//(Librarian):Generating a report of all the books that have been checked out.
 
-	public static ResultSet getdisplayCheckOutAllBook() {
+	public static ResultSet getdisplayCheckOutAllBook(String subject) {
 		
 		System.out.println("Checking all checked out book");
 		ResultSet co = null;
 		
 		try {
-			PreparedStatement ps = getConnection()
-					.prepareStatement(
-					"SELECT borrowing.callnumber, borrowing.copyno, book.title, "
-							+ "borrowing.outdate, (borrowing.outdate+(7*booktimelimit)) "
-							+ "FROM borrowing, book, borrower, borrowertype "
-							+ "WHERE borrowing.callNumber=book.callNumber "
-							+ "AND borrowing.bid=borrower.bid "
-							+ "AND borrower.type=borrowertype.type "
-							+ "AND borrowing.indate IS NULL "
-							+ "ORDER BY callnumber");
-			co = ps.executeQuery();
+			if (subject.length() > 0) {
+				PreparedStatement ps = getConnection()
+						.prepareStatement(
+								"SELECT borrowing.callnumber, borrowing.copyno, book.title, "
+										+ "borrowing.outdate, (borrowing.outdate+(7*booktimelimit)) "
+										+ "FROM borrowing, book, borrower, borrowertype, hassubject "
+										+ "WHERE borrowing.callNumber=book.callNumber "
+										+ "AND borrowing.callNumber=hassubject.callNumber "
+										+ "AND LOWER(hassubject.subject)=?"
+										+ "AND borrowing.bid=borrower.bid "
+										+ "AND borrower.type=borrowertype.type "
+										+ "AND borrowing.indate IS NULL "
+										+ "ORDER BY callnumber");
+				ps.setString(1, subject.toLowerCase());
+				co = ps.executeQuery();
+			} else {
+				PreparedStatement ps = getConnection()
+						.prepareStatement(
+								"SELECT borrowing.callnumber, borrowing.copyno, book.title, "
+										+ "borrowing.outdate, (borrowing.outdate+(7*booktimelimit)) "
+										+ "FROM borrowing, book, borrower, borrowertype "
+										+ "WHERE borrowing.callNumber=book.callNumber "
+										+ "AND borrowing.bid=borrower.bid "
+										+ "AND borrower.type=borrowertype.type "
+										+ "AND borrowing.indate IS NULL "
+										+ "ORDER BY callnumber");
+				co = ps.executeQuery();
+			}
 
 		} catch (SQLException e) {
 			System.out.println("Failed to check all book checked out");
