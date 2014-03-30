@@ -9,7 +9,7 @@ import javax.swing.*;
 
 import sqlFunctions.SQLFunctions;
 
-public class CkeckOutAllBook  extends JPanel{
+public class DisplayCheckedOutBooks  extends JPanel{
 
 
 	private static final long serialVersionUID = 1L;
@@ -18,7 +18,7 @@ public class CkeckOutAllBook  extends JPanel{
 	private JTable table;
 	private JFrame frame;
 
-	public CkeckOutAllBook() {
+	public DisplayCheckedOutBooks() {
 		this.setPreferredSize(new Dimension(600, 400));
 		displayCheckOutAllBook();
 	}

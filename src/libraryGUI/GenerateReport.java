@@ -38,13 +38,7 @@ public class GenerateReport extends JPanel {
 				
 	        	@Override
 	        	public void actionPerformed(ActionEvent e) {
-	        		JFrame frame = new JFrame ("Books checked Out");
-	                frame.getContentPane().add(new GenerateReport());
-	                frame.pack();
-	                frame.setVisible (true);
-	                	               
-					bookcheckeOut();
-					
+					checkedOutBooks();					
 	        	}
 	        });
 			
@@ -58,19 +52,16 @@ public class GenerateReport extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JFrame frame = new JFrame("Popular Books");
-				frame.getContentPane().add(new GenerateReport());
-				frame.pack();
-				frame.setVisible(true);
-
 				popularBook();
 			}
 			});
 		}
 		
-		private void bookcheckeOut() {
-			ResultSet report = SQLFunctions.getdisplayCheckOutAllBook();
-			System.out.println(report);
+		private void checkedOutBooks() {
+			JFrame frame = new JFrame ("Checked Out Books");
+            frame.getContentPane().add (new DisplayCheckedOutBooks());
+            frame.pack();
+            frame.setVisible (true);
 		}
 		
 		private void popularBook() {
