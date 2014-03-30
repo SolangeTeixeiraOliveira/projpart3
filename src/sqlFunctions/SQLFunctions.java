@@ -75,7 +75,7 @@ public class SQLFunctions {
 		}
 		return 0;
 	}
-
+	//Librarian): Adds a new book or new copy of an existing book to the library
 	public static int addBook(int callNumber, int isbn, String title,
 			String mainAuthor, String publisher, int publicationYear) {
 
@@ -319,7 +319,7 @@ public class SQLFunctions {
 	}*/
 
 
-	//Generating a report of all the books that have been checked out.
+	//(Librarian):Generating a report of all the books that have been checked out.
 
 	public static ResultSet getdisplayCheckOutAllBook() {
 		
@@ -329,7 +329,7 @@ public class SQLFunctions {
 		try {
 			PreparedStatement ps = getConnection()
 					.prepareStatement(
-							"SELECT book.callnumber, book.title " +
+							"SELECT book.callnumber " +
 							"FROM borrowing, book " +
 							"WHERE borrowing.callNumber=book.callNumber " +
 							//"AND borrowing.outdate" +
