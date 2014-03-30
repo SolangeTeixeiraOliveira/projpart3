@@ -329,10 +329,10 @@ public class SQLFunctions {
 		try {
 			PreparedStatement ps = getConnection()
 					.prepareStatement(
-							"SELECT book.callnumber, title " +
+							"SELECT book.callnumber, book.title " +
 							"FROM borrowing, book " +
 							"WHERE borrowing.callNumber=book.callNumber " +
-							"AND borrowing.outdate=? " +
+							//"AND borrowing.outdate" +
 							"AND borrowing.indate IS NULL");
 			co = ps.executeQuery();
 
