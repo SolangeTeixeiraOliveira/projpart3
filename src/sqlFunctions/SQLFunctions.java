@@ -344,8 +344,8 @@ public class SQLFunctions {
 		}
 		return co;
 	}
-	
-	public static int popuparBook(int callNumber, String outDate,
+	//Generate a report with the most popular items in a given year
+	public static int popuparItem(int callNumber, String outDate,
 			String dueDate, String bookTitle){
 		return 0;
 		
