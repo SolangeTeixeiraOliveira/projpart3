@@ -83,7 +83,5 @@ public class DisplayCheckedOutBooks  extends JPanel{
 		scrollpane = new JScrollPane(table);
 		scrollpane.setPreferredSize(new Dimension(600, 400));
 		this.add(scrollpane);
-		
-		System.out.println("Displayed All Checked Out Book");
 	}
 }
