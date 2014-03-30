@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.print.Book;
+import java.sql.ResultSet;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,11 +20,11 @@ public class GenerateReport extends JPanel {
 		private static final long serialVersionUID = 1L;
 
 		private JTextField bookNumber;
-		private JTextField checkedOutDate;
-		private JTextField dueDate;
+		private JTextField outDate;
+		private JTextField inDate;
 		private JTextField bookTitle;
 		private JTextField ReportCheckedOut;
-		private JTextField ReportPopularBooks;
+	    private JTextField ReportPopularBooks;
 		private JButton addBtn;
 
 		public GenerateReport() {
@@ -62,23 +63,21 @@ public class GenerateReport extends JPanel {
 				frame.pack();
 				frame.setVisible(true);
 
-				PopularBook();
+				popularBook();
 			}
 			});
 		}
 		
 		private void bookcheckeOut() {
-//			int callNumber = Integer.parseInt(bookNumber.getText());
-//			int report = SQLFunctions.bookcheckeOut(callNumber, checkedOutDate.getText(), dueDate.getText(),
-//					bookTitle.getText());
-//			System.out.println(report);
+			ResultSet report = SQLFunctions.getdisplayCheckOutAllBook();
+			System.out.println(report);
 		}
 		
-		private void PopularBook() {
-//			int callNumber = Integer.parseInt(bookNumber.getText());
-//			int report = SQLFunctions.popularBook(callNumber, checkedOutDate.getText(), dueDate.getText(),
-//					bookTitle.getText());
-//			System.out.println(report);
+		private void popularBook() {
+			int callNumber = Integer.parseInt(bookNumber.getText());
+			int report = SQLFunctions.popuparBook(callNumber, outDate.getText(), inDate.getText(),
+					bookTitle.getText());
+			System.out.println(report);
 		}
 	}
 	

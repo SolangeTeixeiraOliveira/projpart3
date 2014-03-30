@@ -18,8 +18,13 @@ public class SQLFunctions {
 				DriverManager
 						.registerDriver(new oracle.jdbc.driver.OracleDriver());
 				con = DriverManager.getConnection(
-						"jdbc:oracle:thin:@localhost:1522:ug",
-						"ora_x4q7", "a45775103");
+
+						"jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug",
+						"ora_y2c9", "a64353139");
+
+//						"jdbc:oracle:thin:@localhost:1522:ug",
+//						"ora_x4q7", "a45775103");
+//>>>>>>> 6ba5d049c28ebd998ff9a36cd2856fa82726cf56
 				con.setAutoCommit(false);
 			} catch (SQLException e) {
 				System.out
@@ -70,7 +75,7 @@ public class SQLFunctions {
 		}
 		return 0;
 	}
-
+	//Librarian): Adds a new book or new copy of an existing book to the library
 	public static int addBook(int callNumber, int isbn, String title,
 			String mainAuthor, String publisher, int publicationYear) {
 
@@ -79,7 +84,7 @@ public class SQLFunctions {
 			PreparedStatement ps = getConnection()
 					.prepareStatement(
 							"INSERT INTO book"
-									+ "(callNumber, isbn, title, mainAuthor, Publisher, publicationYear) "
+									+ "(callNumber, isbn, title, mainAuthor, Publisher, year) "
 									+ "VALUES (?,?,?,?,?,?)");
 
 			// Set all the input values
@@ -314,19 +319,36 @@ public class SQLFunctions {
 	}*/
 
 
-	//Generating a report of all the books that have been checked out.
+	//(Librarian):Generating a report of all the books that have been checked out.
 
-	public static int  bookcheckeOut(int callNumber, String checkedOutDate,
-			String dueDate, String bookTitle) {
-		return 0;
+	public static ResultSet getdisplayCheckOutAllBook() {
+		
+		System.out.println("Checking all checked out book");
+		ResultSet co = null;
+		
+		try {
+			PreparedStatement ps = getConnection()
+					.prepareStatement(
+							"SELECT book.callnumber " +
+							"FROM borrowing, book " +
+							"WHERE borrowing.callNumber=book.callNumber " +
+							//"AND borrowing.outdate" +
+							"AND borrowing.indate IS NULL");
+			co = ps.executeQuery();
 
+		} catch (SQLException e) {
+			System.out.println("Failed to check all book checked out");
+			e.printStackTrace();
+		}
+		return co;
 	}
 	
-	public static int popuparBook(int callNumber, String checkedOutDate,
+	public static int popuparBook(int callNumber, String outDate,
 			String dueDate, String bookTitle){
 		return 0;
 		
 	}
+
 }
 
 
