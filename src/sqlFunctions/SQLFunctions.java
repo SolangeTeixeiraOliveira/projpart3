@@ -18,12 +18,12 @@ public class SQLFunctions {
 				DriverManager
 						.registerDriver(new oracle.jdbc.driver.OracleDriver());
 				con = DriverManager.getConnection(
-//<<<<<<< HEAD
-//						"jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug",
-//						"ora_y2c9", "a64353139");
-//=======
-						"jdbc:oracle:thin:@localhost:1522:ug",
-						"ora_x4q7", "a45775103");
+
+						"jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug",
+						"ora_y2c9", "a64353139");
+
+//						"jdbc:oracle:thin:@localhost:1522:ug",
+//						"ora_x4q7", "a45775103");
 //>>>>>>> 6ba5d049c28ebd998ff9a36cd2856fa82726cf56
 				con.setAutoCommit(false);
 			} catch (SQLException e) {
@@ -96,7 +96,7 @@ public class SQLFunctions {
 			ps.setInt(6, publicationYear);
 			
 			ps.executeUpdate();
-			//getConnection().commit();
+			getConnection().commit();
 
 		} catch (SQLException e) {
 			System.out.println("Failed to add book");
@@ -321,17 +321,34 @@ public class SQLFunctions {
 
 	//Generating a report of all the books that have been checked out.
 
-	public static int  bookcheckeOut(int callNumber, String checkedOutDate,
-			String dueDate, String bookTitle) {
-		return 0;
+	public static ResultSet getdisplayCheckOutAllBook() {
+		
+		System.out.println("Checking all checked out book");
+		ResultSet co = null;
+		
+		try {
+			PreparedStatement ps = getConnection()
+					.prepareStatement(
+							"SELECT book.callnumber, title " +
+							"FROM borrowing, book " +
+							"WHERE borrowing.callNumber=book.callNumber " +
+							"AND borrowing.outdate=? " +
+							"AND borrowing.indate IS NULL");
+			co = ps.executeQuery();
 
+		} catch (SQLException e) {
+			System.out.println("Failed to check all book checked out");
+			e.printStackTrace();
+		}
+		return co;
 	}
 	
-	public static int popuparBook(int callNumber, String checkedOutDate,
+	public static int popuparBook(int callNumber, String outDate,
 			String dueDate, String bookTitle){
 		return 0;
 		
 	}
+
 }
 
 
