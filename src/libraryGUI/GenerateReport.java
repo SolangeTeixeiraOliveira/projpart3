@@ -66,9 +66,8 @@ public class GenerateReport extends JPanel {
 		
 		private void popularBook() {
 			int callNumber = Integer.parseInt(bookNumber.getText());
-			int report = SQLFunctions.popuparBook(callNumber, outDate.getText(), inDate.getText(),
+			int report = SQLFunctions.popuparItem(callNumber, outDate.getText(), inDate.getText(),
 					bookTitle.getText());
 			System.out.println(report);
 		}
 	}
-	
