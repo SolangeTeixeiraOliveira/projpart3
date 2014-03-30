@@ -4,6 +4,7 @@ package libraryGUI;
 import java.awt.Dimension;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
 
 import javax.swing.*;
@@ -29,12 +30,26 @@ public class DisplayCheckedOutBooks  extends JPanel{
 		Vector<Vector<String>> data = new Vector<Vector<String>>();
 		try {
 			while (rs.next()) {
+				System.out.println("Found a book");
 				Vector<String> rowData = new Vector<String>();
-				System.out.println(rs.getString(1) + rs.getString(2) + rs.getString(3) + rs.getString(4));
-				rowData.add(rs.getString(1));
-				rowData.add(rs.getString(2));
-				rowData.add(rs.getString(3));
-				rowData.add(rs.getString(4));
+				rowData.add(rs.getString(1) + " C" + rs.getInt(2)); // Call number and copy number
+				rowData.add(rs.getString(3)); // Title
+				
+				// Get out date of item as a string
+				SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
+				java.sql.Date sqlDateOut = rs.getDate(4);
+				java.util.Date utilDateOut = new java.util.Date();
+				utilDateOut.setTime(sqlDateOut.getTime());
+				String outdate = fm.format(utilDateOut);
+				
+				// Get due date of item as a string
+				java.sql.Date sqlDateDue = rs.getDate(5);
+				java.util.Date utilDateDue = new java.util.Date();
+				utilDateDue.setTime(sqlDateDue.getTime());
+				String duedate = fm.format(utilDateDue);
+				
+				rowData.add(outdate);
+				rowData.add(duedate);
 				data.add(rowData);
 			}
 		} catch (SQLException e) {

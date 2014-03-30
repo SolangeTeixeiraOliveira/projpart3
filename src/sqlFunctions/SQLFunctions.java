@@ -18,13 +18,10 @@ public class SQLFunctions {
 				DriverManager
 						.registerDriver(new oracle.jdbc.driver.OracleDriver());
 				con = DriverManager.getConnection(
-
+						
 				"jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug", "ora_y2c9",
 						"a64353139");
 
-				// "jdbc:oracle:thin:@localhost:1522:ug",
-				// "ora_x4q7", "a45775103");
-				// >>>>>>> 6ba5d049c28ebd998ff9a36cd2856fa82726cf56
 				con.setAutoCommit(false);
 			} catch (SQLException e) {
 				System.out
@@ -332,11 +329,23 @@ public class SQLFunctions {
 		ResultSet co = null;
 
 		try {
-			PreparedStatement ps = getConnection().prepareStatement(
-					"SELECT book.callnumber " + "FROM borrowing, book "
-							+ "WHERE borrowing.callNumber=book.callNumber " +
-							// "AND borrowing.outdate" +
-							"AND borrowing.indate IS NULL");
+//<<<<<<< HEAD
+//			PreparedStatement ps = getConnection().prepareStatement(
+//					"SELECT book.callnumber " + "FROM borrowing, book "
+//							+ "WHERE borrowing.callNumber=book.callNumber " +
+//							// "AND borrowing.outdate" +
+//							"AND borrowing.indate IS NULL");
+//=======
+			PreparedStatement ps = getConnection()
+					.prepareStatement(
+					"SELECT borrowing.callnumber, borrowing.copyno, book.title, "
+							+ "borrowing.outdate, (borrowing.outdate+(7*booktimelimit)) "
+							+ "FROM borrowing, book, borrower, borrowertype "
+							+ "WHERE borrowing.callNumber=book.callNumber "
+							+ "AND borrowing.bid=borrower.bid "
+							+ "AND borrower.type=borrowertype.type "
+							+ "AND borrowing.indate IS NULL "
+							+ "ORDER BY callnumber");
 			co = ps.executeQuery();
 
 		} catch (SQLException e) {
