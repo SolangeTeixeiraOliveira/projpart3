@@ -25,7 +25,7 @@ public class CheckAccount extends JPanel{
 		// Making the label of the pop up
         this.setPreferredSize(new Dimension(400, 150));
 		
-		JLabel userIDLabel = new JLabel("User ID:");
+		JLabel userIDLabel = new JLabel("Borrower ID:");
 		userIDLabel.setPreferredSize(new Dimension(110, 20));
 		this.add(userIDLabel);
 		borID = new JTextField(20);

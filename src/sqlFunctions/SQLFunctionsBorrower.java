@@ -101,6 +101,22 @@ public class SQLFunctionsBorrower {
 		}
 		return 0;
 	}
+	
+	// Check if the book exists
+	public static ResultSet bookExists(String callnum) {
+		ResultSet rs = null;
+		try {
+			PreparedStatement ps = getConnection().prepareStatement("SELECT * FROM book " + 
+					"WHERE callnumber = ?");
+			ps.setString(1, callnum);
+			rs = ps.executeQuery();
+			System.out.println("Checking call number: " + callnum);
+		} catch (SQLException e) { 
+			System.out.println("Book does not Exists");
+			e.printStackTrace();
+		}
+		return rs;
+	}
 
 	// Pay the Fine. Update the Fine tuple
 	public static int payFine(int bid) {

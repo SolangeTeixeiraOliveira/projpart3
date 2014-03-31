@@ -66,8 +66,10 @@ public class ReturnItem extends JPanel {
 		
 		String emailAddress = SQLFunctions.returnItem(bookCallNum, bookCopyNum);
 		if (emailAddress != null) {
+			JOptionPane.showMessageDialog(frame, "Book returned - sent email to " + emailAddress.toString());
 			System.out.println("Book returned - sent email to " + emailAddress);
 		} else {
+			JOptionPane.showMessageDialog(frame, "Book returned");
 			System.out.println("Book has been returned");
 		}
 	}

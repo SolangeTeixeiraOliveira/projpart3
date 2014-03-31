@@ -36,7 +36,7 @@ public class CheckOut extends JPanel {
 		this.setPreferredSize(new Dimension(400, 300));
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		
-		JLabel cardNumberLabel = new JLabel("Card Number:");
+		JLabel cardNumberLabel = new JLabel("Borrower ID:");
 		this.add(cardNumberLabel);
 		cardNumber = new JTextField(20);
 		this.add(cardNumber);
@@ -123,7 +123,7 @@ public class CheckOut extends JPanel {
 				return;
 			}
 		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(frame, "Not a valid card number");
+			JOptionPane.showMessageDialog(frame, "Not a valid Borrower ID");
 			return;
 		}
 		
