@@ -1,13 +1,5 @@
 TODO:
-- Borrower:
-- Clerk:
-	- if time: make UI for Check Out Items prettier
-- Librarian:
-	- fix UI for add book
-	- fix UI for generate report
-	- finish generate report for popular items function
 
 - test all functions
 - check over code
 - plan demo
-- add enough sample data to demonstrate all functions

@@ -35,8 +35,9 @@ private static final long serialVersionUID = 1L;
 				data.add(rowData);
 			}
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(frame, "Error getting  all Checked Out Book", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "Error getting popular books", "Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
+			return;
 		}
 		
 		// Create the table
@@ -50,8 +51,6 @@ private static final long serialVersionUID = 1L;
 		scrollpane = new JScrollPane(table);
 		scrollpane.setPreferredSize(new Dimension(600, 400));
 		this.add(scrollpane);
-		
-		System.out.println("Displayed All Checked Out Book");
 	}
 	
 	

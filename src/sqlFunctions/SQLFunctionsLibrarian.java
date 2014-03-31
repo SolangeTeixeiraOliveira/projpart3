@@ -156,7 +156,7 @@ public class SQLFunctionsLibrarian {
 			res = ps.executeQuery();
 
 		} catch (SQLException e) {
-			System.out.println("Failed to check all book checked out");
+			System.out.println("Failed to find most popular items");
 			e.printStackTrace();
 		}
 		return res;

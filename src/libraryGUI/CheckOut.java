@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Vector;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -36,19 +35,21 @@ public class CheckOut extends JPanel {
 
 	public CheckOut() {
 		this.setPreferredSize(new Dimension(400, 300));
-		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		
 		JLabel cardNumberLabel = new JLabel("Borrower ID:");
+		cardNumberLabel.setPreferredSize(new Dimension(110, 20));
 		this.add(cardNumberLabel);
 		cardNumber = new JTextField(20);
 		this.add(cardNumber);
 		JLabel callNumberLabel = new JLabel("Call Number:");
+		callNumberLabel.setPreferredSize(new Dimension(110, 20));
 		this.add(callNumberLabel);
 		callNumber = new JTextField(20);
 		this.add(callNumber);
 		JLabel copyNumberLabel = new JLabel("Copy:");
+		copyNumberLabel.setPreferredSize(new Dimension(110, 20));
 		this.add(copyNumberLabel);
-		copyNumber = new JTextField(3);
+		copyNumber = new JTextField(20);
 		this.add(copyNumber);
 		addBtn = new JButton("Add");
 		this.add(addBtn);
@@ -59,6 +60,7 @@ public class CheckOut extends JPanel {
 		fullCallNums = new Vector<String>();
 		booklist = new JList();
 		listScrollPane = new JScrollPane(booklist);
+		listScrollPane.setPreferredSize(new Dimension(350, 100));
 		this.add(listScrollPane);
 
 		checkOutBtn = new JButton("Check out");

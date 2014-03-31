@@ -8,9 +8,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 public class GenerateReport extends JPanel {
@@ -22,6 +22,7 @@ public class GenerateReport extends JPanel {
 	private JTextField n;
 	private JButton checkedOutBtn;
 	private JButton popularBtn;
+	private JFrame frame;
 
 	public GenerateReport() {
 		this.setPreferredSize(new Dimension(400, 320));
@@ -97,7 +98,7 @@ public class GenerateReport extends JPanel {
 			yearInt = Integer.parseInt(yearStr);
 			nInt = Integer.parseInt(nStr);
 		} catch (NumberFormatException e) {
-			System.out.println("Invalid year or number");
+			JOptionPane.showMessageDialog(frame, "Invalid year or number");
 			return;
 		}
 
