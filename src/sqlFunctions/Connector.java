@@ -22,7 +22,7 @@ public class Connector {
 				con.setAutoCommit(false);
 			} catch (SQLException e) {
 				System.out
-						.println("Problem registering driver or connecting to oracle");
+						.println("Problem registering driver or connecting to oracle: "+e.getMessage());
 				e.printStackTrace();
 			}
 		}
