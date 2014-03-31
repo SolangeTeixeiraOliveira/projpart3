@@ -43,23 +43,20 @@ public class GenerateReport extends JPanel {
 					checkedOutBooks();					
 	        	}
 	        });
-			
+			this.setPreferredSize(new Dimension(200, 350));
 			JLabel ReportPopularBooksLabel = new JLabel("Report: Popular Books");
 			this.add(ReportPopularBooksLabel);
-			ReportPopularBooks = new JTextField(30);
-			//this.add(ReportPopularBooks);
+			JLabel yearLabel = new JLabel(" Year:");
+			this.add(yearLabel);
+			ReportPopularBooks = new JTextField(15);
+			this.add(ReportPopularBooks);
 			addBtn = new JButton("Confirm");
 			this.add(addBtn);
 			addBtn.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-			//	popularBook();		
-	        		JFrame frame = new JFrame ("Isert Year");
-	        		frame.setResizable(false);
-	                frame.getContentPane().add (new PopupMenu());
-	                frame.pack();
-	                frame.setVisible (true);
+				popularBook();		
 	        	}
 			});
 		}
