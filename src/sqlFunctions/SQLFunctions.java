@@ -21,6 +21,22 @@ public class SQLFunctions {
 		}
 		return false;
 	}
+	
+	public static boolean isValidBorrower(int bid, String pwd) {
+		try {
+			PreparedStatement ps = Connector.getConnection().prepareStatement(
+					"SELECT * FROM borrower WHERE bid=? and password=?");
+			ps.setInt(1, bid);
+			ps.setString(2, pwd);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				return true;
+			}
+		} catch (SQLException e) {
+			System.out.println("Checking user failed");
+		}
+		return false;
+	}
 }
 
 

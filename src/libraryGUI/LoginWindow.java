@@ -7,19 +7,21 @@ import sqlFunctions.SQLFunctions;
 import java.awt.*;
 import java.awt.event.*;
 
-public class LoginWindow extends JPanel {
+public class LoginWindow {
 	
-	private JTextField borrowerID;
-	private JPasswordField password;
-	private int loginAttempts;
-	private JFrame frame;
+	private static JFrame frame;
+	private static JTextField borrowerID;
+	private static JPasswordField password;
+	static int loginAttempts = 0;
 
 	/** Creates the reusable dialog. */
-	public LoginWindow() {
+	public static void CreateLoginWindow() {
 		
-		JFrame frame = new JFrame("Log In");
+		frame = new JFrame("Log In");
+		frame.setPreferredSize(new Dimension(300, 180));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setContentPane(this);
+		JPanel panel = new JPanel();
+		frame.setContentPane(panel);
 		
 		JComboBox userType = new JComboBox();
 		userType = new JComboBox();
@@ -27,19 +29,19 @@ public class LoginWindow extends JPanel {
 		userType.addItem("Borrower");
 		userType.addItem("Clerk");
 		userType.addItem("Librarian");
-		this.add(userType);
+		panel.add(userType);
 
 		JLabel borID = new JLabel("Borrower ID: ");
-		borID.setPreferredSize(new Dimension(160, 30));
-		this.add(borID);
-		borrowerID = new JTextField(20);
-		this.add(borrowerID);
+		borID.setPreferredSize(new Dimension(100, 30));
+		panel.add(borID);
+		borrowerID = new JTextField(10);
+		panel.add(borrowerID);
 		JLabel passWord = new JLabel("Password: ");
-		passWord.setPreferredSize(new Dimension(160, 30));
-		this.add(passWord);
-		password = new JPasswordField(20);
+		passWord.setPreferredSize(new Dimension(100, 30));
+		panel.add(passWord);
+		password = new JPasswordField(10);
 		password.setEchoChar('*');
-		this.add(password);
+		panel.add(password);
 
 
 		JButton loginBtn = new JButton("Log In");
@@ -47,15 +49,26 @@ public class LoginWindow extends JPanel {
 		loginBtn.addActionListener(new ActionListener() {
         	@Override
         	public void actionPerformed(ActionEvent e) {
-        		checklogin();
-        		LibraryWindow.createAndShowGUI();
+        		if (checklogin(borrowerID.getText(), String.valueOf(password.getPassword()))) {
+        			frame.dispose();
+        			LibraryWindow.createAndShowGUI();
+        		} else {
+        			loginAttempts++;
+        			if (loginAttempts >= 3)
+        			{
+        				frame.dispose();
+        				System.exit(-1);
+        			}else{
+        				password.setText("");
+        			}
+        		}
+        		
         	}
         });
-		this.add(loginBtn);
+		panel.add(loginBtn);
 		
 		
 		//Handle window closing correctly.
-		//setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.addWindowListener(new WindowAdapter() 
 		{
 			public void windowClosing(WindowEvent e) 
@@ -71,21 +84,30 @@ public class LoginWindow extends JPanel {
 
 	}
 	
-	private void checklogin() {
+	private static Boolean checklogin(String borid, String pwd) {
 		
 		int bid;
+		
 		try {
-			bid = Integer.parseInt(borrowerID.getText());
-			boolean validAccount = SQLFunctions.isValidAccount(bid);
-			if (!validAccount) {
-				JOptionPane.showMessageDialog(frame, "Account does not exist");
-				return;
-			}
-		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(frame, "Not a valid Borrower ID");
-			return;
+			bid = Integer.parseInt(borid);
+		}catch(NumberFormatException e){
+			JOptionPane.showMessageDialog(frame, "Borrower ID should be an Integer." );
+			return false;
 		}
 		
+		boolean validUser = SQLFunctions.isValidBorrower(bid, pwd);
+		if (!validUser) {
+			JOptionPane.showMessageDialog(frame, "Borrower does not exist");
+			return false;
+		}
+		return true;
 	}
 	
+    public static void main(String[] args) {
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                CreateLoginWindow();
+            }
+        });
+    }
 }

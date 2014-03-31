@@ -203,54 +203,5 @@ public class LibraryWindow {
         frame.pack();
         frame.setVisible(true);
     }
-    
-    private void showLoginWindow() {
-//    	JPanel loginPanel = new JPanel();
-//    	
-//    	JLabel userTypeLbl = new JLabel("Log in as:");
-//    	JComboBox userType = new JComboBox();
-//    	userType = new JComboBox();
-//		userType.setPreferredSize(new Dimension(225, 20));
-//		userType.addItem("Borrower");
-//		userType.addItem("Clerk");
-//		userType.addItem("Librarian");
-//    	
-//    	JLabel unameLbl = new JLabel("Username:");
-//    	JLabel passwordLbl = new JLabel("Password:");
-//    	JTextField username = new JTextField(20);
-//    	JTextField password = new JTextField(20);
-//    	JButton login = new JButton("Log in");
-//    	
-//    	loginPanel.add(userTypeLbl);
-//    	loginPanel.add(userType);
-//    	loginPanel.add(unameLbl);
-//    	loginPanel.add(username);
-//    	loginPanel.add(passwordLbl);
-//    	loginPanel.add(password);
-//    	loginPanel.add(login);
-//    	
-//    	login.addActionListener(new ActionListener() {
-//        	@Override
-//        	public void actionPerformed(ActionEvent e) {
-//        		boolean success = verifyLogin();
-//        		if (success) {
-//        			createAndShowGUI();
-//        		}
-//        	}
-//        });
-    }
 
-    public static void main(String[] args) {
-        //Schedule a job for the event-dispatching thread:
-        //creating and showing this application's GUI.
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-            	/*final JFrame frame = new JFrame("Log In");
-            	frame.setPreferredSize(new Dimension(300, 100));
-            	LoginWindow loginWindow = new LoginWindow(frame);
-                loginWindow.setVisible(true);*/
-                createAndShowGUI();
-            }
-        });
-    }
 }
