@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+
 import sqlFunctions.SQLFunctionsBorrower;
 
 
@@ -72,7 +74,8 @@ public class PayFine extends JPanel {
 		System.out.println(fid);
 		
 		JOptionPane.showMessageDialog(frame, "Paid Fine." );
-		
+		JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+		topFrame.dispose();
 	}
 	
 	
