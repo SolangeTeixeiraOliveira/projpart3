@@ -3,6 +3,8 @@ package sqlFunctions;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.NumberFormat;
+import java.util.Vector;
 
 public class SQLFunctionsClerk {
 
@@ -47,8 +49,9 @@ public class SQLFunctionsClerk {
 			return 0;
 		}
 		// Return an item
-		public static String returnItem(String callNumber, int copyNumber) {
+		public static Vector<String> returnItem(String callNumber, int copyNumber) {
 			String holderEmailAddress = null;
+			String borrowerFine = null;
 
 			try {
 				// Check if there is a hold request for the book
@@ -115,6 +118,8 @@ public class SQLFunctionsClerk {
 					ps6.setFloat(1, fine);
 					ps6.setInt(2, borid);
 					ps6.executeUpdate();
+					// Format fine as a string
+					borrowerFine = NumberFormat.getCurrencyInstance().format(fine);
 				}
 
 				// Update the indate of the borrowing record
@@ -131,8 +136,12 @@ public class SQLFunctionsClerk {
 			} catch (SQLException e) {
 				System.out.println("Failed to return item");
 				e.printStackTrace();
+				return null;
 			}
-			return holderEmailAddress;
+			Vector<String> returnvals = new Vector<String>();
+			returnvals.add(holderEmailAddress);
+			returnvals.add(borrowerFine);
+			return returnvals;
 		}
 
 		public static ResultSet getOverdueItems() {
@@ -188,7 +197,7 @@ public class SQLFunctionsClerk {
 				ps8.setInt(2, copyNum);
 				ResultSet rs4 = ps8.executeQuery();
 				if (rs4.next()) {
-					if (rs.getString(1) == "out") {
+					if (rs4.getString(1) == "out") {
 						System.out
 								.println("Cannot check out a book that's already out");
 						return false;
@@ -238,5 +247,25 @@ public class SQLFunctionsClerk {
 			return false;
 		}
 
+		// Gets the due date for any items the borrower checks out on the current day
+		public static java.util.Date getDueDate(int bid) {
+			try {
+				PreparedStatement ps = Connector.getConnection().prepareStatement(
+						"SELECT (CURRENT_DATE+(7*booktimelimit)) " +
+						"FROM borrower, borrowertype " +
+						"WHERE bid=? AND borrower.type=borrowertype.type");
+				ps.setInt(1, bid);
+				ResultSet rs = ps.executeQuery();
+				if (rs.next()) {
+					java.util.Date duedate = new java.util.Date();
+					duedate.setTime(rs.getDate(1).getTime());
+					return duedate;
+				}
+
+			} catch (SQLException e) {
+				System.out.println("Checking borrower account failed");
+			}
+			return null;
+		}
 
 }

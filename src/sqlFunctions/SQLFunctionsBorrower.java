@@ -8,29 +8,6 @@ import java.sql.SQLException;
 
 public class SQLFunctionsBorrower {
 
-	// Only access con through the getConnection function
-	private static Connection con;
-
-	private static Connection getConnection() {
-		if (con == null) {
-			try {
-				System.out.println("Forming new connection");
-				DriverManager
-				.registerDriver(new oracle.jdbc.driver.OracleDriver());
-				System.out.println("Connected");
-				con = DriverManager.getConnection(
-						"jdbc:oracle:thin:@localhost:1522:ug",
-						"ora_t3s7", "a41513102");
-				System.out.println("Connect?");
-			} catch (SQLException e) {
-				System.out
-				.println("Problem registering driver or connecting to oracle");
-				e.printStackTrace();
-			}
-		}
-		return con;
-	}
-
 	// Search a book in the Book Table
 	public static ResultSet searchbook(String title, String author, String subject){
 
@@ -43,8 +20,8 @@ public class SQLFunctionsBorrower {
 
 		try {
 			// Create the prepared statement for the query
-			PreparedStatement ps = getConnection().prepareStatement(
-					"SELECT DISTINCT book.callnumber, LOWER(book.title) as TITLE, " + 
+			PreparedStatement ps = Connector.getConnection().prepareStatement(
+					"SELECT DISTINCT book.callnumber, book.title, " + 
 					"copies.in_copies, copies.out_copies "+ 
 					"FROM book, hasauthor, hassubject, (select callnumber, " + 
 					"count(case status when 'in' then 1 else null end) as in_copies, " +
@@ -77,7 +54,7 @@ public class SQLFunctionsBorrower {
 		System.out.println("Adding hold request for " + userID);
 
 		try {
-			PreparedStatement ps = getConnection().prepareStatement(
+			PreparedStatement ps = Connector.getConnection().prepareStatement(
 					"INSERT INTO holdrequest(bid, callnumber, issuedDate) "
 							+ "VALUES ( ?, ?, CURRENT_DATE) ", new String[] { "hid" });
 
@@ -106,7 +83,7 @@ public class SQLFunctionsBorrower {
 	public static ResultSet bookExists(String callnum) {
 		ResultSet rs = null;
 		try {
-			PreparedStatement ps = getConnection().prepareStatement("SELECT * FROM book " + 
+			PreparedStatement ps = Connector.getConnection().prepareStatement("SELECT * FROM book " + 
 					"WHERE callnumber = ?");
 			ps.setString(1, callnum);
 			rs = ps.executeQuery();
@@ -124,7 +101,7 @@ public class SQLFunctionsBorrower {
 		System.out.println("Paying fine.");
 
 		try {
-			PreparedStatement ps = getConnection().prepareStatement(
+			PreparedStatement ps = Connector.getConnection().prepareStatement(
 					"UPDATE fine SET paidDate = CURRENT_DATE "
 							+ "WHERE fine.borid = (select borid from borrowing where bid = ?)");
 
@@ -152,7 +129,7 @@ public class SQLFunctionsBorrower {
 
 		try {
 			// Create the prepared statement for the query
-			PreparedStatement ps = getConnection().prepareStatement(
+			PreparedStatement ps = Connector.getConnection().prepareStatement(
 					"SELECT bid, borid, callnumber, copyno, outdate, " + 
 					"indate FROM borrowing WHERE bid = ?"); 
 
@@ -178,7 +155,7 @@ public class SQLFunctionsBorrower {
 
 		try {
 			// Create the prepared statement for the query
-			PreparedStatement ps = getConnection().prepareStatement(
+			PreparedStatement ps = Connector.getConnection().prepareStatement(
 					"SELECT borrowing.bid, fine.fid, fine.amount, fine.issueddate, " +
 					"fine.paiddate FROM fine, borrowing " + 
 					"WHERE fine.borid = borrowing.borid and borrowing.bid = ?"); 
@@ -205,7 +182,7 @@ public class SQLFunctionsBorrower {
 
 		try {
 			// Create the prepared statement for the query
-			PreparedStatement ps = getConnection().prepareStatement(
+			PreparedStatement ps = Connector.getConnection().prepareStatement(
 					"SELECT bid, hid, callnumber, issueddate FROM holdrequest WHERE bid = ?"); 
 
 			// Set all the input values
