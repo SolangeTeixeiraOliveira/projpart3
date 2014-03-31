@@ -59,12 +59,12 @@ private static final long serialVersionUID = 1L;
 		// Create the table
 		Vector<String> columnNames = new Vector<String>();
 		columnNames.add("Call number");
-		columnNames.add("Title");
-		columnNames.add("Out date");
+		columnNames.add("Number of Times");
+		//columnNames.add("Out date");
 		table = new JTable(data, columnNames);
 		table.getColumnModel().getColumn(0).setPreferredWidth(150);
 		table.getColumnModel().getColumn(1).setPreferredWidth(150);
-		table.getColumnModel().getColumn(2).setPreferredWidth(150);
+		//table.getColumnModel().getColumn(2).setPreferredWidth(150);
 		table.setEnabled(false);
 		scrollpane = new JScrollPane(table);
 		scrollpane.setPreferredSize(new Dimension(600, 400));

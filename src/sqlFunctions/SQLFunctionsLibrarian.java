@@ -129,27 +129,31 @@ public class SQLFunctionsLibrarian {
 		return co;
 	}
 
-
 	// Generate a report with the most popular items in a given year
-	public static ResultSet getMostPopularItems(){
+	public static ResultSet getMostPopularItems() {
 		System.out.println("Checking the most popular book in a given year ");
 		ResultSet res = null;
-		
 
 		try {
+			/*
+			 * if (year != 0) {
+			 * System.out.println("Report with most popular checked book = " +
+			 * year);
+			 */
 
-			PreparedStatement ps = Connector.getConnection()
+			PreparedStatement ps = Connector
+					.getConnection()
 					.prepareStatement(
-					"SELECT callNumber, count(callNumber)"
-							+ "FROM borrowing b "
-							+ "WHERE indate = ? OR outDate = ?"
-						//	+ "WHERE b.datetime BETWEEN <<Top checkouts BETWEEN (yyyy-mm-dd)|date>> AND <<and (yyyy-mm-dd)|date>>"
-							+ "GROUP BY callNumber"
-							+ "ORDER BY callNumber DESC"
-							+ "LIMITE 30");
+							"SELECT callNumber, count(callNumber) AS checkouts"
+									+ "FROM borrowing s "
+									+ "LEFT JOIN borrowing s"
+									+ "USING (borrowingnumber)"
+									// + "WHERE indate = 2012 OR outDate = 2013"
+									+ "WHERE s.datetime BETWEEN <<Top checkouts BETWEEN (yyyy-mm-dd)|date>> AND <<and (yyyy-mm-dd)|date>>"
+									+ "GROUP BY s.callNumber"
+									+ "ORDER BY count(callNumber) DESC"
+									+ "LIMITE 30");
 
-
-		                    
 			res = ps.executeQuery();
 
 		} catch (SQLException e) {
