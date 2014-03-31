@@ -1,7 +1,6 @@
 package libraryGUI;
 
 import java.awt.Dimension;
-import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,17 +10,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import sqlFunctions.SQLFunctionsLibrarian;
-
-
 public class GenerateReport extends JPanel {
 	
 		private static final long serialVersionUID = 1L;
 
-		private JTextField bookNumber;
-		private JTextField outDate;
-		private JTextField inDate;
-		private JTextField bookTitle;
 		private JTextField CheckedOutSubject;
 	    private JTextField year;
 	    private JTextField n;
@@ -76,7 +68,6 @@ public class GenerateReport extends JPanel {
 		}
 		
 		private void popularBook() {
-			JFrame frame = new JFrame ("Display The Most Popular Books");
 			String yearStr = year.getText();
 			String nStr = n.getText();
 			int yearInt;
@@ -90,6 +81,7 @@ public class GenerateReport extends JPanel {
 				return;
 			}
 			
+			JFrame frame = new JFrame (nStr + " Most Popular Books in " + yearStr);
             frame.getContentPane().add (new DisplayMostPopularItem(yearInt, nInt));
             frame.pack();
             frame.setVisible (true);

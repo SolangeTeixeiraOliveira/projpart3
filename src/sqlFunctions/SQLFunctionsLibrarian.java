@@ -15,20 +15,20 @@ public class SQLFunctionsLibrarian {
 		System.out.println("Adding Book " + callNumber);
 		try {
 			// See how many copies of the book exist already (if any)
-			PreparedStatement ps1 = Connector.getConnection()
-					.prepareStatement("SELECT MAX(copyno) FROM bookcopy " +
-							"WHERE callNumber=?");
+			PreparedStatement ps1 = Connector.getConnection().prepareStatement(
+					"SELECT MAX(copyno) FROM bookcopy " + "WHERE callNumber=?");
 			ps1.setString(1, callNumber);
 			ResultSet rs = ps1.executeQuery();
-			
+
 			int numcopies = 0;
 			if (rs.next()) {
 				numcopies = rs.getInt(1);
 			}
-			
+
 			// Insert a new book entry if needed
 			if (numcopies == 0) {
-				PreparedStatement ps = Connector.getConnection()
+				PreparedStatement ps = Connector
+						.getConnection()
 						.prepareStatement(
 								"INSERT INTO book "
 										+ "(callNumber, isbn, title, mainAuthor, Publisher, year) "
@@ -46,22 +46,23 @@ public class SQLFunctionsLibrarian {
 					ps.setInt(6, publicationYear);
 				}
 				ps.executeUpdate();
-				
 
 				// Add each subject
-				PreparedStatement ps3 = Connector.getConnection().prepareStatement(
-						"INSERT INTO hassubject (callNumber, subject) " +
-						"VALUES (?,?)");
+				PreparedStatement ps3 = Connector.getConnection()
+						.prepareStatement(
+								"INSERT INTO hassubject (callNumber, subject) "
+										+ "VALUES (?,?)");
 				ps3.setString(1, callNumber);
 				for (String subject : subjectList) {
 					ps3.setString(2, subject);
 					ps3.executeUpdate();
 				}
-				
+
 				// Add each author
-				PreparedStatement ps4 = Connector.getConnection().prepareStatement(
-						"INSERT INTO hasauthor (callNumber, name) " +
-						"VALUES (?,?)");
+				PreparedStatement ps4 = Connector.getConnection()
+						.prepareStatement(
+								"INSERT INTO hasauthor (callNumber, name) "
+										+ "VALUES (?,?)");
 				ps4.setString(1, callNumber);
 				authorList.add(mainAuthor);
 				for (String author : authorList) {
@@ -70,17 +71,17 @@ public class SQLFunctionsLibrarian {
 					ps4.executeUpdate();
 				}
 			}
-			
+
 			// Add a new book copy
 			PreparedStatement ps2 = Connector.getConnection().prepareStatement(
 					"INSERT INTO bookcopy (callNumber, copyNo, status) "
 							+ "VALUES (?,?,'in')");
 			ps2.setString(1, callNumber);
-			ps2.setInt(2, numcopies+1);
+			ps2.setInt(2, numcopies + 1);
 			ps2.executeUpdate();
-			
+
 			Connector.getConnection().commit();
-			return numcopies+1;
+			return numcopies + 1;
 
 		} catch (SQLException e) {
 			System.out.println("Failed to add book");
@@ -97,7 +98,8 @@ public class SQLFunctionsLibrarian {
 		try {
 			if (subject.length() > 0) {
 				System.out.println("Report with subject = " + subject);
-				PreparedStatement ps = Connector.getConnection()
+				PreparedStatement ps = Connector
+						.getConnection()
 						.prepareStatement(
 								"SELECT borrowing.callnumber, borrowing.copyno, book.title, "
 										+ "borrowing.outdate, (borrowing.outdate+(7*booktimelimit)) "
@@ -113,7 +115,8 @@ public class SQLFunctionsLibrarian {
 				co = ps.executeQuery();
 			} else {
 				System.out.println("Report without subject");
-				PreparedStatement ps = Connector.getConnection()
+				PreparedStatement ps = Connector
+						.getConnection()
 						.prepareStatement(
 								"SELECT borrowing.callnumber, borrowing.copyno, book.title, "
 										+ "borrowing.outdate, (borrowing.outdate+(7*booktimelimit)) "
@@ -139,18 +142,16 @@ public class SQLFunctionsLibrarian {
 
 		try {
 
-			PreparedStatement ps = Connector
-					.getConnection()
-					.prepareStatement(
-							"SELECT callNumber, count(callNumber) AS checkouts "
+			PreparedStatement ps = Connector.getConnection().prepareStatement(
+					"SELECT callNumber, count(callNumber) AS checkouts "
 							+ "FROM borrowing "
-							+ "WHERE EXTRACT(year from indate) = ? "
-							+ "OR EXTRACT(year from outdate) = ? "
-							+ "GROUP BY callNumber "
-							+ "ORDER BY checkouts");// DESC LIMIT 2");
+							+ "WHERE (EXTRACT(year from indate) = ? "
+							+ "OR EXTRACT(year from outdate) = ?) "
+							+ "AND ROWNUM <= ? GROUP BY callNumber "
+							+ "ORDER BY checkouts DESC");
 			ps.setInt(1, year);
 			ps.setInt(2, year);
-			//ps.setInt(3, n);
+			ps.setInt(3, n);
 
 			res = ps.executeQuery();
 
