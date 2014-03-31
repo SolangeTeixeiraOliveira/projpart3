@@ -180,8 +180,7 @@ public class SQLFunctionsClerk {
 				ResultSet rs = ps3.executeQuery();
 				if (rs.next()) {
 					// If this borrower doesn't have the earliest hold request on
-					// the
-					// item, they can't check it out
+					// the item, they can't check it out
 					if (rs.getInt(1) != bid) {
 						System.out
 								.println("Cannot checkout book - someone else has a hold request");
