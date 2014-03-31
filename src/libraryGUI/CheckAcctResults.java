@@ -93,6 +93,7 @@ public class CheckAcctResults extends JPanel {
 		table1.getColumnModel().getColumn(2).setPreferredWidth(300);
 		table1.getColumnModel().getColumn(3).setPreferredWidth(300);
 		table1.getColumnModel().getColumn(4).setPreferredWidth(300);
+		table1.setEnabled(false);
 
 		// Check the fines by the borrower id
 		JLabel finelabel = new JLabel("Outstanding Fines:");
@@ -144,7 +145,7 @@ public class CheckAcctResults extends JPanel {
 		table2.getColumnModel().getColumn(2).setPreferredWidth(300);
 		table2.getColumnModel().getColumn(3).setPreferredWidth(300);
 		table2.getColumnModel().getColumn(4).setPreferredWidth(300);
-
+		table2.setEnabled(false);
 
 
 		// Check the hold requests by the borrower id
@@ -187,6 +188,7 @@ public class CheckAcctResults extends JPanel {
 		table3.getColumnModel().getColumn(1).setPreferredWidth(300);
 		table3.getColumnModel().getColumn(2).setPreferredWidth(300);
 		table3.getColumnModel().getColumn(3).setPreferredWidth(300);
+		table3.setEnabled(false);
 
 	};
 }
