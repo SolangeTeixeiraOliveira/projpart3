@@ -3,6 +3,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import javax.swing.*;
 
@@ -64,13 +65,24 @@ public class ReturnItem extends JPanel {
 			return;
 		}
 		
-		String emailAddress = SQLFunctionsClerk.returnItem(bookCallNum, bookCopyNum);
+		// Attempt to return item
+		Vector<String> results = SQLFunctionsClerk.returnItem(bookCallNum, bookCopyNum);
+		
+		// Display appropriate window(s) depending on results
+		if (results == null) {
+			JOptionPane.showMessageDialog(frame, "Error returning book", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		String emailAddress = results.get(0);
+		String borrowerFine = results.get(1);
 		if (emailAddress != null) {
 			JOptionPane.showMessageDialog(frame, "Book returned - sent email to " + emailAddress.toString());
-			System.out.println("Book returned - sent email to " + emailAddress);
-		} else {
-			JOptionPane.showMessageDialog(frame, "Book returned");
-			System.out.println("Book has been returned");
 		}
+		if (borrowerFine != null) {
+			JOptionPane.showMessageDialog(frame, "Fine charged: " + borrowerFine);
+		}
+		
+		JOptionPane.showMessageDialog(frame, "Book returned");
+		
 	}
 }

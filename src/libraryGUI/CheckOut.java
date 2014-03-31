@@ -2,6 +2,7 @@ package libraryGUI;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
 
 import javax.swing.BoxLayout;
@@ -130,22 +131,17 @@ public class CheckOut extends JPanel {
 		
 		// Try to check out each item
 		Vector<String> failedCheckouts = new Vector<String>();
-		//Vector<String> successfulCheckouts = new Vector<String>();
+		Vector<String> successfulCheckouts = new Vector<String>();
 		for (int i=0; i<callNumList.size(); i++) {
 			boolean success = SQLFunctionsClerk.checkOutItem(callNumList.get(i),
 					copyNumList.get(i), bid);
 			if (success) {
 				System.out.println("Successfully checked out " + fullCallNums.get(i));
-				//successfulCheckouts.add(fullCallNums.get(i));
+				successfulCheckouts.add(fullCallNums.get(i));
 			} else {
 				failedCheckouts.add(fullCallNums.get(i));
 			} 
 		}
-		
-		// DEBUGGING
-		failedCheckouts.add("testtest123 C1");
-		failedCheckouts.add("abcdefg C3");
-		failedCheckouts.add("blabla C2");
 
 		if (failedCheckouts.size() > 0) {
 			// Show error message with failed checkouts
@@ -160,6 +156,18 @@ public class CheckOut extends JPanel {
 			
 			failedList.setListData(failedCheckouts);
 			JOptionPane.showMessageDialog(frame, errorPanel, "Failed checkouts", JOptionPane.WARNING_MESSAGE);
+		}
+		
+		if (successfulCheckouts.size() > 0) {
+			// Show success message with books and due date
+			java.util.Date duedate = SQLFunctionsClerk.getDueDate(bid);
+			SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
+			String note = "Items due: " + fm.format(duedate) + "\n";
+			
+			for (String callNum : successfulCheckouts) {
+				note += callNum + "\n";
+			}
+			JOptionPane.showMessageDialog(frame, note, "Successful checkout", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 }

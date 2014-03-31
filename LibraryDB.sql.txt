@@ -191,7 +191,7 @@ insert into BookCopy values ('reed123', 2, 'in');
 
 insert into BookCopy values ('dwight345', 1, 'out');
 
-insert into BookCopy values ('dwight345', 2, 'in');
+insert into BookCopy values ('dwight345', 2, 'on-hold');
 
 insert into BookCopy values ('rowling980', 1, 'out');
 
