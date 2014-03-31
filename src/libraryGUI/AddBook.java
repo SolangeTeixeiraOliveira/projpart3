@@ -41,7 +41,7 @@ public class AddBook extends JPanel {
 	private Vector<String> authorList;
 
 	public AddBook() {
-		this.setPreferredSize(new Dimension(400, 500));
+		this.setPreferredSize(new Dimension(400, 600));
 		FlowLayout fl = new FlowLayout();
 		fl.setVgap(25);
 		this.setLayout(fl);
@@ -51,7 +51,7 @@ public class AddBook extends JPanel {
 		
 		// Panel with all the text boxes
 		JPanel panel1 = new JPanel();
-		panel1.setPreferredSize(new Dimension(400, 150));
+		panel1.setPreferredSize(new Dimension(400, 200));
 		
 		JLabel numberLabel = new JLabel("Call number:");
 		numberLabel.setPreferredSize(new Dimension(110, 20));
@@ -104,7 +104,7 @@ public class AddBook extends JPanel {
 		authorSP.setPreferredSize(new Dimension(300,50));
 		authorsPanel.add(authorSP);
 		authorsPanel.setBorder(new LineBorder(Color.DARK_GRAY));
-		authorsPanel.setPreferredSize(new Dimension(360, 100));
+		authorsPanel.setPreferredSize(new Dimension(360, 150));
 		this.add(authorsPanel);
 		
 		// The list of associated subjects
@@ -121,7 +121,7 @@ public class AddBook extends JPanel {
 		subjectSP.setPreferredSize(new Dimension(300,50));
 		subjectsPanel.add(subjectSP);
 		subjectsPanel.setBorder(new LineBorder(Color.DARK_GRAY));
-		subjectsPanel.setPreferredSize(new Dimension(360, 100));
+		subjectsPanel.setPreferredSize(new Dimension(360, 150));
 		this.add(subjectsPanel);
 		
 		addBtn = new JButton("Add book");
