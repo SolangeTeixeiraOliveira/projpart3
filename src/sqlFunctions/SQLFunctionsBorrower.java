@@ -4,9 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
 public class SQLFunctionsBorrower {
 
 	// Search a book in the Book Table
@@ -64,7 +61,7 @@ public class SQLFunctionsBorrower {
 			ResultSet rs = ps1.executeQuery();
 
 			if (rs.next()) {
-				//JOptionPane.showMessageDialog(frame, "There is a copy of the book.");
+				return 0;
 			}else{			
 				//Insert a hold request when there is no book copy available
 				PreparedStatement ps2 = Connector.getConnection().prepareStatement(
@@ -74,8 +71,6 @@ public class SQLFunctionsBorrower {
 				// Set all the input values
 				ps2.setInt(1, userID);
 				ps2.setString(2, callNum);
-
-				//JOptionPane.showMessageDialog(frame, "New Hold Request Made.");
 				
 				// Execute the insert statement and return the new hold request id
 				if (ps2.executeUpdate() > 0) {
@@ -147,7 +142,7 @@ public class SQLFunctionsBorrower {
 			// Create the prepared statement for the query
 
 			PreparedStatement ps = Connector.getConnection().prepareStatement(
-					"SELECT bid, borid, callnumber, copyno, outdate, " + 
+					"SELECT bid, callnumber, copyno, outdate, " + 
 					"indate FROM borrowing WHERE bid = ?"); 
 
 			// Set all the input values

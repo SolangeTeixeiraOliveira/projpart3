@@ -12,6 +12,7 @@ public class LoginWindow {
 	private static JFrame frame;
 	private static JTextField borrowerID;
 	private static JPasswordField password;
+	private static JComboBox userType;
 	static int loginAttempts = 0;
 
 	/** Creates the reusable dialog. */
@@ -23,7 +24,6 @@ public class LoginWindow {
 		JPanel panel = new JPanel();
 		frame.setContentPane(panel);
 		
-		JComboBox userType = new JComboBox();
 		userType = new JComboBox();
 		userType.setPreferredSize(new Dimension(225, 20));
 		userType.addItem("Borrower");
@@ -49,20 +49,24 @@ public class LoginWindow {
 		loginBtn.addActionListener(new ActionListener() {
         	@Override
         	public void actionPerformed(ActionEvent e) {
-        		if (checklogin(borrowerID.getText(), String.valueOf(password.getPassword()))) {
-        			frame.dispose();
-        			LibraryWindow.createAndShowGUI();
-        		} else {
-        			loginAttempts++;
-        			if (loginAttempts >= 3)
-        			{
+        		if (userType.getSelectedItem() == "Borrower"){
+        			if (checklogin(borrowerID.getText(), String.valueOf(password.getPassword()))) {
         				frame.dispose();
-        				System.exit(-1);
-        			}else{
-        				password.setText("");
+        				LibraryWindow.createAndShowGUI();
+        			} else {
+        				loginAttempts++;
+            			if (loginAttempts >= 3)
+            			{
+            				frame.dispose();
+            				System.exit(-1);
+            			}else{
+            				password.setText("");
+            			}
         			}
+        		} else {
+        				frame.dispose();
+        				LibraryWindow.createAndShowGUI();
         		}
-        		
         	}
         });
 		panel.add(loginBtn);
@@ -84,7 +88,7 @@ public class LoginWindow {
 
 	}
 	
-	private static Boolean checklogin(String borid, String pwd) {
+	private static boolean checklogin(String borid, String pwd) {
 		
 		int bid;
 		
