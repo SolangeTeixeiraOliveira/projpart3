@@ -50,11 +50,9 @@ public class PayFine extends JPanel {
 	}
 	
 	private void payfine() {
-
-		int bid;
 		
 		try {
-			bid = Integer.parseInt(bID.getText());
+			Integer.parseInt(bID.getText());
 		}catch(NumberFormatException e){
 			JOptionPane.showMessageDialog(frame, "Borrower ID should be an Integer." );
 			return;
