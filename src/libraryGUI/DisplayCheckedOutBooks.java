@@ -31,7 +31,6 @@ public class DisplayCheckedOutBooks  extends JPanel{
 		java.util.Date currDate = new java.util.Date();
 		try {
 			while (rs.next()) {
-				System.out.println("Found a book");
 				Vector<String> rowData = new Vector<String>();
 				rowData.add(rs.getString(1) + " C" + rs.getInt(2)); // Call number and copy number
 				rowData.add(rs.getString(3)); // Title

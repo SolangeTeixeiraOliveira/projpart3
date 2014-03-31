@@ -174,7 +174,8 @@ public class LibraryWindow {
         	@Override
         	public void actionPerformed(ActionEvent e) {
         		JFrame frame = new JFrame ("Add Book");
-                frame.getContentPane().add(new CreateBookWindow());
+        		frame.setResizable(false);
+                frame.getContentPane().add(new AddBook());
                 frame.pack();
                 frame.setVisible (true);
         	}
