@@ -23,7 +23,8 @@ public class GenerateReport extends JPanel {
 		private JTextField inDate;
 		private JTextField bookTitle;
 		private JTextField CheckedOutSubject;
-	    private JTextField ReportPopularBooks;
+	    private JTextField year;
+	    private JTextField n;
 		private JButton addBtn;
 
 		public GenerateReport() {
@@ -48,8 +49,12 @@ public class GenerateReport extends JPanel {
 			this.add(ReportPopularBooksLabel);
 			JLabel yearLabel = new JLabel(" Year:");
 			this.add(yearLabel);
-			ReportPopularBooks = new JTextField(15);
-			this.add(ReportPopularBooks);
+			year = new JTextField(15);
+			n = new JTextField(2);
+			this.add(year);
+			JLabel nLabel = new JLabel("Number of top books:");
+			this.add(nLabel);
+			this.add(n);
 			addBtn = new JButton("Confirm");
 			this.add(addBtn);
 			addBtn.addActionListener(new ActionListener() {
@@ -72,7 +77,20 @@ public class GenerateReport extends JPanel {
 		
 		private void popularBook() {
 			JFrame frame = new JFrame ("Display The Most Popular Books");
-            frame.getContentPane().add (new DisplayMostPopularItem());
+			String yearStr = year.getText();
+			String nStr = n.getText();
+			int yearInt;
+			int nInt;
+			
+			try {
+				yearInt = Integer.parseInt(yearStr);
+				nInt = Integer.parseInt(nStr);
+			} catch (NumberFormatException e) {
+				System.out.println("Invalid year or number");
+				return;
+			}
+			
+            frame.getContentPane().add (new DisplayMostPopularItem(yearInt, nInt));
             frame.pack();
             frame.setVisible (true);
 		}

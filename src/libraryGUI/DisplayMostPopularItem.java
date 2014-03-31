@@ -19,23 +19,25 @@ private static final long serialVersionUID = 1L;
 	private JTable table;
 	private JFrame frame;
 
-	public DisplayMostPopularItem() {
+	public DisplayMostPopularItem(int year, int n) {
 		this.setPreferredSize(new Dimension(600, 400));
-		displayMostPopuparItem();
+		displayMostPopuparItem(year, n);
 	}
 
-	private void displayMostPopuparItem() {
-		ResultSet res = SQLFunctionsLibrarian.getMostPopularItems();
+	private void displayMostPopuparItem(int year, int n) {
+		ResultSet res = SQLFunctionsLibrarian.getMostPopularItems(year, n);
 		Vector<Vector<String>> data = new Vector<Vector<String>>();
 		try {
 			while (res.next()) {
 				System.out.println("Found a book");
 				Vector<String> rowData = new Vector<String>();
-				rowData.add(res.getString(1) + " C" + res.getInt(2)); 
-				rowData.add(res.getString(3)); // Title
+				rowData.add(res.getString(1));
+				Integer numTimes = res.getInt(2);
+				rowData.add(numTimes.toString());
+				//rowData.add(res.getString(3)); // Title
 				
 				// Get out date of item as a string
-				SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
+				/*SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
 				java.sql.Date sqlDateOut = res.getDate(4);
 				java.util.Date utilDateOut = new java.util.Date();
 				utilDateOut.setTime(sqlDateOut.getTime());
@@ -48,7 +50,7 @@ private static final long serialVersionUID = 1L;
 				String duedate = fm.format(utilDateDue);
 				
 				rowData.add(outdate);
-				rowData.add(duedate);
+				rowData.add(duedate);*/
 				data.add(rowData);
 			}
 		} catch (SQLException e) {
