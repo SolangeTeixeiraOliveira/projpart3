@@ -38,7 +38,7 @@ public class AddBook extends JPanel {
 	private Vector<String> authorList;
 
 	public AddBook() {
-		this.setPreferredSize(new Dimension(320, 400));
+		this.setPreferredSize(new Dimension(400, 450));
 		
 		subjectList = new Vector<String>();
 		authorList = new Vector<String>();
