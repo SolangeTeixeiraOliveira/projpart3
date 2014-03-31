@@ -143,12 +143,12 @@ public class SQLFunctionsLibrarian {
 		try {
 
 			PreparedStatement ps = Connector.getConnection().prepareStatement(
-					"SELECT callNumber, count(callNumber) AS checkouts "
-							+ "FROM borrowing "
-							+ "WHERE (EXTRACT(year from indate) = ? "
-							+ "OR EXTRACT(year from outdate) = ?) "
-							+ "AND ROWNUM <= ? GROUP BY callNumber "
-							+ "ORDER BY checkouts DESC");
+					"SELECT topbook.callnumber, topbook.checkouts "
+					+ "FROM (SELECT callNumber, count(callNumber) AS checkouts "
+							+ "FROM borrowing WHERE (EXTRACT(year from indate) = ? "
+							+ "OR EXTRACT(year from outdate) = ?) GROUP BY callNumber "
+							+ "ORDER BY checkouts DESC) topbook "
+					+ "WHERE ROWNUM <= ? ");
 			ps.setInt(1, year);
 			ps.setInt(2, year);
 			ps.setInt(3, n);
