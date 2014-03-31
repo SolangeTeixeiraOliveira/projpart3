@@ -4,20 +4,21 @@ import javax.swing.*;
 
 import sqlFunctions.SQLFunctions;
 
-import java.beans.*; //property change stuff
 import java.awt.*;
 import java.awt.event.*;
 
 public class LoginWindow extends JPanel {
 	
-	private JTextField username;
+	private JTextField borrowerID;
 	private JPasswordField password;
 	private int loginAttempts;
+	private JFrame frame;
 
 	/** Creates the reusable dialog. */
 	public LoginWindow() {
 		
 		JFrame frame = new JFrame("Log In");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(this);
 		
 		JComboBox userType = new JComboBox();
@@ -28,11 +29,11 @@ public class LoginWindow extends JPanel {
 		userType.addItem("Librarian");
 		this.add(userType);
 
-		JLabel userName = new JLabel("Borrower ID: ");
-		userName.setPreferredSize(new Dimension(160, 30));
-		this.add(userName);
-		username = new JTextField(20);
-		this.add(username);
+		JLabel borID = new JLabel("Borrower ID: ");
+		borID.setPreferredSize(new Dimension(160, 30));
+		this.add(borID);
+		borrowerID = new JTextField(20);
+		this.add(borrowerID);
 		JLabel passWord = new JLabel("Password: ");
 		passWord.setPreferredSize(new Dimension(160, 30));
 		this.add(passWord);
@@ -63,12 +64,27 @@ public class LoginWindow extends JPanel {
 			}
 		});
 		
+		frame.setResizable(false);
+		frame.pack();
+		frame.setVisible(true);
+		borrowerID.requestFocus();
 
 	}
 	
 	private void checklogin() {
 		
-		
+		int bid;
+		try {
+			bid = Integer.parseInt(borrowerID.getText());
+			boolean validAccount = SQLFunctions.isValidAccount(bid);
+			if (!validAccount) {
+				JOptionPane.showMessageDialog(frame, "Account does not exist");
+				return;
+			}
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(frame, "Not a valid card number");
+			return;
+		}
 		
 	}
 	

@@ -123,7 +123,7 @@ public class CheckOut extends JPanel {
 				return;
 			}
 		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(frame, "Not a valid card number");
+			JOptionPane.showMessageDialog(frame, "Not a valid Borrower ID");
 			return;
 		}
 		
