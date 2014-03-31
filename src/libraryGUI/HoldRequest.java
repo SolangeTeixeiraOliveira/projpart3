@@ -62,6 +62,11 @@ public class HoldRequest extends JPanel {
 			if (rs.next()){
 				System.out.println("Call Number found.");
 				int hid = SQLFunctionsBorrower.holdRequest(bid, callNumber.getText());
+				if (hid != 0){
+					JOptionPane.showMessageDialog(frame, "New Hold Request Made.");
+				} else {
+					JOptionPane.showMessageDialog(frame, "There is a copy of the book.");
+				}
 				System.out.println(hid);
 			} else {
 				JOptionPane.showMessageDialog(frame, "Hold Request cannot be made. Call number does "
