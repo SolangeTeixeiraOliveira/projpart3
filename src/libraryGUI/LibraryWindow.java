@@ -187,8 +187,9 @@ public class LibraryWindow {
         librarianbutton2.addActionListener(new ActionListener() {
         	@Override
         	public void actionPerformed(ActionEvent e) {
-        		JFrame frame = new JFrame ("Books checked Out");
+        		JFrame frame = new JFrame ("Generate Report");
                 frame.getContentPane().add(new GenerateReport());
+                frame.setResizable(false);
                 frame.pack();
                 frame.setVisible (true);
         	}

@@ -64,8 +64,11 @@ public class HoldRequest extends JPanel {
 				int hid = SQLFunctionsBorrower.holdRequest(bid, callNumber.getText());
 				if (hid != 0){
 					JOptionPane.showMessageDialog(frame, "New Hold Request Made.");
+					JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+					topFrame.dispose();
 				} else {
-					JOptionPane.showMessageDialog(frame, "There is a copy of the book.");
+					JOptionPane.showMessageDialog(frame, "There is a copy of the book in the Library. "
+							+ "Hold Request not made.");
 				}
 				System.out.println(hid);
 			} else {

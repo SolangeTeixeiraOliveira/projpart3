@@ -1,5 +1,7 @@
 package libraryGUI;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
@@ -11,8 +13,9 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.border.LineBorder;
 
 import sqlFunctions.SQLFunctionsLibrarian;
 
@@ -38,73 +41,88 @@ public class AddBook extends JPanel {
 	private Vector<String> authorList;
 
 	public AddBook() {
-		this.setPreferredSize(new Dimension(400, 450));
+		this.setPreferredSize(new Dimension(400, 650));
+		FlowLayout fl = new FlowLayout();
+		fl.setVgap(25);
+		this.setLayout(fl);
 		
 		subjectList = new Vector<String>();
 		authorList = new Vector<String>();
 		
+		// Panel with all the text boxes
+		JPanel panel1 = new JPanel();
+		panel1.setPreferredSize(new Dimension(400, 200));
+		
 		JLabel numberLabel = new JLabel("Call number:");
-		numberLabel.setPreferredSize(new Dimension(80,20));
-		this.add(numberLabel);
+		numberLabel.setPreferredSize(new Dimension(110, 20));
+		panel1.add(numberLabel);
 		bookNumber = new JTextField(20);
-		this.add(bookNumber);
+		panel1.add(bookNumber);
 		
 		JLabel isbnLabel = new JLabel("ISBN:");
-		isbnLabel.setPreferredSize(new Dimension(80,20));
-		this.add(isbnLabel);
+		isbnLabel.setPreferredSize(new Dimension(110, 20));
+		panel1.add(isbnLabel);
 		bookIsbn = new JTextField(20);
-		this.add(bookIsbn);		
+		panel1.add(bookIsbn);		
 		
 		JLabel titleLabel = new JLabel("Title:");
-		titleLabel.setPreferredSize(new Dimension(80,20));
-		this.add(titleLabel);
+		titleLabel.setPreferredSize(new Dimension(110, 20));
+		panel1.add(titleLabel);
 		bookTitle = new JTextField(20);
-		this.add(bookTitle);
+		panel1.add(bookTitle);
 		
 		JLabel publisherLabel = new JLabel("Publisher:");
-		publisherLabel.setPreferredSize(new Dimension(80,20));
-		this.add(publisherLabel);
+		publisherLabel.setPreferredSize(new Dimension(110,20));
+		panel1.add(publisherLabel);
 		bookPublisher = new JTextField(20);
-		this.add(bookPublisher);
+		panel1.add(bookPublisher);
 		
 		JLabel PublicationYearLabel = new JLabel("Year:");
-		PublicationYearLabel.setPreferredSize(new Dimension(80,20));
-		this.add(PublicationYearLabel);
+		PublicationYearLabel.setPreferredSize(new Dimension(110,20));
+		panel1.add(PublicationYearLabel);
 		bookPublicationYear = new JTextField(20);
-		this.add(bookPublicationYear);
+		panel1.add(bookPublicationYear);
 		
 		JLabel MainAuthorLabel = new JLabel("Main author:");
-		MainAuthorLabel.setPreferredSize(new Dimension(80,20));
-		this.add(MainAuthorLabel);
+		MainAuthorLabel.setPreferredSize(new Dimension(110,20));
+		panel1.add(MainAuthorLabel);
 		bookMainAuthor = new JTextField(20);
-		this.add(bookMainAuthor);
+		panel1.add(bookMainAuthor);
+		this.add(panel1);
 		
-		JSeparator sep1 = new JSeparator();
-		this.add(sep1);
-		
+		// The list of additional authors
+		JPanel authorsPanel = new JPanel();
 		JLabel authorsLabel = new JLabel("Other authors:");
-		authorsLabel.setPreferredSize(new Dimension(100,20));
-		this.add(authorsLabel);
+		authorsLabel.setPreferredSize(new Dimension(110,20));
+		authorsPanel.add(authorsLabel);
 		otherAuthor = new JTextField(13);
-		this.add(otherAuthor);
+		authorsPanel.add(otherAuthor);
 		addAuthorBtn = new JButton("Add");
-		this.add(addAuthorBtn);
+		authorsPanel.add(addAuthorBtn);
 		otherAuthors = new JList();
 		JScrollPane authorSP = new JScrollPane(otherAuthors);
-		authorSP.setPreferredSize(new Dimension(300,70));
-		this.add(authorSP);
+		authorSP.setPreferredSize(new Dimension(300,50));
+		authorsPanel.add(authorSP);
+		authorsPanel.setBorder(new LineBorder(Color.DARK_GRAY));
+		authorsPanel.setPreferredSize(new Dimension(360, 150));
+		this.add(authorsPanel);
 		
+		// The list of associated subjects
+		JPanel subjectsPanel = new JPanel();
 		JLabel subjectsLabel = new JLabel("Subjects:");
-		subjectsLabel.setPreferredSize(new Dimension(100,20));
-		this.add(subjectsLabel);
+		subjectsLabel.setPreferredSize(new Dimension(110,20));
+		subjectsPanel.add(subjectsLabel);
 		subject = new JTextField(13);
-		this.add(subject);
+		subjectsPanel.add(subject);
 		addSubjectBtn = new JButton("Add");
-		this.add(addSubjectBtn);
+		subjectsPanel.add(addSubjectBtn);
 		subjects = new JList();
 		JScrollPane subjectSP = new JScrollPane(subjects);
-		subjectSP.setPreferredSize(new Dimension(300,70));
-		this.add(subjectSP);
+		subjectSP.setPreferredSize(new Dimension(300,50));
+		subjectsPanel.add(subjectSP);
+		subjectsPanel.setBorder(new LineBorder(Color.DARK_GRAY));
+		subjectsPanel.setPreferredSize(new Dimension(360, 150));
+		this.add(subjectsPanel);
 		
 		addBtn = new JButton("Add book");
 		this.add(addBtn);
@@ -142,8 +160,9 @@ public class AddBook extends JPanel {
 	
 	private void addAuthor() {
 		String newauth = otherAuthor.getText().trim();
-		if (newauth.length() > 0 && authorList.size() <= 10) {
+		if (newauth.length() > 0 && authorList.size() <= 10 && !authorList.contains(newauth)) {
 			authorList.add(newauth);
+			System.out.println("Adding author " + newauth + " to authorList");
 			otherAuthors.setListData(authorList);
 		}
 	}
@@ -175,8 +194,6 @@ public class AddBook extends JPanel {
 		}
 		if (mainAuthor.length() == 0) {
 			mainAuthor = null;
-		} else {
-			authorList.add(mainAuthor);
 		}
 		if (publisher.length() == 0) {
 			publisher = null;
@@ -184,15 +201,12 @@ public class AddBook extends JPanel {
 
 		try {
 			publicationYear = Integer.parseInt(bookPublicationYear.getText());
-			//java.util.Date currDate = new java.util.Date();
-			// TODO: Actually check for current year + 2
 			if (publicationYear < 1600 || publicationYear > 3000) {
 				publicationYear = null;
 			}
 		} catch (NumberFormatException e) {
 			System.out.println("Invalid publication year - leaving it blank");
 		}
-		
 		// Add the book
 		int copynum = SQLFunctionsLibrarian.addBook(callNumber, isbn, title, mainAuthor,
 				publisher, publicationYear, authorList, subjectList);
@@ -200,7 +214,8 @@ public class AddBook extends JPanel {
 			JOptionPane.showMessageDialog(frame, "Failed to add book - please check input values", "Error adding book", JOptionPane.ERROR_MESSAGE);
 		} else {
 			JOptionPane.showMessageDialog(frame, "Adding copy " + copynum + " of book " + callNumber);
-
+			JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+			topFrame.dispose();
 		}
 	}
 
