@@ -138,17 +138,17 @@ public class SQLFunctionsBorrower {
 	}
 
 	// Pay the Fine. Update the Fine tuple
-	public static int payFine(int bid) {
+	public static int payFine(int fid) {
 
 		System.out.println("Paying fine.");
 
 		try {
 			PreparedStatement ps = getConnection().prepareStatement(
 					"UPDATE fine SET paidDate = CURRENT_DATE "
-							+ "WHERE fine.borid = (select borid from borrowing where bid = ?)");
+							+ "WHERE fine.fid=? ");
 
 			// Set all the input values
-			ps.setInt(1, bid);
+			ps.setInt(1, fid);
 
 			// Execute the update statement
 			ps.executeUpdate();
@@ -172,7 +172,7 @@ public class SQLFunctionsBorrower {
 		try {
 			// Create the prepared statement for the query
 			PreparedStatement ps = getConnection().prepareStatement(
-					"SELECT bid, borid, callnumber, copyno, outdate, " + 
+					"SELECT bid, callnumber, copyno, outdate, " + 
 					"indate FROM borrowing WHERE bid = ?"); 
 
 			// Set all the input values

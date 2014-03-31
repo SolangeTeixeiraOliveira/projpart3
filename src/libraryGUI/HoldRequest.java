@@ -57,7 +57,6 @@ public class HoldRequest extends JPanel {
 			return;
 		}
 		
-		//System.out.println("In Hold Request");
 		ResultSet rs = SQLFunctionsBorrower.bookExists(callNumber.getText());
 		try {
 			if (rs.next()){
