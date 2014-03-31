@@ -225,17 +225,12 @@ public class SQLFunctionsClerk {
 				PreparedStatement ps = Connector.getConnection().prepareStatement(
 						"INSERT INTO borrowing"
 								+ "(bid, callnumber, copyno, outdate, indate) "
-								+ "VALUES (?,?,?,CURRENT_DATE,"
-								+ "(SELECT CURRENT_DATE+(7*booktimelimit)"
-								+ " FROM borrowertype, borrower "
-								+ "WHERE borrowertype.type=borrower.type "
-								+ "AND borrower.bid=?))");
+								+ "VALUES (?,?,?,CURRENT_DATE,null)");
 
 				// Set all the input values
 				ps.setInt(1, bid);
 				ps.setString(2, callNum);
 				ps.setInt(3, copyNum);
-				ps.setInt(4, bid);
 				ps.executeUpdate();
 				Connector.getConnection().commit();
 				return true;
