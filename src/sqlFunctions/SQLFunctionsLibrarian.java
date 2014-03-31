@@ -63,7 +63,9 @@ public class SQLFunctionsLibrarian {
 						"INSERT INTO hasauthor (callNumber, name) " +
 						"VALUES (?,?)");
 				ps4.setString(1, callNumber);
+				authorList.add(mainAuthor);
 				for (String author : authorList) {
+					System.out.println("Adding author " + author);
 					ps4.setString(2, author);
 					ps4.executeUpdate();
 				}

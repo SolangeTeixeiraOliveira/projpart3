@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import sqlFunctions.SQLFunctionsLibrarian;
 
@@ -142,8 +143,9 @@ public class AddBook extends JPanel {
 	
 	private void addAuthor() {
 		String newauth = otherAuthor.getText().trim();
-		if (newauth.length() > 0 && authorList.size() <= 10) {
+		if (newauth.length() > 0 && authorList.size() <= 10 && !authorList.contains(newauth)) {
 			authorList.add(newauth);
+			System.out.println("Adding author " + newauth + " to authorList");
 			otherAuthors.setListData(authorList);
 		}
 	}
@@ -175,8 +177,6 @@ public class AddBook extends JPanel {
 		}
 		if (mainAuthor.length() == 0) {
 			mainAuthor = null;
-		} else {
-			authorList.add(mainAuthor);
 		}
 		if (publisher.length() == 0) {
 			publisher = null;
@@ -184,15 +184,12 @@ public class AddBook extends JPanel {
 
 		try {
 			publicationYear = Integer.parseInt(bookPublicationYear.getText());
-			//java.util.Date currDate = new java.util.Date();
-			// TODO: Actually check for current year + 2
 			if (publicationYear < 1600 || publicationYear > 3000) {
 				publicationYear = null;
 			}
 		} catch (NumberFormatException e) {
 			System.out.println("Invalid publication year - leaving it blank");
 		}
-		
 		// Add the book
 		int copynum = SQLFunctionsLibrarian.addBook(callNumber, isbn, title, mainAuthor,
 				publisher, publicationYear, authorList, subjectList);
@@ -200,7 +197,8 @@ public class AddBook extends JPanel {
 			JOptionPane.showMessageDialog(frame, "Failed to add book - please check input values", "Error adding book", JOptionPane.ERROR_MESSAGE);
 		} else {
 			JOptionPane.showMessageDialog(frame, "Adding copy " + copynum + " of book " + callNumber);
-
+			JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+			topFrame.dispose();
 		}
 	}
 
