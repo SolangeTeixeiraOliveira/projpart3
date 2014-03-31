@@ -18,15 +18,15 @@ public class Connector {
 				con = DriverManager.getConnection(
 
 
-				"jdbc:oracle:thin:@localhost:1522:ug", "ora_y2c9", "a64353139");
-//=======
+				//"jdbc:oracle:thin:@localhost:1522:ug", "ora_y2c9", "a64353139");
+				"jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug", "ora_y2c9", "a64353139");
+
 //				"jdbc:oracle:thin:@localhost:1522:ug", "ora_x4q7", "a45775103");
-//>>>>>>> f91b886d5172f18e49e81975bd1c101cfed33483
 
 				con.setAutoCommit(false);
 			} catch (SQLException e) {
 				System.out
-						.println("Problem registering driver or connecting to oracle");
+						.println("Problem registering driver or connecting to oracle: "+e.getMessage());
 				e.printStackTrace();
 			}
 		}

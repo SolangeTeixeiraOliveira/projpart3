@@ -144,7 +144,10 @@ public class SQLFunctionsLibrarian {
 							+ "WHERE EXTRACT(year from indate) = ? "
 							+ "OR EXTRACT(year from outdate) = ? "
 							+ "GROUP BY callNumber "
-							+ "ORDER BY checkouts");// DESC LIMIT 2");
+							+ "ORDER BY checkouts "
+						//	+ "LIMIT ALL ");	
+						//	+ rownum <= 10;
+						    );
 			ps.setInt(1, year);
 			ps.setInt(2, year);
 			//ps.setInt(3, n);
