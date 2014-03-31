@@ -6,10 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 public class SQLFunctionsBorrower {
 
 	// Only access con through the getConnection function
 	private static Connection con;
+	private static JFrame frame;
 
 	private static Connection getConnection() {
 		if (con == null) {
@@ -75,30 +79,45 @@ public class SQLFunctionsBorrower {
 	public static int holdRequest(int userID, String callNum) {
 
 		System.out.println("Adding hold request for " + userID);
-
+		
+		// Insert the new hold request into the hold request table
 		try {
-			PreparedStatement ps = getConnection().prepareStatement(
-					"INSERT INTO holdrequest(bid, callnumber, issuedDate) "
-							+ "VALUES ( ?, ?, CURRENT_DATE) ", new String[] { "hid" });
+			// Check if there is a book copy that is in
+			PreparedStatement ps1 = Connector.getConnection().prepareStatement(
+					"SELECT * FROM bookcopy "
+							+ "WHERE callnumber=? and status = 'in'");
+			ps1.setString(1, callNum);
+			ResultSet rs = ps1.executeQuery();
 
-			// Set all the input values
-			ps.setInt(1, userID);
-			ps.setString(2, callNum);
+			if (rs.next()) {
+				JOptionPane.showMessageDialog(frame, "There is a copy of the book.");
+			}else{			
+				//Insert a hold request when there is no book copy available
+				PreparedStatement ps2 = getConnection().prepareStatement(
+						"INSERT INTO holdrequest(bid, callnumber, issuedDate) "
+								+ "VALUES ( ?, ?, CURRENT_DATE) ", new String[] { "hid" });
 
-			// Execute the insert statement and return the new hold request id
-			if (ps.executeUpdate() > 0) {
-				ResultSet generatedHid = ps.getGeneratedKeys();
-				if (null != generatedHid && generatedHid.next()) {
-					return generatedHid.getInt(1);
-				}
-			} else {
-				throw new SQLException("Creating hold request failed.");
+				// Set all the input values
+				ps2.setInt(1, userID);
+				ps2.setString(2, callNum);
+
+				JOptionPane.showMessageDialog(frame, "New Hold Request Made.");
+				
+				// Execute the insert statement and return the new hold request id
+				if (ps2.executeUpdate() > 0) {
+					ResultSet generatedHid = ps2.getGeneratedKeys();
+					if (null != generatedHid && generatedHid.next()) {
+						return generatedHid.getInt(1);
+					}
+				} else {
+					throw new SQLException("Creating hold request failed.");
+				}	
 			}
-
 		} catch (SQLException e) {
 			System.out.println("Failed to add hold request");
 			e.printStackTrace();
 		}
+		
 		return 0;
 	}
 	
