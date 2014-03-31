@@ -1,6 +1,7 @@
 package libraryGUI;
 
 import java.awt.Dimension;
+import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.print.Book;
@@ -55,8 +56,13 @@ public class GenerateReport extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				popularBook();
-			}
+			//	popularBook();		
+	        		JFrame frame = new JFrame ("Isert Year");
+	        		frame.setResizable(false);
+	                frame.getContentPane().add (new PopupMenu());
+	                frame.pack();
+	                frame.setVisible (true);
+	        	}
 			});
 		}
 		
@@ -70,9 +76,10 @@ public class GenerateReport extends JPanel {
 		}
 		
 		private void popularBook() {
-			int callNumber = Integer.parseInt(bookNumber.getText());
-			int report = SQLFunctions.popuparItem(callNumber, outDate.getText(), inDate.getText(),
-					bookTitle.getText());
-			System.out.println(report);
+			JFrame frame = new JFrame ("Display The Most Popular Books");
+            frame.getContentPane().add (new DisplayMostPopuparItem());
+            frame.pack();
+            frame.setVisible (true);
+            
 		}
 	}
