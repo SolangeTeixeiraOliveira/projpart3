@@ -5,7 +5,6 @@ TODO:
 - Librarian:
 	- fix UI for add book
 	- fix UI for generate report
-	- fix bug in add book - adding multiple books consecutively with same author
 	- finish generate report for popular items function
 
 - test all functions
