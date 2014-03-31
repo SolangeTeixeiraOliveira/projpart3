@@ -46,6 +46,27 @@ public class SQLFunctionsLibrarian {
 					ps.setInt(6, publicationYear);
 				}
 				ps.executeUpdate();
+				
+
+				// Add each subject
+				PreparedStatement ps3 = Connector.getConnection().prepareStatement(
+						"INSERT INTO hassubject (callNumber, subject) " +
+						"VALUES (?,?)");
+				ps3.setString(1, callNumber);
+				for (String subject : subjectList) {
+					ps3.setString(2, subject);
+					ps3.executeUpdate();
+				}
+				
+				// Add each author
+				PreparedStatement ps4 = Connector.getConnection().prepareStatement(
+						"INSERT INTO hasauthor (callNumber, name) " +
+						"VALUES (?,?)");
+				ps4.setString(1, callNumber);
+				for (String author : authorList) {
+					ps4.setString(2, author);
+					ps4.executeUpdate();
+				}
 			}
 			
 			// Add a new book copy
@@ -55,26 +76,6 @@ public class SQLFunctionsLibrarian {
 			ps2.setString(1, callNumber);
 			ps2.setInt(2, numcopies+1);
 			ps2.executeUpdate();
-			
-			// Add each subject
-			PreparedStatement ps3 = Connector.getConnection().prepareStatement(
-					"INSERT INTO hassubject (callNumber, subject) " +
-					"VALUES (?,?)");
-			ps3.setString(1, callNumber);
-			for (String subject : subjectList) {
-				ps3.setString(2, subject);
-				ps3.executeUpdate();
-			}
-			
-			// Add each author
-			PreparedStatement ps4 = Connector.getConnection().prepareStatement(
-					"INSERT INTO hasauthor (callNumber, name) " +
-					"VALUES (?,?)");
-			ps4.setString(1, callNumber);
-			for (String author : authorList) {
-				ps4.setString(2, author);
-				ps4.executeUpdate();
-			}
 			
 			Connector.getConnection().commit();
 			return numcopies+1;
