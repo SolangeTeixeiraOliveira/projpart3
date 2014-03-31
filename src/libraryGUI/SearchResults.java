@@ -59,6 +59,7 @@ public class SearchResults extends JPanel {
 		table.getColumnModel().getColumn(1).setPreferredWidth(150);
 		table.getColumnModel().getColumn(2).setPreferredWidth(150);
 		table.getColumnModel().getColumn(3).setPreferredWidth(150);
+		table.setEnabled(false);
 	};
 	
 }

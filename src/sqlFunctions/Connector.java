@@ -17,7 +17,7 @@ public class Connector {
 						.registerDriver(new oracle.jdbc.driver.OracleDriver());
 				con = DriverManager.getConnection(
 
-				"jdbc:oracle:thin:@localhost:1522:ug", "ora_y2c9", "a64353139");
+				"jdbc:oracle:thin:@localhost:1522:ug", "ora_t3s7", "a41513102");
 
 				con.setAutoCommit(false);
 			} catch (SQLException e) {

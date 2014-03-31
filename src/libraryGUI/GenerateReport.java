@@ -30,7 +30,7 @@ public class GenerateReport extends JPanel {
 			this.setPreferredSize(new Dimension(200, 300));
 			JLabel ReportCheckedOutLabel = new JLabel("Report: CheckedOut Books");
 			this.add(ReportCheckedOutLabel);
-			JLabel subjectLabel = new JLabel("Subject:");
+			JLabel subjectLabel = new JLabel("Subject (optional):");
 			this.add(subjectLabel);
 			CheckedOutSubject = new JTextField(15);
 			this.add(CheckedOutSubject);
