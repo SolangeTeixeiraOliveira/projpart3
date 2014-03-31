@@ -41,7 +41,7 @@ public class AddBook extends JPanel {
 	private Vector<String> authorList;
 
 	public AddBook() {
-		this.setPreferredSize(new Dimension(400, 600));
+		this.setPreferredSize(new Dimension(400, 650));
 		FlowLayout fl = new FlowLayout();
 		fl.setVgap(25);
 		this.setLayout(fl);
