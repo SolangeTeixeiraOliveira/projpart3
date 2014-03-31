@@ -77,7 +77,7 @@ public class GenerateReport extends JPanel {
 		
 		private void popularBook() {
 			JFrame frame = new JFrame ("Display The Most Popular Books");
-            frame.getContentPane().add (new DisplayMostPopuparItem());
+            frame.getContentPane().add (new DisplayMostPopularItem());
             frame.pack();
             frame.setVisible (true);
             
