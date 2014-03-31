@@ -185,13 +185,11 @@ insert into HasSubject values ('rowling980', 'Fantasy');
 
 insert into HasSubject values ('christie801', 'Mystery');
 
-insert into BookCopy values ('reed123', 1, 'in');
+insert into BookCopy values ('reed123', 1, 'out');
 
 insert into BookCopy values ('reed123', 2, 'in');
 
 insert into BookCopy values ('dwight345', 1, 'out');
-
-insert into BookCopy values ('dwight345', 2, 'in');
 
 insert into BookCopy values ('rowling980', 1, 'out');
 
@@ -203,9 +201,9 @@ insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (2, 'dwig
 
 insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (2, 'reed123', 1, '13-Mar-31', '14-Jan-01');
 
-insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (4, 'rowling980', 1, '14-Jan-02', null);
+insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (4, 'rowling980', 1, '14-Jan-02', '14-Jan-16');
 
-insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (4, 'christie801', 1, '14-Mar-29', null);
+insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (4, 'christie801', 1, '14-Mar-29', '14-Apr-12');
 
 insert into Fine(amount, issuedDate, paidDate, borid) values (100, '14-Jan-20', null, 1);
 
