@@ -36,7 +36,7 @@ public class CheckOut extends JPanel {
 		this.setPreferredSize(new Dimension(400, 300));
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		
-		JLabel cardNumberLabel = new JLabel("Card Number:");
+		JLabel cardNumberLabel = new JLabel("Borrower ID:");
 		this.add(cardNumberLabel);
 		cardNumber = new JTextField(20);
 		this.add(cardNumber);

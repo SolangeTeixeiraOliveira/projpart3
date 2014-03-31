@@ -20,7 +20,7 @@ public class SQLFunctions {
 				con = DriverManager.getConnection(
 
 						"jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug",
-						"ora_y2c9", "a64353139");
+						"ora_t3s7", "a41513102");
 
 //						"jdbc:oracle:thin:@localhost:1522:ug",
 //						"ora_x4q7", "a45775103");
@@ -174,6 +174,7 @@ public class SQLFunctions {
 				ps6.setFloat(1, fine);
 				ps6.setInt(2, borid);
 				ps6.executeUpdate();
+				System.out.println("Fine amount: " + fine);
 			}
 			
 			// Update the indate of the borrowing record

@@ -43,23 +43,23 @@ public class CheckAcctResults extends JPanel {
 
 		// Format of the date
 		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
-		
+
 		// Check the items borrowed by the borrower id	
 		ResultSet rs1 = SQLFunctionsBorrower.checkborrowing(bid);
 		Vector<Vector<String>> data1 = new Vector<Vector<String>>();
 		try {
-			
-			
+
+
 			while (rs1.next()) { 
 				// Changing the format of the date
-				java.sql.Date outDate = rs1.getDate(5);
+				java.sql.Date sqloutDate = rs1.getDate(5);
 				java.util.Date utiloutDate = new java.util.Date();
-				utiloutDate.setTime(outDate.getTime());
-				
-				java.sql.Date inDate = rs1.getDate(6);
+				utiloutDate.setTime(sqloutDate.getTime());
+
+				java.sql.Date sqlinDate = rs1.getDate(6);
 				java.util.Date utilinDate = new java.util.Date();
-				utilinDate.setTime(inDate.getTime());
-				
+				utilinDate.setTime(sqlinDate.getTime());
+
 				Vector<String> rowData1 = new Vector<String>();
 				System.out.println(rs1.getString(1));
 				rowData1.add(rs1.getString(1));
@@ -93,7 +93,7 @@ public class CheckAcctResults extends JPanel {
 		table1.getColumnModel().getColumn(3).setPreferredWidth(300);
 		table1.getColumnModel().getColumn(4).setPreferredWidth(300);
 		table1.getColumnModel().getColumn(5).setPreferredWidth(350);
-		
+
 		// Check the fines by the borrower id
 		ResultSet rs2 = SQLFunctionsBorrower.checkfine(bid);
 		Vector<Vector<String>> data2 = new Vector<Vector<String>>();
@@ -103,13 +103,11 @@ public class CheckAcctResults extends JPanel {
 				java.sql.Date sqlissuedDate = rs2.getDate(4);
 				java.util.Date utilissuedDate = new java.util.Date();
 				utilissuedDate.setTime(sqlissuedDate.getTime());
-				//String issuedDate = fm.parse(utilissuedDate);
-				
+
 				java.sql.Date sqlpaidDate = rs2.getDate(5);
 				java.util.Date utilpaidDate = new java.util.Date();
 				utilpaidDate.setTime(sqlpaidDate.getTime());
-				//String paidDate = fm.parse(utilpaidDate);
-				
+
 				Vector<String> rowData2 = new Vector<String>();
 				System.out.println(rs2.getString(1));
 				rowData2.add(rs2.getString(1));
@@ -141,8 +139,8 @@ public class CheckAcctResults extends JPanel {
 		table2.getColumnModel().getColumn(3).setPreferredWidth(300);
 		table2.getColumnModel().getColumn(4).setPreferredWidth(300);
 
-		
-		
+
+
 		// Check the hold requests by the borrower id
 		ResultSet rs3 = SQLFunctionsBorrower.checkholdrequest(bid);
 		Vector<Vector<String>> data3 = new Vector<Vector<String>>();
@@ -152,7 +150,7 @@ public class CheckAcctResults extends JPanel {
 				java.sql.Date hrDate = rs3.getDate(4);
 				java.util.Date utilhrDate = new java.util.Date();
 				utilhrDate.setTime(hrDate.getTime());
-				
+
 				Vector<String> rowData3 = new Vector<String>();
 				System.out.println(rs3.getString(1));
 				rowData3.add(rs3.getString(1));
@@ -182,5 +180,4 @@ public class CheckAcctResults extends JPanel {
 		table3.getColumnModel().getColumn(3).setPreferredWidth(300);
 
 	};
-
 }
