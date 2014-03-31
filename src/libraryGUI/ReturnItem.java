@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import sqlFunctions.SQLFunctions;
+import sqlFunctions.SQLFunctionsClerk;
 
 
 public class ReturnItem extends JPanel {
@@ -64,7 +64,7 @@ public class ReturnItem extends JPanel {
 			return;
 		}
 		
-		String emailAddress = SQLFunctions.returnItem(bookCallNum, bookCopyNum);
+		String emailAddress = SQLFunctionsClerk.returnItem(bookCallNum, bookCopyNum);
 		if (emailAddress != null) {
 			System.out.println("Book returned - sent email to " + emailAddress);
 		} else {

@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import sqlFunctions.SQLFunctions;
+import sqlFunctions.SQLFunctionsClerk;
 
 
 public class CheckOut extends JPanel {
@@ -131,7 +132,7 @@ public class CheckOut extends JPanel {
 		Vector<String> failedCheckouts = new Vector<String>();
 		//Vector<String> successfulCheckouts = new Vector<String>();
 		for (int i=0; i<callNumList.size(); i++) {
-			boolean success = SQLFunctions.checkOutItem(callNumList.get(i),
+			boolean success = SQLFunctionsClerk.checkOutItem(callNumList.get(i),
 					copyNumList.get(i), bid);
 			if (success) {
 				System.out.println("Successfully checked out " + fullCallNums.get(i));

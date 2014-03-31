@@ -58,20 +58,20 @@ create table HasAuthor (
 CallNumber varchar(20) not null,
 Name varchar(20) not null,
 PRIMARY KEY(CallNumber, Name),
-FOREIGN KEY (CallNumber) REFERENCES Book);
+FOREIGN KEY (CallNumber) REFERENCES Book ON DELETE CASCADE);
 
 create table HasSubject (
 CallNumber varchar(20) not null,
 Subject varchar(20) not null,
 PRIMARY KEY (CallNumber, Subject),
-FOREIGN KEY (CallNumber) REFERENCES Book);
+FOREIGN KEY (CallNumber) REFERENCES Book ON DELETE CASCADE);
 
 create table BookCopy (
 CallNumber varchar(20) not null,
 CopyNo integer not null,
 Status varchar(20) not null,
 PRIMARY KEY (CallNumber, CopyNo),
-FOREIGN KEY (CallNumber) REFERENCES Book);
+FOREIGN KEY (CallNumber) REFERENCES Book ON DELETE CASCADE);
 
 create table HoldRequest (
 Hid integer not null PRIMARY KEY,
@@ -79,7 +79,7 @@ Bid integer not null,
 CallNumber varchar(20) not null,
 IssuedDate date not null,
 FOREIGN KEY (Bid) REFERENCES Borrower,
-FOREIGN KEY (CallNumber) REFERENCES Book);
+FOREIGN KEY (CallNumber) REFERENCES Book ON DELETE CASCADE);
 
 Create Sequence hold_seq;
 
@@ -101,8 +101,8 @@ CallNumber varchar(20) not null,
 CopyNo integer not null,
 OutDate date not null,
 InDate date,
-FOREIGN KEY (Bid) REFERENCES Borrower,
-FOREIGN KEY (CallNumber) REFERENCES Book);
+FOREIGN KEY (Bid) REFERENCES Borrower ON DELETE CASCADE,
+FOREIGN KEY (CallNumber) REFERENCES Book ON DELETE CASCADE);
 
 Create Sequence borrowing_seq;
 
@@ -123,7 +123,7 @@ Amount integer not null,
 IssuedDate date not null,
 PaidDate date,
 Borid integer not null,
-FOREIGN KEY (Borid) REFERENCES Borrowing);
+FOREIGN KEY (Borid) REFERENCES Borrowing ON DELETE CASCADE);
 
 Create Sequence fine_seq;
 
@@ -195,13 +195,15 @@ insert into BookCopy values ('dwight345', 2, 'in');
 
 insert into BookCopy values ('rowling980', 1, 'out');
 
-insert into BookCopy values ('christie801', 1, 'in');
+insert into BookCopy values ('christie801', 1, 'out');
 
 insert into HoldRequest(Bid, CallNumber, issuedDate) values (1, 'dwight345', '13-Apr-01');
 
-insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (2, 'dwight345', 1, '13-Mar-31', '14-Apr-12');
+insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (2, 'dwight345', 1, '13-Mar-31', '14-Jan-01');
 
-insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (4, 'rowling980', 1, '14-Jan-02', '14-Mar-20');
+insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (4, 'rowling980', 1, '14-Jan-02', null);
+
+insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (4, 'christie801', 1, '14-Mar-29', null);
 
 insert into Fine(amount, issuedDate, paidDate, borid) values (10, '14-Jan-20', '14-Feb-11', 1);
 

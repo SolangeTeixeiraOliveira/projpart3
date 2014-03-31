@@ -6,7 +6,7 @@ import java.util.Vector;
 
 import javax.swing.*;
 
-import sqlFunctions.SQLFunctions;
+import sqlFunctions.SQLFunctionsClerk;
 
 
 public class CheckOverdue extends JPanel {
@@ -26,7 +26,7 @@ public class CheckOverdue extends JPanel {
 	}
 
 	private void displayOverdueItems() {
-		ResultSet rs = SQLFunctions.getOverdueItems();
+		ResultSet rs = SQLFunctionsClerk.getOverdueItems();
 		Vector<Vector<String>> data = new Vector<Vector<String>>();
 		try {
 			while (rs.next()) {

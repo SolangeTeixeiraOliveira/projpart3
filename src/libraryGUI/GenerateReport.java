@@ -3,8 +3,6 @@ package libraryGUI;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.print.Book;
-import java.sql.ResultSet;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import sqlFunctions.SQLFunctions;
+import sqlFunctions.SQLFunctionsLibrarian;
 
 
 public class GenerateReport extends JPanel {
@@ -71,7 +69,7 @@ public class GenerateReport extends JPanel {
 		
 		private void popularBook() {
 			int callNumber = Integer.parseInt(bookNumber.getText());
-			int report = SQLFunctions.popuparItem(callNumber, outDate.getText(), inDate.getText(),
+			int report = SQLFunctionsLibrarian.popuparItem(callNumber, outDate.getText(), inDate.getText(),
 					bookTitle.getText());
 			System.out.println(report);
 		}

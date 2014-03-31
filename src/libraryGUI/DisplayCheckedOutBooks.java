@@ -9,7 +9,7 @@ import java.util.Vector;
 
 import javax.swing.*;
 
-import sqlFunctions.SQLFunctions;
+import sqlFunctions.SQLFunctionsLibrarian;
 
 public class DisplayCheckedOutBooks  extends JPanel{
 
@@ -26,7 +26,7 @@ public class DisplayCheckedOutBooks  extends JPanel{
 	}
 
 	private void displayCheckOutAllBook(String subject) {
-		ResultSet rs = SQLFunctions.getdisplayCheckOutAllBook(subject);
+		ResultSet rs = SQLFunctionsLibrarian.getdisplayCheckOutAllBook(subject);
 		Vector<Vector<String>> data = new Vector<Vector<String>>();
 		java.util.Date currDate = new java.util.Date();
 		try {

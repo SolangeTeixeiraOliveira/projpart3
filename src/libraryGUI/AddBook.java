@@ -14,7 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 
-import sqlFunctions.SQLFunctions;
+import sqlFunctions.SQLFunctionsLibrarian;
 
 public class AddBook extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -194,7 +194,7 @@ public class AddBook extends JPanel {
 		}
 		
 		// Add the book
-		int copynum = SQLFunctions.addBook(callNumber, isbn, title, mainAuthor,
+		int copynum = SQLFunctionsLibrarian.addBook(callNumber, isbn, title, mainAuthor,
 				publisher, publicationYear, authorList, subjectList);
 		if (copynum == 0) {
 			JOptionPane.showMessageDialog(frame, "Failed to add book - please check input values", "Error adding book", JOptionPane.ERROR_MESSAGE);

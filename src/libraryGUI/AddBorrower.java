@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import sqlFunctions.SQLFunctions;
+import sqlFunctions.SQLFunctionsClerk;
 
 public class AddBorrower extends JPanel {
 
@@ -102,7 +102,7 @@ public class AddBorrower extends JPanel {
 			JOptionPane.showMessageDialog(frame, "Phone number and SIN/Student number must be integers");
 			return;
 		}
-		int bid = SQLFunctions.addBorrower(borName.getText(), borPassword
+		int bid = SQLFunctionsClerk.addBorrower(borName.getText(), borPassword
 				.getText(), borAddress.getText(), phone, borEmail.getText(),
 				sinOrStNo, borType.getSelectedItem().toString());
 		System.out.println(bid);
