@@ -25,7 +25,7 @@ public class AddBorrower extends JPanel {
 	private JFrame frame;
 
 	public AddBorrower() {
-		this.setPreferredSize(new Dimension(360, 250));
+		this.setPreferredSize(new Dimension(400, 250));
 		
 		JLabel nameLabel = new JLabel("Name:");
 		nameLabel.setPreferredSize(new Dimension(110, 20));

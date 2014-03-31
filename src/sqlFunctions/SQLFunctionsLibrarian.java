@@ -129,12 +129,33 @@ public class SQLFunctionsLibrarian {
 		return co;
 	}
 
+
 	// Generate a report with the most popular items in a given year
-	public static int popuparItem(int callNumber, String outDate,
-			String dueDate, String bookTitle) {
-		return 0;
+	public static ResultSet getMostPopularItems(){
+		System.out.println("Checking the most popular book in a given year ");
+		ResultSet res = null;
+		
 
+		try {
+
+			PreparedStatement ps = Connector.getConnection()
+					.prepareStatement(
+					"SELECT callNumber, count(callNumber)"
+							+ "FROM borrowing b "
+							+ "WHERE indate = ? OR outDate = ?"
+						//	+ "WHERE b.datetime BETWEEN <<Top checkouts BETWEEN (yyyy-mm-dd)|date>> AND <<and (yyyy-mm-dd)|date>>"
+							+ "GROUP BY callNumber"
+							+ "ORDER BY callNumber DESC"
+							+ "LIMITE 30");
+
+
+		                    
+			res = ps.executeQuery();
+
+		} catch (SQLException e) {
+			System.out.println("Failed to check all book checked out");
+			e.printStackTrace();
+		}
+		return res;
 	}
-
-	
 }
