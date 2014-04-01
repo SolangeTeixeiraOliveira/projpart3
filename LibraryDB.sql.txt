@@ -1,4 +1,4 @@
-﻿
+
 drop table Borrower cascade constraints;
 drop table BorrowerType cascade constraints;
 drop table Book cascade constraints;
@@ -221,5 +221,5 @@ insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (4, 'chri
 
 insert into Fine(amount, issuedDate, paidDate, borid) values (10.01, '14-Jan-20', null, 1);
 
-insert into Fine(amount, issuedDate, PaidDate, borid) values (3.92, '14-Jan-20', null, 2);
+insert into Fine(amount, issuedDate, PaidDate, borid) values (3.92, '14-Jan-20', null, 5);
 
