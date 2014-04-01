@@ -12,8 +12,7 @@ public class SQLFunctionsBorrower {
 		title = title.toLowerCase();
 		author = author.toLowerCase();
 		subject = subject.toLowerCase();
-		System.out.println("In search book, Searching for book with " + title + " or " 
-							+ author + " or " + subject);
+		
 		ResultSet rs = null;
 
 		try {
@@ -39,7 +38,7 @@ public class SQLFunctionsBorrower {
 			rs = ps.executeQuery();
 
 		} catch (SQLException e) {
-			System.out.println("Failed to search for book");
+			
 			e.printStackTrace();
 		}
 		return rs;
@@ -48,8 +47,6 @@ public class SQLFunctionsBorrower {
 
 	// Add a new Hold Request
 	public static int holdRequest(int userID, String callNum) {
-
-		System.out.println("Adding hold request for " + userID);
 		
 		// Insert the new hold request into the hold request table
 		try {
@@ -85,7 +82,7 @@ public class SQLFunctionsBorrower {
 			}
 			
 		} catch (SQLException e) {
-			System.out.println("Failed to add hold request");
+		
 			e.printStackTrace();
 		}
 		
@@ -100,9 +97,9 @@ public class SQLFunctionsBorrower {
 					"WHERE callnumber = ?");
 			ps.setString(1, callnum);
 			rs = ps.executeQuery();
-			System.out.println("Checking call number: " + callnum);
+			
 		} catch (SQLException e) { 
-			System.out.println("Book does not Exists");
+			
 			e.printStackTrace();
 		}
 		return rs;
@@ -110,8 +107,6 @@ public class SQLFunctionsBorrower {
 
 	// Pay the Fine. Update the Fine tuple
 	public static int payFine(int fid, int bid) {
-
-		System.out.println("Paying fine.");
 
 		try {
 			PreparedStatement ps1 = Connector.getConnection().prepareStatement(
@@ -129,11 +124,11 @@ public class SQLFunctionsBorrower {
 
 				// Execute the update statement
 				ps2.executeUpdate();
-				System.out.println("Fine Paid");
+				
 			}
 			Connector.getConnection().commit();
 		} catch (SQLException e) {
-			System.out.println("Failed to pay fine");
+			
 			e.printStackTrace();
 		}
 
@@ -161,10 +156,10 @@ public class SQLFunctionsBorrower {
 
 			// Execute the query statement and return the books searched
 			rs = ps.executeQuery();
-			System.out.println("items borrowed query done!");
+			
 
 		} catch (SQLException e) {
-			System.out.println("Failed to check the items borrowed.");
+			
 			e.printStackTrace();
 		}
 		return rs;
@@ -189,7 +184,7 @@ public class SQLFunctionsBorrower {
 			rs = ps.executeQuery();
 
 		} catch (SQLException e) {
-			System.out.println("Failed to check fines.");
+			
 			e.printStackTrace();
 		}
 		return rs;
@@ -198,7 +193,6 @@ public class SQLFunctionsBorrower {
 	// Check hold requests the borrower has
 	public static ResultSet checkholdrequest(Integer bid) {
 
-		System.out.println("In check hold requests for: " + bid);
 		ResultSet rs = null;
 
 		try {
@@ -211,10 +205,8 @@ public class SQLFunctionsBorrower {
 
 			// Execute the query statement and return the books searched
 			rs = ps.executeQuery();
-			System.out.println("hold request query done!");
 
 		} catch (SQLException e) {
-			System.out.println("Failed to check hold requests.");
 			e.printStackTrace();
 		}
 		return rs;

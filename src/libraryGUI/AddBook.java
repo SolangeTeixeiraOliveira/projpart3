@@ -162,7 +162,6 @@ public class AddBook extends JPanel {
 		String newauth = otherAuthor.getText().trim();
 		if (newauth.length() > 0 && authorList.size() <= 10 && !authorList.contains(newauth)) {
 			authorList.add(newauth);
-			System.out.println("Adding author " + newauth + " to authorList");
 			otherAuthors.setListData(authorList);
 		}
 	}
@@ -205,7 +204,6 @@ public class AddBook extends JPanel {
 				publicationYear = null;
 			}
 		} catch (NumberFormatException e) {
-			System.out.println("Invalid publication year - leaving it blank");
 		}
 		// Add the book
 		int copynum = SQLFunctionsLibrarian.addBook(callNumber, isbn, title, mainAuthor,

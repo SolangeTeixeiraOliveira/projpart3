@@ -56,7 +56,6 @@ public class CheckOverdue extends JPanel {
 		scrollpane.setPreferredSize(new Dimension(600, 400));
 		this.add(scrollpane);
 		
-		System.out.println("Displayed overdue items");
 	}
 
 }

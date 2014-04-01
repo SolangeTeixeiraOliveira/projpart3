@@ -53,7 +53,6 @@ public class CheckAccount extends JPanel{
 		                try {
 							frame.getContentPane().add (new CheckAcctResults());
 						} catch (ParseException e) {
-							System.out.println("Parse Exception");
 							e.printStackTrace();
 						}
 		                frame.pack();

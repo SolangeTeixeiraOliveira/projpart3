@@ -71,10 +71,8 @@ public class PayFine extends JPanel {
 			return;
 		}
 		
-		int fid = SQLFunctionsBorrower.payFine(fineID, bid);
-		
-		System.out.println(fid);
-		
+		SQLFunctionsBorrower.payFine(fineID, bid);
+				
 		JOptionPane.showMessageDialog(frame, "Paid Fine." );
 		JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
 		topFrame.dispose();
