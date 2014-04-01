@@ -109,23 +109,16 @@ public class SQLFunctionsBorrower {
 	public static int payFine(int fid, int bid) {
 
 		try {
-			PreparedStatement ps1 = Connector.getConnection().prepareStatement(
-					"select borid from borrowing where bid=?");
-			ps1.setInt(1, bid);
-			ResultSet rs = ps1.executeQuery();
-			
-			if (rs.next()){
-				PreparedStatement ps2 = Connector.getConnection().prepareStatement(
-						"UPDATE fine SET paidDate = CURRENT_DATE "
-								+ "WHERE fine.fid=?");
+			PreparedStatement ps2 = Connector.getConnection().prepareStatement(
+					"UPDATE fine SET paidDate = CURRENT_DATE "
+							+ "WHERE fine.fid=?");
 
-				// Set all the input values
-				ps2.setInt(1, fid);
+			// Set all the input values
+			ps2.setInt(1, fid);
 
-				// Execute the update statement
-				ps2.executeUpdate();
-				
-			}
+			// Execute the update statement
+			ps2.executeUpdate();
+
 			Connector.getConnection().commit();
 		} catch (SQLException e) {
 			
@@ -133,6 +126,23 @@ public class SQLFunctionsBorrower {
 		}
 
 		return 0;
+	}
+	
+	public static ResultSet payFineHelper(int bid) {
+
+		ResultSet rs = null;
+		try {
+			PreparedStatement ps1 = Connector.getConnection().prepareStatement(
+					"select fine.borid from borrowing, fine where borrowing.bid=? and "
+					+ "fine.borid = borrowing.borid");
+			ps1.setInt(1, bid);
+			rs = ps1.executeQuery();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return rs;
 	}
 
 
