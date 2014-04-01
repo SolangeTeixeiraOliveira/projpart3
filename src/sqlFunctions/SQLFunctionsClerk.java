@@ -106,6 +106,7 @@ public class SQLFunctionsClerk {
 				if (rs2.next()) {
 					borid = rs2.getInt(1);
 					fine = rs2.getFloat(2);
+					System.out.println("Borid: " + rs2.getInt(1));
 				} else {
 					System.out.println("Did not find borrowing record");
 					throw new SQLException();
