@@ -82,6 +82,7 @@ public class SQLFunctionsBorrower {
 					throw new SQLException("Creating hold request failed.");
 				}	
 			}
+			Connector.getConnection().commit();
 		} catch (SQLException e) {
 			System.out.println("Failed to add hold request");
 			e.printStackTrace();
@@ -129,7 +130,7 @@ public class SQLFunctionsBorrower {
 				ps2.executeUpdate();
 				System.out.println("Fine Paid");
 			}
-
+			Connector.getConnection().commit();
 		} catch (SQLException e) {
 			System.out.println("Failed to pay fine");
 			e.printStackTrace();
