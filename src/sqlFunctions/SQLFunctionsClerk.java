@@ -92,12 +92,14 @@ public class SQLFunctionsClerk {
 				// If it is past the book's due date, assess a fine for the borrower
 				PreparedStatement ps4 = Connector.getConnection()
 						.prepareStatement(
-								"SELECT borid, 0.1*(CURRENT_DATE-(borrowertype.booktimelimit+borrowing.outdate)) "
-										+ "FROM borrowing, borrower, borrowertype "
-										+ "WHERE borrowing.callnumber=? "
-										+ "AND borrowing.copyno=? "
-										+ "AND borrowing.bid=borrower.bid "
-										+ "AND borrower.type=borrowertype.type");
+							"SELECT borid, " +
+							"ROUND(0.1*(CURRENT_DATE-(borrowertype.booktimelimit+borrowing.outdate)), 2) "
+									+ "FROM borrowing, borrower, borrowertype "
+									+ "WHERE borrowing.callnumber=? "
+									+ "AND borrowing.copyno=? "
+									+ "AND borrowing.bid=borrower.bid "
+									+ "AND borrower.type=borrowertype.type "
+									+ "AND borrowing.indate IS NULL");
 				ps4.setString(1, callNumber);
 				ps4.setInt(2, copyNumber);
 				ResultSet rs2 = ps4.executeQuery();
