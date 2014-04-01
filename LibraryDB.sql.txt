@@ -1,4 +1,4 @@
-﻿
+
 drop table Borrower cascade constraints;
 drop table BorrowerType cascade constraints;
 drop table Book cascade constraints;
@@ -197,11 +197,11 @@ insert into BookCopy values ('rowling980', 1, 'out');
 
 insert into BookCopy values ('christie801', 1, 'out');
 
-insert into HoldRequest(Bid, CallNumber, issuedDate) values (1, 'dwight345', '13-Apr-01');
+insert into HoldRequest(Bid, CallNumber, issuedDate) values (2, 'dwight345', '14-Mar-28’);
 
 insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (2, 'dwight345', 1, '13-Mar-31', '14-Jan-01');
 
-insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (4, 'dwight345', 1, '14-Feb-27', null);
+insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (4, 'dwight345', 1, '14-Mar-27', null);
 
 insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (3, 'dwight345', 2, '14-Jan-05', '14-Jan-10');
 

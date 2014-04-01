@@ -107,21 +107,28 @@ public class SQLFunctionsBorrower {
 	}
 
 	// Pay the Fine. Update the Fine tuple
-	public static int payFine(int fid) {
+	public static int payFine(int fid, int bid) {
 
 		System.out.println("Paying fine.");
 
 		try {
-			PreparedStatement ps = Connector.getConnection().prepareStatement(
-					"UPDATE fine SET paidDate = CURRENT_DATE "
-							+ "WHERE fine.fid=? ");
+			PreparedStatement ps1 = Connector.getConnection().prepareStatement(
+					"select borid from borrowing where bid=?");
+			ps1.setInt(1, bid);
+			ResultSet rs = ps1.executeQuery();
+			
+			if (rs.next()){
+				PreparedStatement ps2 = Connector.getConnection().prepareStatement(
+						"UPDATE fine SET paidDate = CURRENT_DATE "
+								+ "WHERE fine.fid=?");
 
-			// Set all the input values
-			ps.setInt(1, fid);
+				// Set all the input values
+				ps2.setInt(1, fid);
 
-			// Execute the update statement
-			ps.executeUpdate();
-			System.out.println("Fine Paid");
+				// Execute the update statement
+				ps2.executeUpdate();
+				System.out.println("Fine Paid");
+			}
 
 		} catch (SQLException e) {
 			System.out.println("Failed to pay fine");
