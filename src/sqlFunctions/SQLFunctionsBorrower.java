@@ -134,16 +134,18 @@ public class SQLFunctionsBorrower {
 
 	// Check the items that are currently borrowed by the borrower
 	public static ResultSet checkborrowing(Integer bid) {
-
-		System.out.println("In check borrowing items for: " + bid);
 		ResultSet rs = null;
 
 		try {
 			// Create the prepared statement for the query
 
 			PreparedStatement ps = Connector.getConnection().prepareStatement(
-					"SELECT callnumber, copyno, outdate, " + 
-					"indate FROM borrowing WHERE bid = ?"); 
+					"SELECT callnumber, copyno, outdate, outdate+(7*booktimelimit) " +
+					"FROM borrowing, borrower, borrowertype " +
+					"WHERE borrowing.bid = ? " +
+					"AND borrowing.bid=borrower.bid " +
+					"AND borrower.type=borrowertype.type " +
+					"AND borrowing.indate IS NULL"); 
 
 			// Set all the input values
 			ps.setInt(1, bid);

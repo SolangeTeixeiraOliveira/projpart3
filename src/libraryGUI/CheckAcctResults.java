@@ -45,7 +45,7 @@ public class CheckAcctResults extends JPanel {
 		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
 
 		// Check the items borrowed by the borrower id	
-		JLabel borrowinglabel = new JLabel("Borrowed Items:");
+		JLabel borrowinglabel = new JLabel("Currently Borrowed Items:");
 		borrowinglabel.setPreferredSize(new Dimension(700, 30));
 		this.add(borrowinglabel);
 		ResultSet rs1 = SQLFunctionsBorrower.checkborrowing(bid);
@@ -59,16 +59,15 @@ public class CheckAcctResults extends JPanel {
 				java.util.Date utiloutDate = new java.util.Date();
 				utiloutDate.setTime(sqloutDate.getTime());
 
-				java.sql.Date sqlinDate = rs1.getDate(4);
-				java.util.Date utilinDate = new java.util.Date();
-				utilinDate.setTime(sqlinDate.getTime());
-				// TODO: Handle case where indate is null
+				java.sql.Date sqldueDate = rs1.getDate(4);
+				java.util.Date utildueDate = new java.util.Date();
+				utildueDate.setTime(sqldueDate.getTime());
 
 				Vector<String> rowData1 = new Vector<String>();
 				rowData1.add(rs1.getString(1));
 				rowData1.add(rs1.getString(2));
 				rowData1.add(fm.format(utiloutDate));
-				rowData1.add(fm.format(utilinDate));
+				rowData1.add(fm.format(utildueDate));
 				data1.add(rowData1);				
 			} 
 		} catch (SQLException e) {
@@ -80,9 +79,9 @@ public class CheckAcctResults extends JPanel {
 		column1.add("Call Number");
 		column1.add("Copy Number");
 		column1.add("Out Date");
-		column1.add("In Date");
+		column1.add("Due Date");
 		table1 = new JTable(data1, column1);
-		table1.setPreferredSize(getPreferredSize());
+		table1.setPreferredSize(new Dimension(700, 150));
 		scrollpane1 = new JScrollPane(table1);
 		scrollpane1.setPreferredSize(new Dimension(700, 150));
 		this.add(scrollpane1);
@@ -121,7 +120,7 @@ public class CheckAcctResults extends JPanel {
 		column2.add("Fine Amount");
 		column2.add("Issued Fine Date");
 		table2 = new JTable(data2, column2);
-		table2.setPreferredSize(getPreferredSize());
+		table2.setPreferredSize(new Dimension(700, 150));
 		scrollpane2 = new JScrollPane(table2);
 		scrollpane2.setPreferredSize(new Dimension(700, 150));
 		this.add(scrollpane2);
@@ -160,7 +159,7 @@ public class CheckAcctResults extends JPanel {
 		column3.add("Call Number");
 		column3.add("Issued Hold Request Date");
 		table3 = new JTable(data3, column3);
-		table3.setPreferredSize(getPreferredSize());
+		table3.setPreferredSize(new Dimension(700, 150));
 		scrollpane3 = new JScrollPane(table3);
 		scrollpane3.setPreferredSize(new Dimension(700, 150));
 		this.add(scrollpane3);
