@@ -34,13 +34,13 @@ public class SQLFunctionsClerk {
 				if (ps.executeUpdate() > 0) {
 					ResultSet generatedKeys = ps.getGeneratedKeys();
 					if (null != generatedKeys && generatedKeys.next()) {
+						Connector.getConnection().commit();
 						return generatedKeys.getInt(1);
 					}
 				} else {
 					throw new SQLException(
 							"Creating user failed, no generated key obtained.");
 				}
-				Connector.getConnection().commit();
 
 			} catch (SQLException e) {
 				System.out.println("Failed to add borrower");

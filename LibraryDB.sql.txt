@@ -28,7 +28,7 @@ Name varchar(20),
 Address varchar(20),
 Phone integer,
 EmailAddress varchar(30) not null,
-SinOrStNo integer,
+SinOrStNo integer not null unique,
 ExpiryDate date not null,
 Type varchar(20) not null, 
 FOREIGN KEY (Type) REFERENCES BorrowerType);
@@ -119,7 +119,7 @@ END;
 
 create table Fine (
 Fid integer not null PRIMARY KEY,
-Amount integer not null,
+Amount number not null,
 IssuedDate date not null,
 PaidDate date,
 Borid integer not null,
