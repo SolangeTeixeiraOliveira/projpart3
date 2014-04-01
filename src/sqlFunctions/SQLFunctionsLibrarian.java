@@ -12,7 +12,7 @@ public class SQLFunctionsLibrarian {
 			String mainAuthor, String publisher, Integer publicationYear,
 			Vector<String> authorList, Vector<String> subjectList) {
 
-		System.out.println("Adding Book " + callNumber);
+		
 		try {
 			// See how many copies of the book exist already (if any)
 			PreparedStatement ps1 = Connector.getConnection().prepareStatement(
@@ -66,7 +66,6 @@ public class SQLFunctionsLibrarian {
 				ps4.setString(1, callNumber);
 				authorList.add(mainAuthor);
 				for (String author : authorList) {
-					System.out.println("Adding author " + author);
 					ps4.setString(2, author);
 					ps4.executeUpdate();
 				}
@@ -84,7 +83,7 @@ public class SQLFunctionsLibrarian {
 			return numcopies + 1;
 
 		} catch (SQLException e) {
-			System.out.println("Failed to add book");
+			
 			e.printStackTrace();
 		}
 		return 0;
@@ -97,7 +96,6 @@ public class SQLFunctionsLibrarian {
 		ResultSet co = null;
 		try {
 			if (subject.length() > 0) {
-				System.out.println("Report with subject = " + subject);
 				PreparedStatement ps = Connector
 						.getConnection()
 						.prepareStatement(
@@ -114,7 +112,6 @@ public class SQLFunctionsLibrarian {
 				ps.setString(1, subject.toLowerCase());
 				co = ps.executeQuery();
 			} else {
-				System.out.println("Report without subject");
 				PreparedStatement ps = Connector
 						.getConnection()
 						.prepareStatement(
@@ -129,7 +126,6 @@ public class SQLFunctionsLibrarian {
 				co = ps.executeQuery();
 			}
 		} catch (SQLException e) {
-			System.out.println("Failed to check all book checked out");
 			e.printStackTrace();
 		}
 		return co;
@@ -137,7 +133,6 @@ public class SQLFunctionsLibrarian {
 
 	// Generate a report with the most popular items in a given year
 	public static ResultSet getMostPopularItems(int year, int n) {
-		System.out.println("Checking the most popular book in a given year ");
 		ResultSet res = null;
 
 		try {
@@ -156,7 +151,6 @@ public class SQLFunctionsLibrarian {
 			res = ps.executeQuery();
 
 		} catch (SQLException e) {
-			System.out.println("Failed to find most popular items");
 			e.printStackTrace();
 		}
 		return res;

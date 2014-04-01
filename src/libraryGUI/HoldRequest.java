@@ -60,7 +60,6 @@ public class HoldRequest extends JPanel {
 		ResultSet rs = SQLFunctionsBorrower.bookExists(callNumber.getText());
 		try {
 			if (rs.next()){
-				System.out.println("Call Number found.");
 				int hid = SQLFunctionsBorrower.holdRequest(bid, callNumber.getText());
 				if (hid != 0){
 					JOptionPane.showMessageDialog(frame, "New Hold Request Made.");
@@ -70,7 +69,6 @@ public class HoldRequest extends JPanel {
 					JOptionPane.showMessageDialog(frame, "There is a copy of the book in the Library. "
 							+ "Hold Request not made.");
 				}
-				System.out.println(hid);
 			} else {
 				JOptionPane.showMessageDialog(frame, "Hold Request cannot be made. Call number does "
 						+ "not exists.");

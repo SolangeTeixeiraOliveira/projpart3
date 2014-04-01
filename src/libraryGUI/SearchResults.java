@@ -26,14 +26,12 @@ public class SearchResults extends JPanel {
 	
 	public void searchLib() {
 
-		System.out.println("Going into SQL Query");
 		ResultSet rs = SQLFunctionsBorrower.searchbook(bkTitle.getText(), bkAuthor.getText(), bkSubject.getText());
 		
 		Vector<Vector<String>> data1 = new Vector<Vector<String>>();
 		try {
 				while (rs.next()) { 
 					Vector<String> rowData1 = new Vector<String>();
-					System.out.println(rs.getString(1) + rs.getString(2) + rs.getString(3));
 						rowData1.add(rs.getString(1));
 						rowData1.add(rs.getString(2));
 						rowData1.add(rs.getString(3));
@@ -41,7 +39,6 @@ public class SearchResults extends JPanel {
 						data1.add(rowData1);				
 					} 
 		} catch (SQLException e) {
-			System.out.println("Error searching Library");
 			e.printStackTrace();
 		}
 

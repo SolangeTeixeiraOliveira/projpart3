@@ -31,7 +31,7 @@ public class LoginWindow {
 		userType.addItem("Librarian");
 		panel.add(userType);
 
-		JLabel borID = new JLabel("Borrower ID: ");
+		JLabel borID = new JLabel("User ID: ");
 		borID.setPreferredSize(new Dimension(100, 30));
 		panel.add(borID);
 		borrowerID = new JTextField(10);
@@ -58,6 +58,7 @@ public class LoginWindow {
             			if (loginAttempts >= 3)
             			{
             				frame.dispose();
+            				JOptionPane.showMessageDialog(frame, "Exceeded Log In Attempts.");
             				System.exit(-1);
             			}else{
             				password.setText("");

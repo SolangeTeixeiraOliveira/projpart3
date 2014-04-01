@@ -1,4 +1,4 @@
-﻿
+
 drop table Borrower cascade constraints;
 drop table BorrowerType cascade constraints;
 drop table Book cascade constraints;
@@ -28,7 +28,7 @@ Name varchar(20),
 Address varchar(20),
 Phone integer,
 EmailAddress varchar(30) not null,
-SinOrStNo integer,
+SinOrStNo integer not null unique,
 ExpiryDate date not null,
 Type varchar(20) not null, 
 FOREIGN KEY (Type) REFERENCES BorrowerType);
@@ -119,7 +119,7 @@ END;
 
 create table Fine (
 Fid integer not null PRIMARY KEY,
-Amount integer not null,
+Amount number not null,
 IssuedDate date not null,
 PaidDate date,
 Borid integer not null,
@@ -197,11 +197,11 @@ insert into BookCopy values ('rowling980', 1, 'out');
 
 insert into BookCopy values ('christie801', 1, 'out');
 
-insert into HoldRequest(Bid, CallNumber, issuedDate) values (1, 'dwight345', '13-Apr-01');
+insert into HoldRequest(Bid, CallNumber, issuedDate) values (2, 'dwight345', '14-Mar-28');
 
 insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (2, 'dwight345', 1, '13-Mar-31', '14-Jan-01');
 
-insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (4, 'dwight345', 1, '14-Feb-27', null);
+insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (4, 'dwight345', 1, '14-Mar-27', null);
 
 insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (3, 'dwight345', 2, '14-Jan-05', '14-Jan-10');
 
@@ -219,7 +219,7 @@ insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (2, 'chri
 
 insert into Borrowing(bid, callnumber, copyno, outdate, indate) values (4, 'christie801', 1, '13-Sep-21', '13-Oct-12');
 
-insert into Fine(amount, issuedDate, paidDate, borid) values (100, '14-Jan-20', null, 1);
+insert into Fine(amount, issuedDate, paidDate, borid) values (10.01, '14-Jan-20', null, 1);
 
-insert into Fine(amount, issuedDate, PaidDate, borid) values (100, '14-Jan-20', null, 2);
+insert into Fine(amount, issuedDate, PaidDate, borid) values (3.92, '14-Jan-20', null, 5);
 

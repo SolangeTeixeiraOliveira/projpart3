@@ -12,7 +12,7 @@ public class SQLFunctionsClerk {
 		public static int addBorrower(String name, String password, String address,
 				int phone, String email, int sinOrStNo, String type) {
 
-			System.out.println("Adding borrower " + name);
+			
 			try {
 				PreparedStatement ps = Connector.getConnection()
 						.prepareStatement(
@@ -34,16 +34,16 @@ public class SQLFunctionsClerk {
 				if (ps.executeUpdate() > 0) {
 					ResultSet generatedKeys = ps.getGeneratedKeys();
 					if (null != generatedKeys && generatedKeys.next()) {
+						Connector.getConnection().commit();
 						return generatedKeys.getInt(1);
 					}
 				} else {
 					throw new SQLException(
 							"Creating user failed, no generated key obtained.");
 				}
-				Connector.getConnection().commit();
 
 			} catch (SQLException e) {
-				System.out.println("Failed to add borrower");
+				
 				e.printStackTrace();
 			}
 			return 0;
@@ -63,22 +63,22 @@ public class SQLFunctionsClerk {
 				ResultSet rs = ps.executeQuery();
 
 				if (rs.next()) {
-					System.out.println("Setting book to on-hold");
+					
 					// Set the status of the book copy to 'on-hold'
 					PreparedStatement ps2 = Connector.getConnection().prepareStatement(
 							"UPDATE bookcopy SET status='on-hold' "
 									+ "WHERE callNumber=? AND copyNo=?");
 					ps2.setString(1, callNumber);
 					ps2.setInt(2, copyNumber);
-					int result = ps2.executeUpdate();
-					System.out.println("Result: " + result);
+					ps2.executeUpdate();
+					
 					ps2.close();
 
 					// Get the email address of the borrower with the hold request
 					holderEmailAddress = rs.getString(1);
 
 				} else {
-					System.out.println("Setting book to in");
+					
 					// Set the status of the book copy to 'in'
 					PreparedStatement ps3 = Connector.getConnection().prepareStatement(
 							"UPDATE bookcopy SET status='in' "
@@ -92,12 +92,14 @@ public class SQLFunctionsClerk {
 				// If it is past the book's due date, assess a fine for the borrower
 				PreparedStatement ps4 = Connector.getConnection()
 						.prepareStatement(
-								"SELECT borid, 0.1*(CURRENT_DATE-(borrowertype.booktimelimit+borrowing.outdate)) "
-										+ "FROM borrowing, borrower, borrowertype "
-										+ "WHERE borrowing.callnumber=? "
-										+ "AND borrowing.copyno=? "
-										+ "AND borrowing.bid=borrower.bid "
-										+ "AND borrower.type=borrowertype.type");
+							"SELECT borid, " +
+							"ROUND(0.1*(CURRENT_DATE-(borrowertype.booktimelimit+borrowing.outdate)), 2) "
+									+ "FROM borrowing, borrower, borrowertype "
+									+ "WHERE borrowing.callnumber=? "
+									+ "AND borrowing.copyno=? "
+									+ "AND borrowing.bid=borrower.bid "
+									+ "AND borrower.type=borrowertype.type "
+									+ "AND borrowing.indate IS NULL");
 				ps4.setString(1, callNumber);
 				ps4.setInt(2, copyNumber);
 				ResultSet rs2 = ps4.executeQuery();
@@ -106,8 +108,9 @@ public class SQLFunctionsClerk {
 				if (rs2.next()) {
 					borid = rs2.getInt(1);
 					fine = rs2.getFloat(2);
+					
 				} else {
-					System.out.println("Did not find borrowing record");
+					
 					throw new SQLException();
 				}
 
@@ -125,16 +128,17 @@ public class SQLFunctionsClerk {
 				// Update the indate of the borrowing record
 				PreparedStatement ps5 = Connector.getConnection().prepareStatement(
 						"UPDATE borrowing SET indate=CURRENT_DATE "
-								+ "WHERE callNumber=? AND copyNo=?");
+								+ "WHERE callNumber=? AND copyNo=? AND borid=?");
 				ps5.setString(1, callNumber);
 				ps5.setInt(2, copyNumber);
+				ps5.setInt(3, borid);
 				ps5.executeUpdate();
-				System.out.println("Updated indate");
+				
 				ps5.close();
 
 				Connector.getConnection().commit();
 			} catch (SQLException e) {
-				System.out.println("Failed to return item");
+				
 				e.printStackTrace();
 				return null;
 			}
@@ -146,13 +150,13 @@ public class SQLFunctionsClerk {
 
 		public static ResultSet getOverdueItems() {
 
-			System.out.println("Checking overdue items");
+			
 			ResultSet rs = null;
 
 			try {
 				PreparedStatement ps = Connector.getConnection()
 						.prepareStatement(
-								"SELECT book.callnumber, title, emailaddress "
+								"SELECT borrowing.callnumber, borrowing.copyno, title, emailaddress "
 										+ "FROM borrowing, borrower, borrowertype, book "
 										+ "WHERE borrowing.bid=borrower.bid "
 										+ "AND borrowing.callnumber = book.callnumber "
@@ -162,7 +166,7 @@ public class SQLFunctionsClerk {
 				rs = ps.executeQuery();
 
 			} catch (SQLException e) {
-				System.out.println("Failed to check overdue items");
+				
 				e.printStackTrace();
 			}
 			return rs;
@@ -170,7 +174,7 @@ public class SQLFunctionsClerk {
 		
 		// Check out an item
 		public static boolean checkOutItem(String callNum, int copyNum, int bid) {
-			System.out.println("Checking out item " + callNum + " C" + copyNum);
+			
 			try {
 				// Check hold requests for the item
 				PreparedStatement ps3 = Connector.getConnection().prepareStatement(
@@ -182,8 +186,7 @@ public class SQLFunctionsClerk {
 					// If this borrower doesn't have the earliest hold request on
 					// the item, they can't check it out
 					if (rs.getInt(1) != bid) {
-						System.out
-								.println("Cannot checkout book - someone else has a hold request");
+					
 						return false;
 					}
 				}
@@ -197,8 +200,7 @@ public class SQLFunctionsClerk {
 				ResultSet rs4 = ps8.executeQuery();
 				if (rs4.next()) {
 					if (rs4.getString(1) == "out") {
-						System.out
-								.println("Cannot check out a book that's already out");
+						
 						return false;
 					}
 				}
@@ -235,7 +237,7 @@ public class SQLFunctionsClerk {
 				return true;
 
 			} catch (SQLException e) {
-				System.out.println("Failed to check out item");
+				
 				e.printStackTrace();
 			}
 			return false;
@@ -257,7 +259,8 @@ public class SQLFunctionsClerk {
 				}
 
 			} catch (SQLException e) {
-				System.out.println("Checking borrower account failed");
+				
+				e.printStackTrace();
 			}
 			return null;
 		}
