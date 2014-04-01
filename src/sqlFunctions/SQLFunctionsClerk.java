@@ -155,7 +155,7 @@ public class SQLFunctionsClerk {
 			try {
 				PreparedStatement ps = Connector.getConnection()
 						.prepareStatement(
-								"SELECT book.callnumber, title, emailaddress "
+								"SELECT borrowing.callnumber, borrowing.copyno, title, emailaddress "
 										+ "FROM borrowing, borrower, borrowertype, book "
 										+ "WHERE borrowing.bid=borrower.bid "
 										+ "AND borrowing.callnumber = book.callnumber "

@@ -31,10 +31,10 @@ public class CheckOverdue extends JPanel {
 		try {
 			while (rs.next()) {
 				Vector<String> rowData = new Vector<String>();
-				System.out.println(rs.getString(1) + rs.getString(2) + rs.getString(3));
-				rowData.add(rs.getString(1));
-				rowData.add(rs.getString(2));
+				Integer copyNo = rs.getInt(2);
+				rowData.add(rs.getString(1) + " C" + copyNo.toString());
 				rowData.add(rs.getString(3));
+				rowData.add(rs.getString(4));
 				data.add(rowData);
 			}
 		} catch (SQLException e) {
