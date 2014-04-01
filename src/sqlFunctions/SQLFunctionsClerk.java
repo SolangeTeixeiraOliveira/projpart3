@@ -128,7 +128,7 @@ public class SQLFunctionsClerk {
 				// Update the indate of the borrowing record
 				PreparedStatement ps5 = Connector.getConnection().prepareStatement(
 						"UPDATE borrowing SET indate=CURRENT_DATE "
-								+ "WHERE callNumber=? AND copyNo=?");
+								+ "WHERE callNumber=? AND copyNo=? AND indate IS NULL");
 				ps5.setString(1, callNumber);
 				ps5.setInt(2, copyNumber);
 				ps5.executeUpdate();
