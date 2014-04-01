@@ -76,13 +76,14 @@ public class SQLFunctionsBorrower {
 				if (ps2.executeUpdate() > 0) {
 					ResultSet generatedHid = ps2.getGeneratedKeys();
 					if (null != generatedHid && generatedHid.next()) {
+						Connector.getConnection().commit();
 						return generatedHid.getInt(1);
 					}
 				} else {
 					throw new SQLException("Creating hold request failed.");
 				}	
 			}
-			Connector.getConnection().commit();
+			
 		} catch (SQLException e) {
 			System.out.println("Failed to add hold request");
 			e.printStackTrace();
