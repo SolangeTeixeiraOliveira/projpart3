@@ -142,7 +142,7 @@ public class SQLFunctionsBorrower {
 			// Create the prepared statement for the query
 
 			PreparedStatement ps = Connector.getConnection().prepareStatement(
-					"SELECT bid, callnumber, copyno, outdate, " + 
+					"SELECT callnumber, copyno, outdate, " + 
 					"indate FROM borrowing WHERE bid = ?"); 
 
 			// Set all the input values
@@ -162,22 +162,20 @@ public class SQLFunctionsBorrower {
 	// Check the fines that the borrower has
 	public static ResultSet checkfine(Integer bid) {
 
-		System.out.println("In check fines for: " + bid);
 		ResultSet rs = null;
 
 		try {
 			// Create the prepared statement for the query
 			PreparedStatement ps = Connector.getConnection().prepareStatement(
-					"SELECT borrowing.bid, fine.fid, fine.amount, fine.issueddate, " +
-					"fine.paiddate FROM fine, borrowing " + 
-					"WHERE fine.borid = borrowing.borid and borrowing.bid = ?"); 
+					"SELECT fine.fid, fine.amount, fine.issueddate FROM fine, borrowing " + 
+					"WHERE fine.borid = borrowing.borid AND borrowing.bid = ? " +
+					"AND fine.paiddate IS NULL"); 
 
 			// Set all the input values
 			ps.setInt(1, bid);
 
 			// Execute the query statement and return the books searched
 			rs = ps.executeQuery();
-			System.out.println("fine query done!");
 
 		} catch (SQLException e) {
 			System.out.println("Failed to check fines.");
@@ -195,7 +193,7 @@ public class SQLFunctionsBorrower {
 		try {
 			// Create the prepared statement for the query
 			PreparedStatement ps = Connector.getConnection().prepareStatement(
-					"SELECT bid, hid, callnumber, issueddate FROM holdrequest WHERE bid = ?"); 
+					"SELECT hid, callnumber, issueddate FROM holdrequest WHERE bid = ?"); 
 
 			// Set all the input values
 			ps.setInt(1, bid);

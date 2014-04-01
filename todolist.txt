@@ -1,5 +1,7 @@
 TODO:
 
+- check account - handle case where indate is null
+
 - test all functions
 - check over code
 - plan demo
