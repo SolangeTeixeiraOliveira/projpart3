@@ -105,7 +105,7 @@ public class AddBorrower extends JPanel {
 		int bid = SQLFunctionsClerk.addBorrower(borName.getText(), borPassword
 				.getText(), borAddress.getText(), phone, borEmail.getText(),
 				sinOrStNo, borType.getSelectedItem().toString());
-		System.out.println(bid);
+		
 		JOptionPane.showMessageDialog(frame, "New borrower id: " + bid);
 	}
 

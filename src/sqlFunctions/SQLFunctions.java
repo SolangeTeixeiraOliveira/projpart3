@@ -17,7 +17,7 @@ public class SQLFunctions {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Checking borrower account failed");
+			e.printStackTrace();
 		}
 		return false;
 	}
@@ -33,7 +33,7 @@ public class SQLFunctions {
 				return true;
 			}
 		} catch (SQLException e) {
-			System.out.println("Checking user failed");
+			e.printStackTrace();
 		}
 		return false;
 	}

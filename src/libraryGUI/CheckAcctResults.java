@@ -39,8 +39,6 @@ public class CheckAcctResults extends JPanel {
 			return;
 		}
 
-		System.out.println("Going into SQL Query");
-
 		// Format of the date
 		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -71,7 +69,6 @@ public class CheckAcctResults extends JPanel {
 				data1.add(rowData1);				
 			} 
 		} catch (SQLException e) {
-			System.out.println("Error checking Account");
 			e.printStackTrace();
 		}
 
@@ -111,7 +108,6 @@ public class CheckAcctResults extends JPanel {
 				data2.add(rowData2);				
 			} 
 		} catch (SQLException e) {
-			System.out.println("Error checking Account");
 			e.printStackTrace();
 		}
 
@@ -150,7 +146,6 @@ public class CheckAcctResults extends JPanel {
 				data3.add(rowData3);				
 			} 
 		} catch (SQLException e) {
-			System.out.println("Error checking Account");
 			e.printStackTrace();
 		}
 

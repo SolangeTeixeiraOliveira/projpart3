@@ -138,7 +138,6 @@ public class CheckOut extends JPanel {
 			boolean success = SQLFunctionsClerk.checkOutItem(callNumList.get(i),
 					copyNumList.get(i), bid);
 			if (success) {
-				System.out.println("Successfully checked out " + fullCallNums.get(i));
 				successfulCheckouts.add(fullCallNums.get(i));
 			} else {
 				failedCheckouts.add(fullCallNums.get(i));

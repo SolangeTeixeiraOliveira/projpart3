@@ -2,6 +2,8 @@ package libraryGUI;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -71,13 +73,20 @@ public class PayFine extends JPanel {
 			return;
 		}
 		
-		int fid = SQLFunctionsBorrower.payFine(fineID, bid);
+		ResultSet rs = SQLFunctionsBorrower.payFineHelper(bid);
 		
-		System.out.println(fid);
-		
-		JOptionPane.showMessageDialog(frame, "Paid Fine." );
-		JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-		topFrame.dispose();
+		try {
+			if (rs.next()) {
+				SQLFunctionsBorrower.payFine(fineID, bid);
+				JOptionPane.showMessageDialog(frame, "Fine Paid.");
+				JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+				topFrame.dispose();
+			} else {
+				JOptionPane.showMessageDialog(frame, "No Fine ID found.");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
